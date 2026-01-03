@@ -632,7 +632,6 @@ function App() {
                 <img src="/02.jpg" alt="Artist and Creator" />
             </div>
         </div>
-
         <div className="col-lg-6 wow fadeInUp" data-wow-delay=".3s" style={{visibility: 'visible', animationDelay: '0.3s', animationName: 'none'}}>
             <div className="project-image">
                 <img src="/03.jpg" alt="Map and travel icons" />
