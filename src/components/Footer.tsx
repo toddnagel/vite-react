@@ -6,6 +6,7 @@ import {
   faInstagram,
   faReddit,
 } from "@fortawesome/free-brands-svg-icons";
+
 import { faX } from "@fortawesome/free-solid-svg-icons";
 
 function Footer() {
