@@ -214,7 +214,7 @@ function Footer() {
             >
               <Link to="/">
                 <img
-                  src="xolo-logo-white.svg"
+                  src="/white-logo.png"
                   alt="The Xoloitzquintle Collection Logo"
                 />
               </Link>
