@@ -7,7 +7,7 @@ import {
   faReddit,
 } from "@fortawesome/free-brands-svg-icons";
 
-import { faX } from "@fortawesome/free-solid-svg-icons";
+import { faX, faArrowRight } from "@fortawesome/free-solid-svg-icons";
 
 function Footer() {
   return (
@@ -60,22 +60,58 @@ function Footer() {
                 </div>
                 <ul className="list-items">
                   <li>
-                    <Link to="/about">The Sacred Xolo</Link>
+                    <Link to="/about">
+                      <FontAwesomeIcon
+                        icon={faArrowRight}
+                        className="footer-arrow-icon"
+                      />
+                      The Sacred Xolo
+                    </Link>
                   </li>
                   <li>
-                    <a href="https://xolodojo.io">Xolo Dojo (Community)</a>
+                    <a href="https://xolodojo.io">
+                      <FontAwesomeIcon
+                        icon={faArrowRight}
+                        className="footer-arrow-icon"
+                      />
+                      Xolo Dojo (Community)
+                    </a>
                   </li>
                   <li>
-                    <Link to="/vision">Decentralized Travel Vision</Link>
+                    <Link to="/vision">
+                      <FontAwesomeIcon
+                        icon={faArrowRight}
+                        className="footer-arrow-icon"
+                      />
+                      Decentralized Travel Vision
+                    </Link>
                   </li>
                   <li>
-                    <Link to="/redshadow">Meet the Artist</Link>
+                    <Link to="/redshadow">
+                      <FontAwesomeIcon
+                        icon={faArrowRight}
+                        className="footer-arrow-icon"
+                      />
+                      Meet the Artist
+                    </Link>
                   </li>
                   <li>
-                    <Link to="/cryptonite">Meet the Creator</Link>
+                    <Link to="/cryptonite">
+                      <FontAwesomeIcon
+                        icon={faArrowRight}
+                        className="footer-arrow-icon"
+                      />
+                      Meet the Creator
+                    </Link>
                   </li>
                   <li>
-                    <Link to="/terms">Terms &amp; Conditions</Link>
+                    <Link to="/terms">
+                      <FontAwesomeIcon
+                        icon={faArrowRight}
+                        className="footer-arrow-icon"
+                      />
+                      Terms &amp; Conditions
+                    </Link>
                   </li>
                 </ul>
               </div>
@@ -95,19 +131,49 @@ function Footer() {
                 </div>
                 <ul className="list-items">
                   <li>
-                    <a href="https://xrp.cafe/">xrp.cafe Marketplace</a>
+                    <a href="https://xrp.cafe/">
+                      <FontAwesomeIcon
+                        icon={faArrowRight}
+                        className="footer-arrow-icon"
+                      />
+                      xrp.cafe Marketplace
+                    </a>
                   </li>
                   <li>
-                    <a href="https://joeywallet.app/">Joey Wallet</a>
+                    <a href="https://joeywallet.app/">
+                      <FontAwesomeIcon
+                        icon={faArrowRight}
+                        className="footer-arrow-icon"
+                      />
+                      Joey Wallet
+                    </a>
                   </li>
                   <li>
-                    <a href="https://xrpscan.com/">XRPSCAN Explorer</a>
+                    <a href="https://xrpscan.com/">
+                      <FontAwesomeIcon
+                        icon={faArrowRight}
+                        className="footer-arrow-icon"
+                      />
+                      XRPSCAN Explorer
+                    </a>
                   </li>
                   <li>
-                    <a href="https://www.xrptoolkit.com/">XRP Toolkit</a>
+                    <a href="https://www.xrptoolkit.com/">
+                      <FontAwesomeIcon
+                        icon={faArrowRight}
+                        className="footer-arrow-icon"
+                      />
+                      XRP Toolkit
+                    </a>
                   </li>
                   <li>
-                    <a href="https://xrpl.org/">Official XRPL Site</a>
+                    <a href="https://xrpl.org/">
+                      <FontAwesomeIcon
+                        icon={faArrowRight}
+                        className="footer-arrow-icon"
+                      />
+                      Official XRPL Site
+                    </a>
                   </li>
                 </ul>
               </div>
@@ -130,7 +196,7 @@ function Footer() {
                     <div className="footer-thumb">
                       <img src="/gallery-1.jpg" alt="Xolo NFT Art 1" />
                       <a className="icon" href="/">
-                        <i className="fa-brands fa-instagram"></i>
+                        <FontAwesomeIcon icon={faInstagram} />
                       </a>
                     </div>
                   </div>
@@ -138,7 +204,7 @@ function Footer() {
                     <div className="footer-thumb">
                       <img src="/gallery-2.jpg" alt="Xolo NFT Art 2" />
                       <a className="icon" href="/">
-                        <i className="fa-brands fa-instagram"></i>
+                        <FontAwesomeIcon icon={faInstagram} />
                       </a>
                     </div>
                   </div>
@@ -146,7 +212,7 @@ function Footer() {
                     <div className="footer-thumb">
                       <img src="/gallery-3.jpg" alt="Xolo NFT Art 3" />
                       <a className="icon" href="/">
-                        <i className="fa-brands fa-instagram"></i>
+                        <FontAwesomeIcon icon={faInstagram} />
                       </a>
                     </div>
                   </div>
@@ -154,7 +220,7 @@ function Footer() {
                     <div className="footer-thumb">
                       <img src="/gallery-4.jpg" alt="Xolo NFT Art 4" />
                       <a className="icon" href="/">
-                        <i className="fa-brands fa-instagram"></i>
+                        <FontAwesomeIcon icon={faInstagram} />
                       </a>
                     </div>
                   </div>
