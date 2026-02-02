@@ -16,36 +16,6 @@ function Footer() {
         <div className="footer-widgets-wrapper">
           <div className="row">
             <div
-              className="col-xl-4 col-lg-4 col-md-6 wow fadeInUp"
-              data-wow-delay=".2s"
-              style={{
-                visibility: "hidden",
-                animationDelay: "0.2s",
-                animationName: "none",
-              }}
-            >
-              <div className="single-footer-widget">
-                <div className="footer-content">
-                  <h3 className="mb-3">
-                    Join the Xolo Dojo &amp;
-                    <br />
-                    Stay Updated
-                  </h3>
-                  <p>Be the first to know about the mint and community news.</p>
-                  <div className="footer-input">
-                    <input
-                      type="email"
-                      id="email"
-                      placeholder="Enter email..."
-                    />
-                    <button className="newsletter-btn" type="submit">
-                      <img src="circle-check.png" alt="Subscribe Check Icon" />
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div
               className="col-xl-2 col-lg-4 col-md-6 ps-lg-5 wow fadeInUp"
               data-wow-delay=".4s"
               style={{
