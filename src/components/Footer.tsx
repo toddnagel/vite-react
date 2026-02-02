@@ -16,7 +16,7 @@ function Footer() {
         <div className="footer-widgets-wrapper">
           <div className="row">
             <div
-              className="col-xl-2 col-lg-4 col-md-6 ps-lg-5 wow fadeInUp"
+              className="col-xl-2 col-lg-3 col-md-6 ps-lg-3 wow fadeInUp"
               data-wow-delay=".4s"
               style={{
                 visibility: "hidden",
