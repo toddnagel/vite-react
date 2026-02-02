@@ -142,7 +142,7 @@ function Header() {
                         <Link to="/about">About Us</Link>
                       </li>
                       <li>
-                        <Link to="/faq">Our Faq</Link>
+                        <Link to="/faq">Faq</Link>
                       </li>
                       <li className="mean-last">
                         <Link to="/contact">Contact</Link>
@@ -243,7 +243,7 @@ function Header() {
                           <Link to="/about">About Us</Link>
                         </li>
                         <li>
-                          <Link to="/faq">Our Faq</Link>
+                          <Link to="/faq">Faq</Link>
                         </li>
                         <li>
                           <Link to="/contact">Contact</Link>
