@@ -1261,7 +1261,7 @@ function Home() {
                   style={{ width: "326px", marginRight: "30px" }}
                 >
                   <div className="brand-image text-center">
-                    <img src="01a.png" alt="img" />
+                    <img src="01.png" alt="img" />
                   </div>
                 </div>
                 <div
