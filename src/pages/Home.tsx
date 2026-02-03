@@ -48,7 +48,7 @@ function Home() {
               }}
             >
               A Sacred Legacy of <br />
-              <span>Art, Culture, &amp; **XRPL**</span>
+              <span>Art, Culture, &amp; XRPL</span>
             </h2>
           </div>
           <div className="row">
@@ -68,14 +68,10 @@ function Home() {
                 <div className="service-content">
                   <h3>10,001 Unique NFT Masterpieces</h3>
                   <p>
-                    A meaningful collection featuring **10,001 unique Xolo
-                    NFTs** with a combination of 7 distinct traits, capturing
+                    A meaningful collection featuring 10,001 unique Xolo
+                    NFTs with a combination of 7 distinct traits, capturing
                     the sacred canine's spirit.
                   </p>
-                  <a className="link-btn" href="/service">
-                    view the traits{" "}
-                    <FontAwesomeIcon icon={faArrowUpRightFromSquare} />
-                  </a>
                 </div>
               </div>
             </div>
@@ -95,14 +91,10 @@ function Home() {
                 <div className="service-content">
                   <h3>Built on the XRP Ledger (XRPL)</h3>
                   <p>
-                    Hosted on the **XRPL** for its high speed payments, low-cost
+                    Hosted on the XRPL for its high speed payments, low-cost
                     transactions, and eco-friendly design. The visionary artist
                     bringing the 10,001 Xolo NFT's to life.
                   </p>
-                  <a className="link-btn" href="/service">
-                    learn about XRPL{" "}
-                    <FontAwesomeIcon icon={faArrowUpRightFromSquare} />
-                  </a>
                 </div>
               </div>
             </div>
@@ -123,13 +115,9 @@ function Home() {
                   <h3>Decentralized Travel Vision</h3>
                   <p>
                     Our long-term goal: a platform for holders to explore the
-                    world through unique, **wallet-to-wallet** travel
+                    world through unique, wallet-to-wallet travel
                     experiences on the XRPL.
                   </p>
-                  <a className="link-btn" href="/service">
-                    read the roadmap{" "}
-                    <FontAwesomeIcon icon={faArrowUpRightFromSquare} />
-                  </a>
                 </div>
               </div>
             </div>
@@ -149,14 +137,10 @@ function Home() {
                 <div className="service-content">
                   <h3>Upcoming Mint on xrp.cafe</h3>
                   <p>
-                    Prepare your **Joey Wallet** and **20 XRP minimum reserve**
+                    Prepare your Joey Wallet and 20 XRP minimum reserve
                     for the meaningful minting experience on the premier XRPL
                     NFT marketplace.
                   </p>
-                  <a className="link-btn" href="/service">
-                    get prepared{" "}
-                    <FontAwesomeIcon icon={faArrowUpRightFromSquare} />
-                  </a>
                 </div>
               </div>
             </div>
@@ -216,9 +200,9 @@ function Home() {
                   </a>
                 </h3>
                 <p>
-                  Dating back over **3,000 years**, the Xolo is a living symbol
+                  Dating back over 3,000 years, the Xolo is a living symbol
                   of Mesoamerican heritage, revered as a spiritual guide to
-                  **Mictlan**, the Aztec afterlife.
+                  Mictlan, the Aztec afterlife.
                 </p>
                 <a href="project-details.html" className="theme-btn">
                   learn history{" "}
@@ -245,8 +229,8 @@ function Home() {
                   </a>
                 </h3>
                 <p>
-                  **Cryptonite**, the global explorer and XRPL enthusiast,
-                  partnered with **RedShadow**, the visionary artist, to bring
+                  Cryptonite, the global explorer and XRPL enthusiast,
+                  partnered with RedShadow, the visionary artist, to bring
                   the 10,001 Xolo NFTs to life.
                 </p>
                 <a href="project-details.html" className="theme-btn">
@@ -301,7 +285,7 @@ function Home() {
                 <p>
                   The collection's long-term vision is to build a decentralized
                   platform for Xolo NFT holders to enable unique
-                  **wallet-to-wallet** travel experiences on the XRPL.
+                  wallet-to-wallet travel experiences on the XRPL.
                 </p>
                 <a href="project-details.html" className="theme-btn">
                   view the vision{" "}
@@ -344,7 +328,7 @@ function Home() {
                     </h6>
                     <h2>
                       Key Questions About <br />
-                      <span>The **NFT** Project</span>
+                      <span>The NFT Project</span>
                     </h2>
                   </div>
                   <div className="faq-accordion">
@@ -376,8 +360,8 @@ function Home() {
                           data-bs-parent="#accordion"
                         >
                           <div className="accordion-body">
-                            The **Xoloitzquintle** (*Shō Lō eats queent lay*) is
-                            an ancient dog breed, revered for **3,000 years** as
+                            The Xoloitzquintle (*Shō Lō eats queent lay*) is
+                            an ancient dog breed, revered for 3,000 years as
                             a spiritual guide and companion in Mesoamerican
                             cultures, particularly tied to the Aztec afterlife
                             (Mictlan).
@@ -412,10 +396,10 @@ function Home() {
                         >
                           <div className="accordion-body">
                             The mint is coming soon to
-                            **[xrp.cafe](https://xrp.cafe/)**, the premier
+                            [xrp.cafe](https://xrp.cafe/), the premier
                             marketplace for XRPL-based NFTs. The collection size
-                            is **10,001 unique Xolos**, built on the **XRP
-                            Ledger (XRPL)**.
+                            is 10,001 unique Xolos, built on the XRP
+                            Ledger (XRPL).
                           </div>
                         </div>
                       </div>
@@ -446,9 +430,9 @@ function Home() {
                           data-bs-parent="#accordion"
                         >
                           <div className="accordion-body">
-                            You will need an XRPL-compatible wallet like **Joey
-                            Wallet**. Ensure your wallet is funded with a
-                            minimum of **20 XRP** to cover the XRPL's wallet
+                            You will need an XRPL-compatible wallet like Joey
+                            Wallet. Ensure your wallet is funded with a
+                            minimum of 20 XRP to cover the XRPL's wallet
                             reserve and transaction fees.
                           </div>
                         </div>
