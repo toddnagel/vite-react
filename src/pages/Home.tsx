@@ -1,5 +1,3 @@
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faArrowUpRightFromSquare } from "@fortawesome/free-solid-svg-icons";
 import TabbedContent from "../components/TabbedContent";
 
 function Home() {
@@ -204,10 +202,6 @@ function Home() {
                   of Mesoamerican heritage, revered as a spiritual guide to
                   Mictlan, the Aztec afterlife.
                 </p>
-                <a href="project-details.html" className="theme-btn">
-                  learn history{" "}
-                  <FontAwesomeIcon icon={faArrowUpRightFromSquare} />
-                </a>
               </div>
             </div>
 
@@ -233,10 +227,6 @@ function Home() {
                   partnered with RedShadow, the visionary artist, to bring
                   the 10,001 Xolo NFTs to life.
                 </p>
-                <a href="project-details.html" className="theme-btn">
-                  meet the team{" "}
-                  <FontAwesomeIcon icon={faArrowUpRightFromSquare} />
-                </a>
               </div>
             </div>
             <div
@@ -287,159 +277,6 @@ function Home() {
                   platform for Xolo NFT holders to enable unique
                   wallet-to-wallet travel experiences on the XRPL.
                 </p>
-                <a href="project-details.html" className="theme-btn">
-                  view the vision{" "}
-                  <FontAwesomeIcon icon={faArrowUpRightFromSquare} />
-                </a>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section className="faq-section fix section-padding">
-        <div className="color-bg">
-          <img src="/color-bg-3.png" alt="img" />
-        </div>
-        <div className="container">
-          <div className="faq-wrapper">
-            <div className="row g-4">
-              <div className="col-lg-6">
-                <div className="faq-image-items">
-                  <div
-                    className="faq-image wow fadeInUp"
-                    data-wow-delay=".3s"
-                    style={{
-                      visibility: "hidden",
-                      animationDelay: "0.3s",
-                      animationName: "none",
-                    }}
-                  >
-                    <img src="/xolo-nft-showcase-01.png" alt="Xolo NFT Art" />
-                  </div>
-                </div>
-              </div>
-              <div className="col-lg-6">
-                <div className="faq-content">
-                  <div className="section-title">
-                    <h6>
-                      <img src="star.png" alt="img" /> The Xoloitzquintle
-                      Collection
-                    </h6>
-                    <h2>
-                      Key Questions About <br />
-                      <span>The NFT Project</span>
-                    </h2>
-                  </div>
-                  <div className="faq-accordion">
-                    <div className="accordion" id="accordion">
-                      <div
-                        className="accordion-item wow fadeInUp"
-                        data-wow-delay=".2s"
-                        style={{
-                          visibility: "hidden",
-                          animationDelay: "0.2s",
-                          animationName: "none",
-                        }}
-                      >
-                        <h5 className="accordion-header">
-                          <button
-                            className="accordion-button collapsed"
-                            type="button"
-                            data-bs-toggle="collapse"
-                            data-bs-target="#faq2"
-                            aria-expanded="false"
-                            aria-controls="faq2"
-                          >
-                            What is the Xoloitzquintle?
-                          </button>
-                        </h5>
-                        <div
-                          id="faq2"
-                          className="accordion-collapse collapse"
-                          data-bs-parent="#accordion"
-                        >
-                          <div className="accordion-body">
-                            The Xoloitzquintle (*Shō Lō eats queent lay*) is
-                            an ancient dog breed, revered for 3,000 years as
-                            a spiritual guide and companion in Mesoamerican
-                            cultures, particularly tied to the Aztec afterlife
-                            (Mictlan).
-                          </div>
-                        </div>
-                      </div>
-                      <div
-                        className="accordion-item wow fadeInUp"
-                        data-wow-delay=".4s"
-                        style={{
-                          visibility: "hidden",
-                          animationDelay: "0.4s",
-                          animationName: "none",
-                        }}
-                      >
-                        <h5 className="accordion-header">
-                          <button
-                            className="accordion-button"
-                            type="button"
-                            data-bs-toggle="collapse"
-                            data-bs-target="#faq1"
-                            aria-expanded="true"
-                            aria-controls="faq1"
-                          >
-                            when and where can I mint a Xolo NFT?
-                          </button>
-                        </h5>
-                        <div
-                          id="faq1"
-                          className="accordion-collapse show"
-                          data-bs-parent="#accordion"
-                        >
-                          <div className="accordion-body">
-                            The mint is coming soon to
-                            [xrp.cafe](https://xrp.cafe/), the premier
-                            marketplace for XRPL-based NFTs. The collection size
-                            is 10,001 unique Xolos, built on the XRP
-                            Ledger (XRPL).
-                          </div>
-                        </div>
-                      </div>
-                      <div
-                        className="accordion-item wow fadeInUp"
-                        data-wow-delay=".6s"
-                        style={{
-                          visibility: "hidden",
-                          animationDelay: "0.6s",
-                          animationName: "none",
-                        }}
-                      >
-                        <h5 className="accordion-header">
-                          <button
-                            className="accordion-button collapsed"
-                            type="button"
-                            data-bs-toggle="collapse"
-                            data-bs-target="#faq3"
-                            aria-expanded="false"
-                            aria-controls="faq3"
-                          >
-                            What wallet and funds do I need to prepare?
-                          </button>
-                        </h5>
-                        <div
-                          id="faq3"
-                          className="accordion-collapse collapse"
-                          data-bs-parent="#accordion"
-                        >
-                          <div className="accordion-body">
-                            You will need an XRPL-compatible wallet like Joey
-                            Wallet. Ensure your wallet is funded with a
-                            minimum of 20 XRP to cover the XRPL's wallet
-                            reserve and transaction fees.
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
               </div>
             </div>
           </div>
@@ -471,108 +308,6 @@ function Home() {
           style={{ border: "none" }}
         ></iframe>
       </div>
-
-      <section className="message-section fix section-bg section-padding">
-
-        <div className="brand-section pb-0">
-          <div className="container">
-            <div className="swiper brand-slider swiper-initialized swiper-horizontal swiper-pointer-events swiper-backface-hidden">
-              <div
-                className="swiper-wrapper"
-                id="swiper-wrapper-ec779da8a244910fb"
-                aria-live="off"
-                style={{
-                  transitionDuration: "2000ms",
-                  transform: "translate3d(-1780px, 0px, 0px)",
-                }}
-              >
-                <div
-                  className="swiper-slide swiper-slide-duplicate swiper-slide-duplicate-active"
-                  role="group"
-                  aria-label="5 / 5"
-                  data-swiper-slide-index="4"
-                  style={{ width: "326px", marginRight: "30px" }}
-                >
-                  <div className="brand-image text-center">
-                    <img src="05.png" alt="img" />
-                  </div>
-                </div>
-                <div
-                  className="swiper-slide swiper-slide-duplicate-next"
-                  role="group"
-                  aria-label="1 / 5"
-                  data-swiper-slide-index="0"
-                  style={{ width: "326px", marginRight: "30px" }}
-                >
-                  <div className="brand-image text-center">
-                    <img src="01.png" alt="img" />
-                  </div>
-                </div>
-                <div
-                  className="swiper-slide"
-                  role="group"
-                  aria-label="2 / 5"
-                  data-swiper-slide-index="1"
-                  style={{ width: "326px", marginRight: "30px" }}
-                >
-                  <div className="brand-image text-center">
-                    <img src="02.png" alt="img" />
-                  </div>
-                </div>
-                <div
-                  className="swiper-slide"
-                  role="group"
-                  aria-label="3 / 5"
-                  data-swiper-slide-index="2"
-                  style={{ width: "326px", marginRight: "30px" }}
-                >
-                  <div className="brand-image text-center">
-                    <img src="03.png" alt="img" />
-                  </div>
-                </div>
-                <div
-                  className="swiper-slide swiper-slide-prev"
-                  role="group"
-                  aria-label="4 / 5"
-                  data-swiper-slide-index="3"
-                  style={{ width: "326px", marginRight: "30px" }}
-                >
-                  <div className="brand-image text-center">
-                    <img src="04.png" alt="img" />
-                  </div>
-                </div>
-                <div
-                  className="swiper-slide swiper-slide-active"
-                  role="group"
-                  aria-label="5 / 5"
-                  data-swiper-slide-index="4"
-                  style={{ width: "326px", marginRight: "30px" }}
-                >
-                  <div className="brand-image text-center">
-                    <img src="05.png" alt="img" />
-                  </div>
-                </div>
-                <div
-                  className="swiper-slide swiper-slide-duplicate swiper-slide-next"
-                  role="group"
-                  aria-label="1 / 5"
-                  data-swiper-slide-index="0"
-                  style={{ width: "326px", marginRight: "30px" }}
-                >
-                  <div className="brand-image text-center">
-                    <img src="01.png" alt="img" />
-                  </div>
-                </div>
-              </div>
-              <span
-                className="swiper-notification"
-                aria-live="assertive"
-                aria-atomic="true"
-              ></span>
-            </div>
-          </div>
-        </div>
-      </section>
     </>
   );
 }
