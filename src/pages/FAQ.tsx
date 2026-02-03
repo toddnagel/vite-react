@@ -10,7 +10,7 @@ function FAQ() {
     <>
       <section
         className="faq-section fix  style-padding section-padding  bg-cover"
-        style={{ backgroundImage: "url('/service/Pattern.png')" }}
+        style={{ backgroundImage: "url('/Pattern.png')" }}
       >
         <div className="container">
           <div className="faq-banner">
