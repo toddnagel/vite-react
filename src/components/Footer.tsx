@@ -3,7 +3,6 @@ import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faDiscord,
-  faInstagram,
   faReddit,
 } from "@fortawesome/free-brands-svg-icons";
 
