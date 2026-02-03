@@ -1,8 +1,6 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faArrowUpRightFromSquare,
-  faMagnifyingGlass,
-  faPhoneVolume,
 } from "@fortawesome/free-solid-svg-icons";
 
 function FAQ() {
@@ -16,14 +14,8 @@ function FAQ() {
           <div className="faq-banner">
             <div className="section-title text-center">
               <h6>
-                <img src="/star.png" alt="img" /> general FAQ
-              </h6>
-              <h2>
-                Clients{" "}
-                <span>
-                  <b>query</b>
-                </span>
-              </h2>
+                <img src="/star.png" alt="img" /> FAQ
+              </h6>              
             </div>
             <div className="faq-image-banner">
               <img src="/04a.png" alt="img" />
@@ -31,35 +23,10 @@ function FAQ() {
           </div>
           <div className="faq-wrapper style-inner-page">
             <div className="row g-4">
-              <div className="col-lg-4">
-                <div className="faq-sidebar">
-                  <div className="search-widget">
-                    <form action="#">
-                      <input type="text" placeholder="Search keyword..." />
-                      <button type="submit">
-                        <FontAwesomeIcon icon={faMagnifyingGlass} />
-                      </button>
-                    </form>
-                  </div>
-                  <div className="contact-info-box">
-                    <div className="icon">
-                      <FontAwesomeIcon icon={faPhoneVolume} />
-                    </div>
-                    <h2>
-                      Have any project
-                      <br />
-                      <span>Contact</span> us
-                    </h2>
-                    <a className="theme-btn" href="/contact">
-                      contact us{" "}
-                      <FontAwesomeIcon icon={faArrowUpRightFromSquare} />
-                    </a>
-                  </div>
-                </div>
-              </div>
-              <div className="col-lg-8">
+              
+              <div className="col-lg-12">
                 <div className="faq-content">
-                  <h2>Project &amp; Collection Questions</h2>
+                  <h2>Frequently Asked Questions</h2>
                   <div className="faq-accordion">
                     <div className="accordion" id="accordion-project">
                       <div className="accordion-item">
@@ -218,8 +185,6 @@ function FAQ() {
                       </div>
                     </div>
                   </div>
-
-                  <h2 className="mb-3 mt-5">XRPL &amp; Technical Questions</h2>
                   <div className="faq-accordion">
                     <div className="accordion" id="accordion-technical">
                       <div className="accordion-item">
