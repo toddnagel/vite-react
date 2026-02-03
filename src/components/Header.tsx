@@ -9,7 +9,7 @@ import {
   faTimes,
   faPhoneAlt,
   faX,
-  faMagnifyingGlass,
+  // faMagnifyingGlass,
   faBars,
 } from "@fortawesome/free-solid-svg-icons";
 import { faLinkedin, faTwitter } from "@fortawesome/free-brands-svg-icons";
@@ -254,12 +254,9 @@ function Header() {
                 </div>
               </div>
               <div className="header-right d-flex justify-content-end align-items-center">
-                <a href="login.html" className="join-text">
-                  <img src="/discord.svg" alt="img" /> Join now
-                </a>
-                <a href="#0" className="search-trigger search-icon">
+                {/* <a href="#0" className="search-trigger search-icon">
                   <FontAwesomeIcon icon={faMagnifyingGlass} />
-                </a>
+                </a> */}
                 <div className="header__hamburger d-xl-block my-auto">
                   <div className="sidebar__toggle">
                     <FontAwesomeIcon icon={faBars} />
