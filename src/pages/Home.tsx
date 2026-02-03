@@ -473,7 +473,7 @@ function Home() {
       <div
         style={{
           width: "90%",
-          height: "500px",
+          height: "640px",
           borderRadius: "0%",
           overflow: "visible",
           margin: "20px auto",
