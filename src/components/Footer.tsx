@@ -3,7 +3,6 @@ import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faDiscord,
-  faInstagram,
   faReddit,
 } from "@fortawesome/free-brands-svg-icons";
 
@@ -16,7 +15,7 @@ function Footer() {
         <div className="footer-widgets-wrapper">
           <div className="row">
             <div
-              className="col-xl-2 col-lg-4 col-md-6 ps-lg-5 wow fadeInUp"
+              className="col-xl-2 col-lg-3 col-md-6 ps-lg-3 wow fadeInUp"
               data-wow-delay=".4s"
               style={{
                 visibility: "hidden",
@@ -30,25 +29,16 @@ function Footer() {
                 </div>
                 <ul className="list-items">
                   <li>
-                    <Link to="/about">
+                  <Link to="#">
                       <FontAwesomeIcon
                         icon={faArrowRight}
                         className="footer-arrow-icon"
                       />
                       The Sacred Xolo
                     </Link>
-                  </li>
+                  </li>                  
                   <li>
-                    <a href="https://xolodojo.io">
-                      <FontAwesomeIcon
-                        icon={faArrowRight}
-                        className="footer-arrow-icon"
-                      />
-                      Xolo Dojo (Community)
-                    </a>
-                  </li>
-                  <li>
-                    <Link to="/vision">
+                    <Link to="#">
                       <FontAwesomeIcon
                         icon={faArrowRight}
                         className="footer-arrow-icon"
@@ -57,7 +47,7 @@ function Footer() {
                     </Link>
                   </li>
                   <li>
-                    <Link to="/redshadow">
+                  <Link to="#">
                       <FontAwesomeIcon
                         icon={faArrowRight}
                         className="footer-arrow-icon"
@@ -66,7 +56,7 @@ function Footer() {
                     </Link>
                   </li>
                   <li>
-                    <Link to="/cryptonite">
+                  <Link to="#">
                       <FontAwesomeIcon
                         icon={faArrowRight}
                         className="footer-arrow-icon"
@@ -74,15 +64,7 @@ function Footer() {
                       Meet the Creator
                     </Link>
                   </li>
-                  <li>
-                    <Link to="/terms">
-                      <FontAwesomeIcon
-                        icon={faArrowRight}
-                        className="footer-arrow-icon"
-                      />
-                      Terms &amp; Conditions
-                    </Link>
-                  </li>
+                  
                 </ul>
               </div>
             </div>
@@ -148,55 +130,6 @@ function Footer() {
                 </ul>
               </div>
             </div>
-            <div
-              className="col-xl-3 col-lg-4 col-md-6 ps-lg-3 wow fadeInUp"
-              data-wow-delay=".8s"
-              style={{
-                visibility: "hidden",
-                animationDelay: "0.8s",
-                animationName: "none",
-              }}
-            >
-              <div className="single-footer-widget">
-                <div className="widget-head">
-                  <h3>Xolo Community Art</h3>
-                </div>
-                <div className="row g-3">
-                  <div className="col-md-6 col-sm-4 col-4">
-                    <div className="footer-thumb">
-                      <img src="/gallery-1.jpg" alt="Xolo NFT Art 1" />
-                      <a className="icon" href="/">
-                        <FontAwesomeIcon icon={faInstagram} />
-                      </a>
-                    </div>
-                  </div>
-                  <div className="col-md-6 col-sm-4 col-4">
-                    <div className="footer-thumb">
-                      <img src="/gallery-2.jpg" alt="Xolo NFT Art 2" />
-                      <a className="icon" href="/">
-                        <FontAwesomeIcon icon={faInstagram} />
-                      </a>
-                    </div>
-                  </div>
-                  <div className="col-md-6 col-sm-4 col-4">
-                    <div className="footer-thumb">
-                      <img src="/gallery-3.jpg" alt="Xolo NFT Art 3" />
-                      <a className="icon" href="/">
-                        <FontAwesomeIcon icon={faInstagram} />
-                      </a>
-                    </div>
-                  </div>
-                  <div className="col-md-6 col-sm-4 col-4">
-                    <div className="footer-thumb">
-                      <img src="/gallery-4.jpg" alt="Xolo NFT Art 4" />
-                      <a className="icon" href="/">
-                        <FontAwesomeIcon icon={faInstagram} />
-                      </a>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
           </div>
         </div>
       </div>
@@ -214,7 +147,7 @@ function Footer() {
             >
               <Link to="/">
                 <img
-                  src="xolo-logo-white.svg"
+                  src="/white-logo.png"
                   alt="The Xoloitzquintle Collection Logo"
                 />
               </Link>
@@ -244,9 +177,6 @@ function Footer() {
               </a>
               <a href="#">
                 <FontAwesomeIcon icon={faDiscord} />
-              </a>
-              <a href="#">
-                <FontAwesomeIcon icon={faInstagram} />
               </a>
               <a href="#">
                 <FontAwesomeIcon icon={faReddit} />

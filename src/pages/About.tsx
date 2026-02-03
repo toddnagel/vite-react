@@ -12,30 +12,6 @@ function About() {
           <img src="/color-bg-shape-2.png" alt="img" />
         </div>
         <div className="container">
-          <div className="section-title ml-200">
-            <h6
-              className="wow fadeInUp"
-              style={{ visibility: "visible", animationName: "fadeInUp" }}
-            >
-              <img src="/star.png" alt="img" /> The Sacred Legacy
-            </h6>
-            <h2
-              className="wow fadeInUp"
-              data-wow-delay=".3s"
-              style={{
-                visibility: "visible",
-                animationDelay: "0.3s",
-                animationName: "fadeInUp",
-              }}
-            >
-              The Xoloitzquintle <br />
-              &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-              &nbsp;{" "}
-              <span>
-                &amp; <b>Vision</b> for the XRPL
-              </span>
-            </h2>
-          </div>
           <div className="row">
             <div className="col-lg-5">
               <div className="about-image-33 img-custom-anim-left">
