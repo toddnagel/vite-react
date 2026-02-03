@@ -23,22 +23,8 @@ function Contact() {
               className="wow fadeInUp"
               style={{ visibility: "visible", animationName: "fadeInUp" }}
             >
-              <img src="/star.png" alt="img" /> contact with us
-            </h6>
-            <h2
-              className="wow fadeInUp"
-              data-wow-delay=".3s"
-              style={{
-                visibility: "visible",
-                animationDelay: "0.3s",
-                animationName: "fadeInUp",
-              }}
-            >
-              Contact our experts <br />{" "}
-              <span>
-                any <b>assistance</b> you need
-              </span>
-            </h2>
+              <img src="/star.png" alt="img" /> contact us
+            </h6>            
           </div>
           <div className="contact-wrapper">
             <div className="row align-items-center">

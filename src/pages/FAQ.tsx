@@ -1,8 +1,3 @@
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faArrowUpRightFromSquare,
-} from "@fortawesome/free-solid-svg-icons";
-
 function FAQ() {
   return (
     <>
@@ -297,29 +292,7 @@ function FAQ() {
             </div>
           </div>
         </div>
-      </section>
-      <section
-        className="cta-discuss-section fix section-padding bg-cover"
-        style={{ backgroundImage: "url('/cta-discuss-bg.jpg')" }}
-      >
-        <div className="container">
-          <div className="cta-discuss-content">
-            <h2>
-              Let’s discuss how we <br />
-              <span>
-                support <b>creative</b> vision
-              </span>
-            </h2>
-            <p>
-              Unlock the power of AI to generate the high-quality images and
-              videos in few seconds
-            </p>
-            <a className="theme-btn" href="/contact">
-              contact us <FontAwesomeIcon icon={faArrowUpRightFromSquare} />
-            </a>
-          </div>
-        </div>
-      </section>
+      </section>     
     </>
   );
 }
