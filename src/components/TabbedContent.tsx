@@ -212,7 +212,6 @@ function TabbedContent() {
                                     </li>
 
                                 </ul>
-                                <a href="about.html" className="theme-btn">explore now <i className="fa-sharp fa-regular fa-arrow-up-right"></i></a>
                             </div>
                             <div className="about-image">
                                 <img src="/01a.png" alt="img" />
@@ -299,20 +298,7 @@ function TabbedContent() {
 
                                         <span>Community Exchange Network — Tap into the XoloGlobe’s global network to offer or access member services, handmade goods, professional skills, or even work trades—fostering collaboration, learning, and mutual support beyond travel</span>
                                     </li>
-                                </ul>
-                                <a
-                                  href="/about"
-                                  className="theme-btn wow fadeInUp animated"
-                                  data-wow-delay=".3s"
-                                  style={{
-                                    visibility: "visible",
-                                    animationDelay: "0.3s",
-                                    animationName: "fadeInUp",
-                                  }}
-                                >
-                                  explore now{" "}
-                                  <i className="fa-sharp fa-regular fa-arrow-up-right"></i>
-                                </a>
+                                </ul>                               
                             </div>
                             <div
                               className="about-image wow fadeInUp"
@@ -540,11 +526,7 @@ function TabbedContent() {
                             <h3>Ready to add your pin and light up the map?</h3>
                             <p>
                               Connect your wallet and join the XoloGlobe today!
-                            </p>
-                            <a href="#" className="theme-btn">
-                              Connect Wallet{" "}
-                              <i className="fa-sharp fa-regular fa-arrow-up-right"></i>
-                            </a>
+                            </p>                            
                           </div>
                         </div>
                         <div
@@ -567,7 +549,7 @@ function TabbedContent() {
                         <div className="about-items">
                             <div className="about-content">
                                 <p>
-                                    The collection features **10,001 unique Xolo NFTs** built on the eco-friendly **XRP Ledger (XRPL)**. Each unique asset is crafted with deep cultural roots, honoring the Xoloitzquintle's legacy as a spiritual guide and symbol of loyalty in Mesoamerican traditions.
+                                    The collection features 10,001 unique Xolo NFTs built on the eco-friendly XRP Ledger (XRPL). Each unique asset is crafted with deep cultural roots, honoring the Xoloitzquintle's legacy as a spiritual guide and symbol of loyalty in Mesoamerican traditions.
 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </p>
                                 <ul className="list-items">
                                     <li>
@@ -584,7 +566,7 @@ function TabbedContent() {
                                             <path d="M5.80711 14C5.47208 14 5.24873 13.8667 5.02538 13.6L0.335025 8C-0.111675 7.46667 -0.111675 6.66667 0.335025 6.13333C0.781726 5.6 1.45178 5.6 1.89848 6.13333L6.58883 11.7333C7.03553 12.2667 7.03553 13.0667 6.58883 13.6C6.47716 13.8667 6.14213 14 5.80711 14ZM11.7259 7.06667C11.3909 7.06667 11.1675 6.93333 10.9442 6.66667C10.4975 6.13333 10.4975 5.33333 10.9442 4.8L14.5178 0.4C14.9645 -0.133333 15.6345 -0.133333 16.0812 0.4C16.5279 0.933333 16.5279 1.73333 16.0812 2.26667L12.5076 6.66667C12.2843 6.93333 12.0609 7.06667 11.7259 7.06667Z" fill="#EFFB53"></path>
                                         </svg>
 
-                                        <span>7 Distinct Traits &amp; 217 Sub-traits</span>
+                                        <span>11 Distinct Traits &amp; 317 Sub-traits</span>
                                     </li>
                                     <li>
                                         <svg xmlns="http://www.w3.org/2000/svg" width="22" height="14" viewBox="0 0 22 14" fill="none">
@@ -595,7 +577,6 @@ function TabbedContent() {
                                         <span>Upcoming Mint on xrp.cafe</span>
                                     </li>
                                 </ul>
-                                <a href="about.html" className="theme-btn">explore now <i className="fa-sharp fa-regular fa-arrow-up-right"></i></a>
                             </div>
                             <div className="about-image">
                                 <img src="/01a.png" alt="img" />
@@ -642,7 +623,7 @@ function TabbedContent() {
                 </div>
                 <div className="content">
                   <h2>
-                    <span className="count">7</span>
+                    <span className="count">11</span>
                   </h2>
                   &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
                   &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <p>Distinct Traits</p>
