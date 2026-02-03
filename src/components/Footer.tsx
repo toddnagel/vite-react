@@ -64,7 +64,15 @@ function Footer() {
                       Meet the Creator
                     </Link>
                   </li>
-                  
+                  <li>
+                  <Link to="mailto:info@example.com">
+                      <FontAwesomeIcon
+                        icon={faArrowRight}
+                        className="footer-arrow-icon"
+                      />
+                     Contact Us
+                    </Link>
+                  </li>
                 </ul>
               </div>
             </div>
