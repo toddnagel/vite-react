@@ -243,7 +243,7 @@ function Header() {
                           <Link to="/about">About Us</Link>
                         </li>
                         <li>
-                          <Link to="/faq">Faq</Link>
+                          <Link to="/faq">FAQ</Link>
                         </li>                       
                       </ul>
                     </nav>
