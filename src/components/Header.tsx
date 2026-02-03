@@ -244,10 +244,7 @@ function Header() {
                         </li>
                         <li>
                           <Link to="/faq">Faq</Link>
-                        </li>
-                        <li>
-                          <Link to="/contact">Contact</Link>
-                        </li>
+                        </li>                       
                       </ul>
                     </nav>
                   </div>
