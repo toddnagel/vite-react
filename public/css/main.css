@@ -448,6 +448,9 @@ span {
   background-size: contain;
   display: block;
 }
+.about-wrapper .about-items .about-content .list-items li > ul {
+  margin-top: 16px;
+}
 .about-wrapper .about-items .about-content .list-items li span {
   display: inline-block;
   font-weight: 700;
@@ -4612,6 +4615,9 @@ span {
 .header-main .main-menu ul li a:hover {
   color: var(--theme) !important;
 }
+.header-main .main-menu ul li a.active {
+  color: var(--theme) !important;
+}
 .header-main .main-menu ul li .submenu {
   position: absolute;
   top: 115%;
@@ -6827,13 +6833,12 @@ span {
 .mean-container .mean-nav ul li a:hover {
   color: var(--theme);
 }
+.mean-container .mean-nav ul li a.active {
+  color: var(--theme);
+}
 
 .mean-container .mean-nav ul li a:last-child {
   border-bottom: 0;
-}
-
-.mean-container .mean-nav ul li a:hover {
-  color: var(--theme);
 }
 
 .mean-container .mean-nav ul li a.mean-expand {
@@ -8310,56 +8315,12 @@ input.main-search-input::placeholder {
   color: var(--theme3);
 }
 
-.mouse-cursor {
-  position: fixed;
-  left: 0;
-  top: 0;
-  pointer-events: none;
-  border-radius: 50%;
-  -webkit-transform: translateZ(0);
-  transform: translateZ(0);
-  visibility: hidden;
-}
-
-.cursor-inner {
-  width: 6px;
-  height: 6px;
-  z-index: 10000001;
-  background-color: var(--theme);
-  -webkit-transition: width 0.3s ease-in-out, height 0.3s ease-in-out,
-    margin 0.3s ease-in-out, opacity 0.3s ease-in-out;
-  -o-transition: width 0.3s ease-in-out, height 0.3s ease-in-out,
-    margin 0.3s ease-in-out, opacity 0.3s ease-in-out;
-  transition: width 0.3s ease-in-out, height 0.3s ease-in-out,
-    margin 0.3s ease-in-out, opacity 0.3s ease-in-out;
-}
-
-.cursor-inner.cursor-hover {
-  margin-left: -35px;
-  margin-top: -35px;
-  width: 70px;
-  height: 70px;
-  background-color: var(--theme);
-  opacity: 0.3;
-}
-
+/* Mouse cursor styles removed - converting to React */
+.mouse-cursor,
+.cursor-inner,
 .cursor-outer {
-  margin-left: -12px;
-  margin-top: -12px;
-  width: 30px;
-  height: 30px;
-  border: 1px solid var(--theme);
-  -webkit-box-sizing: border-box;
-  box-sizing: border-box;
-  z-index: 10000000;
-  opacity: 0.5;
-  -webkit-transition: all 0.08s ease-out;
-  -o-transition: all 0.08s ease-out;
-  transition: all 0.08s ease-out;
-}
-
-.cursor-outer.cursor-hover {
-  opacity: 0;
+  display: none !important;
+  visibility: hidden !important;
 }
 
 .back-to-top {
