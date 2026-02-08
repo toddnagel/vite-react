@@ -28,7 +28,7 @@ function TabbedContent() {
               }}
             >
               The XRPL Xoloitzquintle NFT Collection <br />
-              <span>
+               <span>
                 Presented by <b>Cryptonite</b> &amp; <b>RedShadow</b>
               </span>
             </h2>
@@ -348,7 +348,7 @@ function TabbedContent() {
                 </li>
                 <li>
                     <span><strong>Discover &amp; Connect</strong> — Explore pins worldwide. Click any to view their Xolo, profile, and current offerings. Reach out directly to:</span>
-                    <ul className="sublist mt-2">
+                    <ul className="sublist mt-3">
                         <li>Stay in a fellow Xolo's dwelling for deep cultural immersion</li>
                         <li>Arrange house or dwelling swaps for cost-free travel</li>
                         <li>Enjoy peer-to-peer bed-and-breakfast with home-cooked meals and local wisdom</li>
@@ -356,28 +356,27 @@ function TabbedContent() {
                         <li>Offer or access skills, services, handmade goods, or work trades</li>
                     </ul>
                 </li>
-            </ul>
-            
-                          <h4
-                            className="wow fadeInUp mt-4"
-                            data-wow-delay=".3s"
-                            style={{
-                              visibility: "visible",
-                              animationDelay: "0.3s",
-                              animationName: "fadeInUp",
-                            }}
-                          >
-                            Why the Xolo Globe Matters
-                          </h4>
-                          <ul
-                            className="list-items wow fadeInUp"
-                            data-wow-delay=".4s"
-                            style={{
-                              visibility: "visible",
-                              animationDelay: "0.4s",
-                              animationName: "fadeInUp",
-                            }}
-                          >
+            </ul>            
+              <h4
+                className="wow fadeInUp mt-4"
+                data-wow-delay=".3s"
+                style={{
+                  visibility: "visible",
+                  animationDelay: "0.3s",
+                  animationName: "fadeInUp",
+                }}
+              >
+                Why the Xolo Globe Matters
+              </h4>
+              <ul
+                className="list-items wow fadeInUp"
+                data-wow-delay=".4s"
+                style={{
+                  visibility: "visible",
+                  animationDelay: "0.4s",
+                  animationName: "fadeInUp",
+                }}
+              >
                 <li>
                     <span>Keeps our community genuine and safe through token-gating</span>
                 </li>

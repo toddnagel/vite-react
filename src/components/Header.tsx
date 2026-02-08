@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -78,15 +78,6 @@ function Header() {
         </div>
       </div>
 
-      <div
-        className="mouse-cursor cursor-outer"
-        style={{ visibility: "hidden", transform: "translate(660px, 438px)" }}
-      ></div>
-      <div
-        className="mouse-cursor cursor-inner"
-        style={{ visibility: "hidden", transform: "translate(660px, 438px)" }}
-      ></div>
-
       <button id="back-top" className="back-to-top">
         <FontAwesomeIcon icon={faArrowUp} />
       </button>
@@ -123,16 +114,16 @@ function Header() {
                   <nav className="mean-nav hidden d-md-block">
                     <ul>
                       <li>
-                        <Link to="/">Home</Link>
+                        <NavLink to="/" className={({ isActive }) => isActive ? 'active' : ''}>Home</NavLink>
                       </li>
                       <li>
-                        <Link to="/about">About Us</Link>
+                        <NavLink to="/about" className={({ isActive }) => isActive ? 'active' : ''}>About Us</NavLink>
                       </li>
                       <li>
-                        <Link to="/faq">Faq</Link>
+                        <NavLink to="/faq" className={({ isActive }) => isActive ? 'active' : ''}>Faq</NavLink>
                       </li>
                       <li className="mean-last">
-                        <Link to="/contact">Contact</Link>
+                        <NavLink to="/contact" className={({ isActive }) => isActive ? 'active' : ''}>Contact</NavLink>
                       </li>
                     </ul>
                   </nav>
@@ -160,16 +151,16 @@ function Header() {
                     <nav id="mobile-menu" className="d-none hidden d-md-block">
                       <ul>
                         <li>
-                          <Link to="/">Home</Link>
+                          <NavLink to="/" className={({ isActive }) => isActive ? 'active' : ''}>Home</NavLink>
                         </li>
                         <li>
-                          <Link to="/about">About Us</Link>
+                          <NavLink to="/about" className={({ isActive }) => isActive ? 'active' : ''}>About Us</NavLink>
                         </li>
                         <li>
-                          <Link to="/faq">FAQ</Link>
+                          <NavLink to="/faq" className={({ isActive }) => isActive ? 'active' : ''}>FAQ</NavLink>
                         </li>                          
                       <li className="mean-last">
-                        <Link to="/contact">Contact</Link>
+                        <NavLink to="/contact" className={({ isActive }) => isActive ? 'active' : ''}>Contact</NavLink>
                       </li>                     
                       </ul>
                     </nav>
