@@ -3,17 +3,9 @@ import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faArrowUp,
-  faClock,
-  faEnvelope,
-  faMapMarkerAlt,
   faTimes,
-  faPhoneAlt,
-  faX,
-  // faMagnifyingGlass,
   faBars,
 } from "@fortawesome/free-solid-svg-icons";
-import { faLinkedin, faTwitter } from "@fortawesome/free-brands-svg-icons";
-import { faYoutube } from "@fortawesome/free-brands-svg-icons";
 
 function Header() {
   return (
@@ -106,7 +98,7 @@ function Header() {
               <div className="offcanvas__top mb-5 d-flex justify-content-between align-items-center">
                 <div className="offcanvas__logo">
                   <Link to="/">
-                    <img src="white-logo.svg" alt="logo-img" />
+                    <img src="white-logo.png" alt="logo-img" />
                   </Link>
                 </div>
                 <div className="offcanvas__close">
@@ -115,11 +107,6 @@ function Header() {
                   </button>
                 </div>
               </div>
-              <p className="text d-none d-xl-block">
-                Nullam dignissim, ante scelerisque the is euismod fermentum odio
-                sem semper the is erat, a feugiat leo urna eget eros. Duis
-                Aenean a imperdiet risus.
-              </p>
               <div className="mobile-menu fix mb-3 mean-container">
                 <div className="mean-bar">
                   <a
@@ -133,8 +120,8 @@ function Header() {
                       </span>
                     </span>
                   </a>
-                  <nav className="mean-nav">
-                    <ul style={{ display: "none" }}>
+                  <nav className="mean-nav hidden d-md-block">
+                    <ul>
                       <li>
                         <Link to="/">Home</Link>
                       </li>
@@ -149,70 +136,6 @@ function Header() {
                       </li>
                     </ul>
                   </nav>
-                </div>
-              </div>
-              <div className="offcanvas__contact">
-                <h4>Contact Info</h4>
-                <ul>
-                  <li className="d-flex align-items-center">
-                    <div className="offcanvas__contact-icon">
-                      <FontAwesomeIcon icon={faMapMarkerAlt} />
-                    </div>
-                    <div className="offcanvas__contact-text">
-                      <a target="_blank" href="#">
-                        Main Street, Melbourne, Australia
-                      </a>
-                    </div>
-                  </li>
-                  <li className="d-flex align-items-center">
-                    <div className="offcanvas__contact-icon mr-15">
-                      <FontAwesomeIcon icon={faEnvelope} />
-                    </div>
-                    <div className="offcanvas__contact-text">
-                      <a href="mailto:info@example.com">
-                        <span className="mailto:info@example.com">
-                          info@example.com
-                        </span>
-                      </a>
-                    </div>
-                  </li>
-                  <li className="d-flex align-items-center">
-                    <div className="offcanvas__contact-icon mr-15">
-                      <FontAwesomeIcon icon={faClock} />
-                    </div>
-                    <div className="offcanvas__contact-text">
-                      <a target="_blank" href="#">
-                        Mod-friday, 09am -05pm
-                      </a>
-                    </div>
-                  </li>
-                  <li className="d-flex align-items-center">
-                    <div className="offcanvas__contact-icon mr-15">
-                      <FontAwesomeIcon icon={faPhoneAlt} />
-                    </div>
-                    <div className="offcanvas__contact-text">
-                      <a href="tel:+11002345909">+11002345909</a>
-                    </div>
-                  </li>
-                </ul>
-                <div className="header-button mt-4">
-                  <Link className="theme-btn text-center" to="/contact">
-                    Get A Quote
-                  </Link>
-                </div>
-                <div className="social-icon d-flex align-items-center">
-                  <a href="#">
-                    <FontAwesomeIcon icon={faX} />
-                  </a>
-                  <a href="#">
-                    <FontAwesomeIcon icon={faTwitter} />
-                  </a>
-                  <a href="#">
-                    <FontAwesomeIcon icon={faYoutube} />
-                  </a>
-                  <a href="#">
-                    <FontAwesomeIcon icon={faLinkedin} />
-                  </a>
                 </div>
               </div>
             </div>
@@ -234,7 +157,7 @@ function Header() {
                 <div className="mean__menu-wrapper">
                   <div className="main-menu">
                     <div className="mean-push"></div>
-                    <nav id="mobile-menu">
+                    <nav id="mobile-menu" className="d-none hidden d-md-block">
                       <ul>
                         <li>
                           <Link to="/">Home</Link>
@@ -244,17 +167,17 @@ function Header() {
                         </li>
                         <li>
                           <Link to="/faq">FAQ</Link>
-                        </li>                       
+                        </li>                          
+                      <li className="mean-last">
+                        <Link to="/contact">Contact</Link>
+                      </li>                     
                       </ul>
                     </nav>
                   </div>
                 </div>
               </div>
               <div className="header-right d-flex justify-content-end align-items-center">
-                {/* <a href="#0" className="search-trigger search-icon">
-                  <FontAwesomeIcon icon={faMagnifyingGlass} />
-                </a> */}
-                <div className="header__hamburger d-xl-block my-auto">
+                <div className="header__hamburger d-md-none my-auto">
                   <div className="sidebar__toggle">
                     <FontAwesomeIcon icon={faBars} />
                   </div>
@@ -264,23 +187,6 @@ function Header() {
           </div>
         </div>
       </header>
-
-      <div className="search-wrap">
-        <div className="search-inner">
-          <i className="fas fa-times search-close" id="search-close"></i>
-          <div className="search-cell">
-            <form method="get">
-              <div className="search-field-holder">
-                <input
-                  type="search"
-                  className="main-search-input"
-                  placeholder="Search..."
-                />
-              </div>
-            </form>
-          </div>
-        </div>
-      </div>
     </>
   );
 }
