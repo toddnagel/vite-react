@@ -1,3 +1,5 @@
+import PageTitle from '../components/PageTitle';
+
 function FAQ() {
   return (
     <>
@@ -8,9 +10,7 @@ function FAQ() {
         <div className="container">
           <div className="faq-banner">
             <div className="section-title text-center">
-              <h6>
-                <img src="/star.png" alt="img" /> FAQ
-              </h6>              
+              <PageTitle title="FAQ" />
             </div>
             <div className="faq-image-banner">
               <img src="/04a.png" alt="img" />
@@ -18,7 +18,7 @@ function FAQ() {
           </div>
           <div className="faq-wrapper style-inner-page">
             <div className="row g-4">
-              
+
               <div className="col-lg-12">
                 <div className="faq-content">
                   <h2>Frequently Asked Questions</h2>
@@ -292,7 +292,7 @@ function FAQ() {
             </div>
           </div>
         </div>
-      </section>     
+      </section>
     </>
   );
 }
