@@ -1,11 +1,11 @@
-import { ReactNode } from 'react';
+import { ReactNode, ElementType } from 'react';
 import { useFadeInUp } from '../hooks/useFadeInUp';
 
 interface FadeInUpProps {
     children: ReactNode;
     delay?: number;
     className?: string;
-    as?: keyof JSX.IntrinsicElements;
+    as?: ElementType;
 }
 
 function FadeInUp({
@@ -17,14 +17,17 @@ function FadeInUp({
     const animation = useFadeInUp<HTMLElement>({ delay });
     const combinedClassName = `${className} ${animation.className}`.trim();
 
+    // Type assertion needed because Component could be any element type
+    const ComponentWithRef = Component as any;
+
     return (
-        <Component
+        <ComponentWithRef
             ref={animation.ref}
             className={combinedClassName}
             style={animation.style}
         >
             {children}
-        </Component>
+        </ComponentWithRef>
     );
 }
 

@@ -1,5 +1,4 @@
 import PageTitle from "./PageTitle";
-import { useFadeInUp } from "../hooks/useFadeInUp";
 
 function TabbedContent() {
   return (
