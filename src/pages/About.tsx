@@ -1,3 +1,6 @@
+import PageTitle from '../components/PageTitle';
+import FadeInUp from '../components/FadeInUp';
+
 function About() {
   return (
     <>
@@ -16,37 +19,16 @@ function About() {
       <section className="how-to-work-section fix section-padding section-bg">
         <div className="container">
           <div className="section-title text-center">
-            <h6
-              className="wow fadeInUp"
-              style={{ visibility: "visible", animationName: "fadeInUp" }}
-            >
-              <img src="/star.png" alt="star icon" /> The Xolo NFT Journey
-            </h6>
-            <h2
-              className="wow fadeInUp"
-              data-wow-delay=".3s"
-              style={{
-                visibility: "visible",
-                animationDelay: "0.3s",
-                animationName: "fadeInUp",
-              }}
-            >
+            <PageTitle title="The Xolo NFT Journey" alt="star icon" animate delay={0} />
+            <FadeInUp delay={0.5} as="h2">
               Understanding the **Minting** <br />
               <span>
                 Process <b>(4 Steps)</b>
               </span>
-            </h2>
+            </FadeInUp>
           </div>
           <div className="how-to-work-wrapper">
-            <div
-              className="how-too-work-items text-center wow fadeInUp"
-              data-wow-delay=".2s"
-              style={{
-                visibility: "visible",
-                animationDelay: "0.2s",
-                animationName: "fadeInUp",
-              }}
-            >
+            <FadeInUp delay={0.6} className="how-too-work-items text-center">
               <div className="icon">
                 <img src="/wallet-setup.svg" alt="Wallet Setup Icon" />
                 <div className="bar-shape">
@@ -60,19 +42,11 @@ function About() {
                   or Xumm.
                 </p>
               </div>
-            </div>
+            </FadeInUp>
             <div className="arrow-shape">
               <img src="/work-arrow.png" alt="arrow shape" />
             </div>
-            <div
-              className="how-too-work-items text-center wow fadeInUp"
-              data-wow-delay=".4s"
-              style={{
-                visibility: "visible",
-                animationDelay: "0.4s",
-                animationName: "fadeInUp",
-              }}
-            >
+            <FadeInUp delay={0.8} className="how-too-work-items text-center">
               <div className="icon">
                 <img src="/fund-wallet.svg" alt="Fund Wallet Icon" />
                 <div className="bar-shape">
@@ -86,19 +60,11 @@ function About() {
                   reserve requirement.
                 </p>
               </div>
-            </div>
+            </FadeInUp>
             <div className="arrow-shape">
               <img src="/work-arrow.png" alt="arrow shape" />
             </div>
-            <div
-              className="how-too-work-items text-center wow fadeInUp"
-              data-wow-delay=".6s"
-              style={{
-                visibility: "visible",
-                animationDelay: "0.6s",
-                animationName: "fadeInUp",
-              }}
-            >
+            <FadeInUp delay={1.0} className="how-too-work-items text-center">
               <div className="icon">
                 <img src="/marketplace-connect.svg" alt="Connect" />
                 <div className="bar-shape">
@@ -112,19 +78,11 @@ function About() {
                   wallet.
                 </p>
               </div>
-            </div>
+            </FadeInUp>
             <div className="arrow-shape">
               <img src="/work-arrow.png" alt="arrow shape" />
             </div>
-            <div
-              className="how-too-work-items text-center wow fadeInUp"
-              data-wow-delay=".8s"
-              style={{
-                visibility: "visible",
-                animationDelay: "0.8s",
-                animationName: "fadeInUp",
-              }}
-            >
+            <FadeInUp delay={1.2} className="how-too-work-items text-center">
               <div className="icon">
                 <img src="/mint-nft.svg" alt="Mint NFT Icon" />
                 <div className="bar-shape">
@@ -138,7 +96,7 @@ function About() {
                   Xolo asset!
                 </p>
               </div>
-            </div>
+            </FadeInUp>
           </div>
         </div>
       </section>

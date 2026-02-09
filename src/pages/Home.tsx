@@ -1,4 +1,6 @@
 import TabbedContent from "../components/TabbedContent";
+import PageTitle from "../components/PageTitle";
+import FadeInUp from "../components/FadeInUp";
 
 function Home() {
   return (
@@ -13,7 +15,7 @@ function Home() {
               <div className="hero-content">
                 <div className="color-bg">
                   <img src="/color-bg.png" alt="img" />
-                </div>                
+                </div>
               </div>
             </div>
           </div>
@@ -29,36 +31,14 @@ function Home() {
       <section className="service-section fix section-padding">
         <div className="container">
           <div className="section-title text-center">
-            <h6
-              className="wow fadeInUp"
-              style={{ visibility: "hidden", animationName: "none" }}
-            >
-              <img src="star.png" alt="img" />
-              The Xoloitzquintle Collection
-            </h6>
-            <h2
-              className="wow fadeInUp"
-              data-wow-delay=".3s"
-              style={{
-                visibility: "hidden",
-                animationDelay: "0.3s",
-                animationName: "none",
-              }}
-            >
+            <PageTitle title="The Xoloitzquintle Collection" animate delay={0} />
+            <FadeInUp delay={0.3} as="h2">
               A Sacred Legacy of <br />
               <span>Art, Culture, &amp; XRPL</span>
-            </h2>
+            </FadeInUp>
           </div>
           <div className="row">
-            <div
-              className="col-xl-6 wow fadeInUp"
-              data-wow-delay=".2s"
-              style={{
-                visibility: "hidden",
-                animationDelay: "0.2s",
-                animationName: "none",
-              }}
-            >
+            <FadeInUp delay={0.2} className="col-xl-6">
               <div className="service-box-items">
                 <div className="service-image">
                   <img src="/xolo-art.png" alt="Xolo NFT Art" />
@@ -72,16 +52,8 @@ function Home() {
                   </p>
                 </div>
               </div>
-            </div>
-            <div
-              className="col-xl-6 wow fadeInUp"
-              data-wow-delay=".4s"
-              style={{
-                visibility: "hidden",
-                animationDelay: "0.4s",
-                animationName: "none",
-              }}
-            >
+            </FadeInUp>
+            <FadeInUp delay={0.4} className="col-xl-6">
               <div className="service-box-items">
                 <div className="service-image">
                   <img src="/xrpl-blockchain.png" alt="XRPL Blockchain" />
@@ -95,16 +67,8 @@ function Home() {
                   </p>
                 </div>
               </div>
-            </div>
-            <div
-              className="col-xl-6 wow fadeInUp"
-              data-wow-delay=".6s"
-              style={{
-                visibility: "hidden",
-                animationDelay: "0.6s",
-                animationName: "none",
-              }}
-            >
+            </FadeInUp>
+            <FadeInUp delay={0.6} className="col-xl-6">
               <div className="service-box-items">
                 <div className="service-image">
                   <img src="/xolo-travel.png" alt="Xolo Travel Vision" />
@@ -118,16 +82,8 @@ function Home() {
                   </p>
                 </div>
               </div>
-            </div>
-            <div
-              className="col-xl-6 wow fadeInUp"
-              data-wow-delay=".8s"
-              style={{
-                visibility: "hidden",
-                animationDelay: "0.8s",
-                animationName: "none",
-              }}
-            >
+            </FadeInUp>
+            <FadeInUp delay={0.8} className="col-xl-6">
               <div className="service-box-items mb-0">
                 <div className="service-image">
                   <img src="/xrp-cafe-mint.png" alt="XRP Cafe Mint" />
@@ -141,7 +97,7 @@ function Home() {
                   </p>
                 </div>
               </div>
-            </div>
+            </FadeInUp>
           </div>
         </div>
       </section>
@@ -154,41 +110,17 @@ function Home() {
           <img src="/color-bg-1.png" alt="img" />
         </div>
         <div className="project-wrapper">
-          <h2
-            className="project-title text-center wow fadeInUp"
-            data-wow-delay=".3s"
-            style={{
-              visibility: "hidden",
-              animationDelay: "0.3s",
-              animationName: "none",
-            }}
-          >
+          <FadeInUp delay={0.3} as="h2" className="project-title text-center">
             The Xolo's <br /> <img src="/has.png" alt="img" />{" "}
             <span>Legacy</span>
-          </h2>
+          </FadeInUp>
           <div className="row align-items-center">
-            <div
-              className="col-lg-6 wow fadeInUp"
-              data-wow-delay=".3s"
-              style={{
-                visibility: "hidden",
-                animationDelay: "0.3s",
-                animationName: "none",
-              }}
-            >
+            <FadeInUp delay={0.3} className="col-lg-6">
               <div className="project-image">
                 <img src="/01.jpg" alt="Ancient Xolo Sculpture" />
               </div>
-            </div>
-            <div
-              className="col-lg-6 wow fadeInUp"
-              data-wow-delay=".5s"
-              style={{
-                visibility: "hidden",
-                animationDelay: "0.5s",
-                animationName: "none",
-              }}
-            >
+            </FadeInUp>
+            <FadeInUp delay={0.5} className="col-lg-6">
               <div className="project-content">
                 <span>Ancient Mesoamerica</span>
                 <h3>
@@ -203,17 +135,9 @@ function Home() {
                   Mictlan, the Aztec afterlife.
                 </p>
               </div>
-            </div>
+            </FadeInUp>
 
-            <div
-              className="col-lg-6 wow fadeInUp"
-              data-wow-delay=".3s"
-              style={{
-                visibility: "hidden",
-                animationDelay: "0.3s",
-                animationName: "none",
-              }}
-            >
+            <FadeInUp delay={0.3} className="col-lg-6">
               <div className="project-content">
                 <span>The Team</span>
                 <h3>
@@ -228,42 +152,18 @@ function Home() {
                   the 10,001 Xolo NFTs to life.
                 </p>
               </div>
-            </div>
-            <div
-              className="col-lg-6 wow fadeInUp"
-              data-wow-delay=".5s"
-              style={{
-                visibility: "hidden",
-                animationDelay: "0.5s",
-                animationName: "none",
-              }}
-            >
+            </FadeInUp>
+            <FadeInUp delay={0.5} className="col-lg-6">
               <div className="project-image style-2">
                 <img src="/02.jpg" alt="Artist and Creator" />
               </div>
-            </div>
-            <div
-              className="col-lg-6 wow fadeInUp"
-              data-wow-delay=".3s"
-              style={{
-                visibility: "hidden",
-                animationDelay: "0.3s",
-                animationName: "none",
-              }}
-            >
+            </FadeInUp>
+            <FadeInUp delay={0.3} className="col-lg-6">
               <div className="project-image">
                 <img src="/03.jpg" alt="Map and travel icons" />
               </div>
-            </div>
-            <div
-              className="col-lg-6 wow fadeInUp"
-              data-wow-delay=".5s"
-              style={{
-                visibility: "hidden",
-                animationDelay: "0.5s",
-                animationName: "none",
-              }}
-            >
+            </FadeInUp>
+            <FadeInUp delay={0.5} className="col-lg-6">
               <div className="project-content">
                 <span>Future Utility</span>
                 <h3>
@@ -278,7 +178,7 @@ function Home() {
                   wallet-to-wallet travel experiences on the XRPL.
                 </p>
               </div>
-            </div>
+            </FadeInUp>
           </div>
         </div>
       </section>
