@@ -1,13 +1,23 @@
-import { Link, NavLink } from "react-router-dom";
+import { Link } from "react-router-dom";
+import { useState, useEffect } from "react";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faArrowUp,
-  faTimes,
-  faBars,
-} from "@fortawesome/free-solid-svg-icons";
+import { faArrowUp } from "@fortawesome/free-solid-svg-icons";
+import Menu from "./Menu";
 
 function Header() {
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isSticky, setIsSticky] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsSticky(window.scrollY > 250);
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
   return (
     <>
       <div
@@ -82,60 +92,23 @@ function Header() {
         <FontAwesomeIcon icon={faArrowUp} />
       </button>
 
-      <div className="fix-area">
-        <div className="offcanvas__info">
-          <div className="offcanvas__wrapper">
-            <div className="offcanvas__content">
-              <div className="offcanvas__top mb-5 d-flex justify-content-between align-items-center">
-                <div className="offcanvas__logo">
-                  <Link to="/">
-                    <img src="white-logo.png" alt="logo-img" />
-                  </Link>
-                </div>
-                <div className="offcanvas__close">
-                  <button>
-                    <FontAwesomeIcon icon={faTimes} />
-                  </button>
-                </div>
-              </div>
-              <div className="mobile-menu fix mb-3 mean-container">
-                <div className="mean-bar">
-                  <a
-                    href="#nav"
-                    className="meanmenu-reveal"
-                    style={{ right: "0px", left: "auto", display: "inline" }}
-                  >
-                    <span>
-                      <span>
-                        <span></span>
-                      </span>
-                    </span>
-                  </a>
-                  <nav className="mean-nav hidden d-md-block">
-                    <ul>
-                      <li>
-                        <NavLink to="/" className={({ isActive }) => isActive ? 'active' : ''}>Home</NavLink>
-                      </li>
-                      <li>
-                        <NavLink to="/about" className={({ isActive }) => isActive ? 'active' : ''}>About Us</NavLink>
-                      </li>
-                      <li>
-                        <NavLink to="/faq" className={({ isActive }) => isActive ? 'active' : ''}>Faq</NavLink>
-                      </li>
-                      <li className="mean-last">
-                        <NavLink to="/contact" className={({ isActive }) => isActive ? 'active' : ''}>Contact</NavLink>
-                      </li>
-                    </ul>
-                  </nav>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div className="offcanvas__overlay"></div>
 
-      <header id="header-sticky" className="header-1">
+      <header
+        id="header-sticky"
+        className={`header-1 ${isSticky ? 'sticky' : ''}`}
+        style={{
+          ...(isSticky && {
+            position: 'fixed',
+            top: 0,
+            left: 0,
+            width: '100%',
+            zIndex: 100,
+            transition: 'all 0.9s',
+            backgroundColor: '#181818',
+            animation: 'fadeInDown 500ms ease-in-out',
+          }),
+        }}
+      >
         <div className="container-fluid">
           <div className="mega-menu-wrapper">
             <div className="header-main">
@@ -146,33 +119,18 @@ function Header() {
                   </Link>
                 </div>
                 <div className="mean__menu-wrapper">
-                  <div className="main-menu">
-                    <div className="mean-push"></div>
-                    <nav id="mobile-menu" className="d-none hidden d-md-block">
-                      <ul>
-                        <li>
-                          <NavLink to="/" className={({ isActive }) => isActive ? 'active' : ''}>Home</NavLink>
-                        </li>
-                        <li>
-                          <NavLink to="/about" className={({ isActive }) => isActive ? 'active' : ''}>About Us</NavLink>
-                        </li>
-                        <li>
-                          <NavLink to="/faq" className={({ isActive }) => isActive ? 'active' : ''}>FAQ</NavLink>
-                        </li>                          
-                      <li className="mean-last">
-                        <NavLink to="/contact" className={({ isActive }) => isActive ? 'active' : ''}>Contact</NavLink>
-                      </li>                     
-                      </ul>
-                    </nav>
-                  </div>
+                  <Menu
+                    isMobileMenuOpen={isMobileMenuOpen}
+                    setIsMobileMenuOpen={setIsMobileMenuOpen}
+                  />
                 </div>
               </div>
               <div className="header-right d-flex justify-content-end align-items-center">
-                <div className="header__hamburger d-md-none my-auto">
-                  <div className="sidebar__toggle">
-                    <FontAwesomeIcon icon={faBars} />
-                  </div>
-                </div>
+                <Menu
+                  variant="mobile-toggle"
+                  isMobileMenuOpen={isMobileMenuOpen}
+                  setIsMobileMenuOpen={setIsMobileMenuOpen}
+                />
               </div>
             </div>
           </div>
