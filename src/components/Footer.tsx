@@ -29,14 +29,14 @@ function Footer() {
                 </div>
                 <ul className="list-items">
                   <li>
-                  <Link to="#">
+                    <Link to="#">
                       <FontAwesomeIcon
                         icon={faArrowRight}
                         className="footer-arrow-icon"
                       />
                       The Sacred Xolo
                     </Link>
-                  </li>                  
+                  </li>
                   <li>
                     <Link to="#">
                       <FontAwesomeIcon
@@ -47,7 +47,7 @@ function Footer() {
                     </Link>
                   </li>
                   <li>
-                  <Link to="#">
+                    <Link to="#">
                       <FontAwesomeIcon
                         icon={faArrowRight}
                         className="footer-arrow-icon"
@@ -56,7 +56,7 @@ function Footer() {
                     </Link>
                   </li>
                   <li>
-                  <Link to="#">
+                    <Link to="#">
                       <FontAwesomeIcon
                         icon={faArrowRight}
                         className="footer-arrow-icon"
@@ -65,12 +65,12 @@ function Footer() {
                     </Link>
                   </li>
                   <li>
-                  <Link to="mailto:info@example.com">
+                    <Link to="mailto:info@example.com">
                       <FontAwesomeIcon
                         icon={faArrowRight}
                         className="footer-arrow-icon"
                       />
-                     Contact Us
+                      Contact Us
                     </Link>
                   </li>
                 </ul>
