@@ -44,13 +44,13 @@ function TabbedContent() {
               }}
             >
               <a
-                href="#Mission"
+                href="#TheXoloitzquintle"
                 data-bs-toggle="tab"
                 className="nav-link active"
                 aria-selected="true"
                 role="tab"
               >
-                Our Mission
+                The Xoloitzquintle
               </a>
             </li>
             <li
@@ -64,14 +64,35 @@ function TabbedContent() {
               }}
             >
               <a
-                href="#Vision"
+                href="#TheTeam"
                 data-bs-toggle="tab"
                 className="nav-link"
                 aria-selected="false"
                 role="tab"
                 tabIndex={-1}
               >
-                Our Vision
+                The Team
+              </a>
+            </li>
+            <li
+              className="nav-item wow fadeInUp"
+              data-wow-delay=".4s"
+              role="presentation"
+              style={{
+                visibility: "visible",
+                animationDelay: "0.4s",
+                animationName: "fadeInUp",
+              }}
+            >
+              <a
+                href="#TheVision"
+                data-bs-toggle="tab"
+                className="nav-link"
+                aria-selected="false"
+                role="tab"
+                tabIndex={-1}
+              >
+                The Vision
               </a>
             </li>
             <li
@@ -85,14 +106,14 @@ function TabbedContent() {
               }}
             >
               <a
-                href="#XoloGlobe"
+                href="#TheXoloGlobe"
                 data-bs-toggle="tab"
                 className="nav-link"
                 aria-selected="false"
                 role="tab"
                 tabIndex={-1}
               >
-                XoloGlobe
+                The XoloGlobe
               </a>
             </li>
             <li
@@ -106,21 +127,21 @@ function TabbedContent() {
               }}
             >
               <a
-                href="#Feature"
+                href="#TheMint"
                 data-bs-toggle="tab"
                 className="nav-link"
                 aria-selected="false"
                 tabIndex={-1}
                 role="tab"
               >
-                Key Feature
+                The Mint
               </a>
             </li>
           </ul>
         </div>
         <div className="about-wrapper mt-4 mt-md-0">
           <div className="tab-content">
-            <div id="Mission" className="tab-pane fade active show" role="tabpanel">
+            <div id="TheXoloitzquintle" className="tab-pane fade active show" role="tabpanel">
               <p>
                 Inside the Xolo Dojo, we’re cultivating a space for real human growth, trust, and connection in a fragmented world.
                 Within the Dojo lives the XoloGlobe—a vibrant, member-built global community where people open their homes, share their time, exchange skills and resources, and support one another with genuine reciprocity.
@@ -170,7 +191,7 @@ function TabbedContent() {
                 </div>
               </div>
             </div>
-            <div id="Vision" className="tab-pane fade" role="tabpanel">
+            <div id="TheVision" className="tab-pane fade" role="tabpanel">
               <p
                 className="wow fadeInUp"
                 data-wow-delay=".3s"
@@ -241,7 +262,78 @@ function TabbedContent() {
                 </div>
               </div>
             </div>
-            <div id="XoloGlobe" className="tab-pane fade" role="tabpanel">
+            <div id="TheTeam" className="tab-pane fade" role="tabpanel">
+              <p
+                className="wow fadeInUp"
+                data-wow-delay=".3s"
+                style={{
+                  visibility: "visible",
+                  animationDelay: "0.3s",
+                  animationName: "fadeInUp",
+                }}
+              >
+                Our vision is to build a vibrant, global network
+                of Xolo NFT holders united through digital
+                innovation and real-world networking. Central to
+                this is XoloGlobe, our token-gated interactive
+                world map that lets collectors pin their
+                locations, showcase their NFTs, and build lasting
+                relationships—unlocking peer-to-peer travel, home
+                swaps, cultural exchanges, and lifelong
+                connections. We strive to create a thriving
+                decentralized community where art, adventure, and
+                meaningful networking converge, all while honoring
+                the Mesoamerican traditions of revering the
+                Xoloitzquintle as a sacred protector, healer, and
+                guide of souls, thereby enriching the XRPL
+                ecosystem for future generations. &nbsp; &nbsp;
+                &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+                &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+                &nbsp;{" "}
+              </p>
+              <div className="about-items">
+                <div className="about-content">
+
+                  <ul
+                    className="list-items wow fadeInUp"
+                    data-wow-delay=".5s"
+                    style={{
+                      visibility: "visible",
+                      animationDelay: "0.5s",
+                      animationName: "fadeInUp",
+                    }}
+                  >
+                    <li>
+                      <span>Staying in a Xolo Host’s Dwelling — Immerse yourself in local life with overnight stays in the homes of Xolo hosts around the XoloGlobe, building deep cultural connections.</span>
+                    </li>
+                    <li>
+                      <span>House and Dwelling Swaps — Swap homes directly with members across the XoloGlobe for cost-free, trust-based travel and reciprocal hospitality.</span>
+                    </li>
+                    <li>
+                      <span>Peer-to-Peer Bed-and-Breakfast — Enjoy personalized stays with home-cooked breakfasts and insider tips from Xolo hosts on the XoloGlobe.</span>
+                    </li>
+                    <li>
+                      <span>Local Meetups and Day Activities — Connect with Xolo hosts for a guided day out, shared lunch, coffee, or activity—perfect for experiencing the XoloGlobe through authentic, no-commitment local encounters.</span>
+                    </li>
+                    <li>
+                      <span>Community Exchange Network — Tap into the XoloGlobe’s global network to offer or access member services, handmade goods, professional skills, or even work trades—fostering collaboration, learning, and mutual support beyond travel</span>
+                    </li>
+                  </ul>
+                </div>
+                <div
+                  className="about-image wow fadeInUp"
+                  data-wow-delay=".3s"
+                  style={{
+                    visibility: "visible",
+                    animationDelay: "0.3s",
+                    animationName: "fadeInUp",
+                  }}
+                >
+                  <img src="/01a.png" alt="img" />
+                </div>
+              </div>
+            </div>
+            <div id="TheXoloGlobe" className="tab-pane fade" role="tabpanel">
               <h3
                 className="wow fadeInUp"
                 data-wow-delay=".3s"
@@ -441,7 +533,7 @@ function TabbedContent() {
                 </div>
               </div>
             </div>
-            <div id="Feature" className="tab-pane fade" role="tabpanel">
+            <div id="TheMint" className="tab-pane fade" role="tabpanel">
               <div className="about-items">
                 <div className="about-content">
                   <p>
