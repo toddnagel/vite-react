@@ -21,7 +21,7 @@ function FAQ() {
 
               <div className="col-lg-12">
                 <div className="faq-content">
-                  <h2>Frequently Asked Questions</h2>
+                  <h2>Project & Collection Questions</h2>
                   <div className="faq-accordion">
                     <div className="accordion" id="accordion-project">
                       <div className="accordion-item">
@@ -34,7 +34,7 @@ function FAQ() {
                             aria-expanded="false"
                             aria-controls="faq-project-1"
                           >
-                            What is The Xoloitzquintle Collection?
+                            What Is The Xoloitzquintle?
                           </button>
                         </h5>
                         <div
@@ -43,9 +43,7 @@ function FAQ() {
                           data-bs-parent="#accordion-project"
                         >
                           <div className="accordion-body">
-                            It is a premium collection of **5,000 unique NFT
-                            assets** on the XRP Ledger (XRPL), celebrating the
-                            Xoloitzcuintli, the sacred dog of Mexico.
+                            The Xoloitzcuintle (Shō-lō eats-kwēnt-lee), also known as Xolo (Shō-lō), is one of the world's oldest breeds, with archaeological evidence dating back over 3,000–3,500 years in Mesoamerican civilizations (including Colima, Toltec, Zapotec, Maya, and Aztec cultures). Revered as a sacred spiritual guide and loyal companion, it was believed to guard homes from evil spirits in life and accompany souls through the dangers of Mictlan (the Aztec underworld/afterlife) to reach eternal rest. Named after the god Xolotl (lightning, death, and transformation) and the Nahuatl word for dog (itzcuintli), the Xolo symbolizes protection, healing, and the journey between worlds.
                           </div>
                         </div>
                       </div>
@@ -60,7 +58,7 @@ function FAQ() {
                             aria-expanded="true"
                             aria-controls="faq-project-2"
                           >
-                            What are the utilities of owning a Xolo NFT?
+                            Who Is The Creator?
                           </button>
                         </h5>
                         <div
@@ -69,9 +67,7 @@ function FAQ() {
                           data-bs-parent="#accordion-project"
                         >
                           <div className="accordion-body">
-                            Holders gain access to the **Xolo Dojo** (exclusive
-                            community), future airdrops, and governance rights
-                            in our community DAO for our travel vision.
+                            Cryptonite — a nomadic, blockchain-agnostic digital pirate who's been sailing the Cryptocurrenseas since 2016. With footprints in 34 countries shaping a deep appreciation for diverse cultures and meaningful connections, he's a proud XRP Army member building The Xoloitzquintle Collection on the XRPL. Teaming with visionary artist RedShadow, he's creating XoloDojo and XoloGlobe: a token-gated global community for trust, travel, skill-sharing, and genuine shared experiences. Own a XoloNFT and join the voyage.
                           </div>
                         </div>
                       </div>
@@ -86,7 +82,7 @@ function FAQ() {
                             aria-expanded="false"
                             aria-controls="faq-project-3"
                           >
-                            Who is the artist behind the collection?
+                            Who Is The Artist?
                           </button>
                         </h5>
                         <div
@@ -95,9 +91,7 @@ function FAQ() {
                           data-bs-parent="#accordion-project"
                         >
                           <div className="accordion-body">
-                            The collection was conceptualized and created by
-                            **Red Shadow**, a renowned digital artist known for
-                            blending cultural history with digital futurism.
+                            RedShadow is the visionary artist behind The Xoloitzquintle Collection. With a masterful eye for detail and deep respect for Mesoamerican heritage, RedShadow designs each of the 10,001 unique XoloNFTs as sacred digital guardians — blending timeless cultural symbolism with striking, evocative artwork that honors the Xoloitzquintle's spiritual role as a companion and soul guide. Teaming with Cryptonite, RedShadow's artistry forms the visual foundation of XoloDojo and XoloGlobe.
                           </div>
                         </div>
                       </div>
@@ -112,7 +106,7 @@ function FAQ() {
                             aria-expanded="false"
                             aria-controls="faq-project-4"
                           >
-                            When is the official mint date?
+                            When And Where And Where Can I Mint A Xolo NFT?
                           </button>
                         </h5>
                         <div
@@ -121,9 +115,7 @@ function FAQ() {
                           data-bs-parent="#accordion-project"
                         >
                           <div className="accordion-body">
-                            The official mint date and time will be announced
-                            exclusively on our official **Discord** and
-                            **Twitter** channels. Be sure to follow us closely!
+                            The mint for The Xoloitzcuintle Collection (10,001 unique XoloNFTs) is coming soon on xrp.cafe, the premier marketplace for XRPL-based NFTs. Built on the eco-friendly XRP Ledger (XRPL), the mint will feature low-cost, fast transactions with no gas wars. Prepare now: set up an XRPL-compatible wallet (like Joey Wallet, Xaman, or Mad Lab), fund it with at least 20 XRP, and stay tuned to xolodojo.io or @XoloDojo for the exact launch announcement and any allowlist details. Get ready to own your sacred Xolo guardian and unlock the XoloGlobe!
                           </div>
                         </div>
                       </div>
@@ -138,7 +130,7 @@ function FAQ() {
                             aria-expanded="false"
                             aria-controls="faq-project-5"
                           >
-                            Where can I view the collection after minting?
+                            What Wallet And Funds Do I Need To Prepare?
                           </button>
                         </h5>
                         <div
@@ -147,141 +139,7 @@ function FAQ() {
                           data-bs-parent="#accordion-project"
                         >
                           <div className="accordion-body">
-                            You will be able to view and trade your Xolo NFTs on
-                            the primary XRP Ledger marketplace, **xrp.cafe**.
-                          </div>
-                        </div>
-                      </div>
-
-                      <div className="accordion-item">
-                        <h5 className="accordion-header">
-                          <button
-                            className="accordion-button collapsed"
-                            type="button"
-                            data-bs-toggle="collapse"
-                            data-bs-target="#faq-project-6"
-                            aria-expanded="false"
-                            aria-controls="faq-project-6"
-                          >
-                            Is there a secondary royalty fee?
-                          </button>
-                        </h5>
-                        <div
-                          id="faq-project-6"
-                          className="accordion-collapse collapse"
-                          data-bs-parent="#accordion-project"
-                        >
-                          <div className="accordion-body">
-                            Yes, secondary sales on platforms like xrp.cafe will
-                            incur a small royalty fee that goes back into the
-                            community wallet for future development.
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="faq-accordion">
-                    <div className="accordion" id="accordion-technical">
-                      <div className="accordion-item">
-                        <h5 className="accordion-header">
-                          <button
-                            className="accordion-button"
-                            type="button"
-                            data-bs-toggle="collapse"
-                            data-bs-target="#faq-tech-1"
-                            aria-expanded="true"
-                            aria-controls="faq-tech-1"
-                          >
-                            What is the price of one Xolo NFT?
-                          </button>
-                        </h5>
-                        <div
-                          id="faq-tech-1"
-                          className="accordion-collapse show"
-                          data-bs-parent="#accordion-technical"
-                        >
-                          <div className="accordion-body">
-                            The public mint price will be announced 48 hours
-                            prior to the launch. It will be denominated in
-                            **XRP**.
-                          </div>
-                        </div>
-                      </div>
-
-                      <div className="accordion-item">
-                        <h5 className="accordion-header">
-                          <button
-                            className="accordion-button collapsed"
-                            type="button"
-                            data-bs-toggle="collapse"
-                            data-bs-target="#faq-tech-2"
-                            aria-expanded="false"
-                            aria-controls="faq-tech-2"
-                          >
-                            How many Xolo NFTs can I mint per wallet?
-                          </button>
-                        </h5>
-                        <div
-                          id="faq-tech-2"
-                          className="accordion-collapse collapse"
-                          data-bs-parent="#accordion-technical"
-                        >
-                          <div className="accordion-body">
-                            To ensure fair distribution, there will be a limit
-                            of **5 NFTs** per wallet during the public sale.
-                          </div>
-                        </div>
-                      </div>
-
-                      <div className="accordion-item">
-                        <h5 className="accordion-header">
-                          <button
-                            className="accordion-button collapsed"
-                            type="button"
-                            data-bs-toggle="collapse"
-                            data-bs-target="#faq-tech-3"
-                            aria-expanded="false"
-                            aria-controls="faq-tech-3"
-                          >
-                            Do I need to hold XRP to participate in the mint?
-                          </button>
-                        </h5>
-                        <div
-                          id="faq-tech-3"
-                          className="accordion-collapse collapse"
-                          data-bs-parent="#accordion-technical"
-                        >
-                          <div className="accordion-body">
-                            Yes, you need to have **XRP** in your wallet to
-                            cover the mint price and the small transaction fees
-                            (ledger reserve fees) on the XRPL.
-                          </div>
-                        </div>
-                      </div>
-
-                      <div className="accordion-item">
-                        <h5 className="accordion-header">
-                          <button
-                            className="accordion-button collapsed"
-                            type="button"
-                            data-bs-toggle="collapse"
-                            data-bs-target="#faq-tech-4"
-                            aria-expanded="false"
-                            aria-controls="faq-tech-4"
-                          >
-                            Which wallets are compatible with the mint?
-                          </button>
-                        </h5>
-                        <div
-                          id="faq-tech-4"
-                          className="accordion-collapse collapse"
-                          data-bs-parent="#accordion-technical"
-                        >
-                          <div className="accordion-body">
-                            We recommend using self-custody wallets like
-                            **Xumm**, **Joey Wallet**, or any other
-                            XRPL-compatible wallet that supports the NFT
-                            standard.
+                            You will need an XRPL-compatible wallet like **Joey Wallet**. Ensure your wallet is funded with a minimum of **20 XRP** to cover the XRPL's wallet reserve and transaction fees.
                           </div>
                         </div>
                       </div>

@@ -15,68 +15,6 @@ function Footer() {
         <div className="footer-widgets-wrapper">
           <div className="row">
             <div
-              className="col-xl-2 col-lg-3 col-md-6 ps-lg-3 wow fadeInUp"
-              data-wow-delay=".4s"
-              style={{
-                visibility: "hidden",
-                animationDelay: "0.4s",
-                animationName: "none",
-              }}
-            >
-              <div className="single-footer-widget">
-                <div className="widget-head">
-                  <h3>The Project</h3>
-                </div>
-                <ul className="list-items">
-                  <li>
-                    <Link to="#">
-                      <FontAwesomeIcon
-                        icon={faArrowRight}
-                        className="footer-arrow-icon"
-                      />
-                      The Sacred Xolo
-                    </Link>
-                  </li>
-                  <li>
-                    <Link to="#">
-                      <FontAwesomeIcon
-                        icon={faArrowRight}
-                        className="footer-arrow-icon"
-                      />
-                      Decentralized Travel Vision
-                    </Link>
-                  </li>
-                  <li>
-                    <Link to="#">
-                      <FontAwesomeIcon
-                        icon={faArrowRight}
-                        className="footer-arrow-icon"
-                      />
-                      Meet the Artist
-                    </Link>
-                  </li>
-                  <li>
-                    <Link to="#">
-                      <FontAwesomeIcon
-                        icon={faArrowRight}
-                        className="footer-arrow-icon"
-                      />
-                      Meet the Creator
-                    </Link>
-                  </li>
-                  <li>
-                    <Link to="mailto:info@example.com">
-                      <FontAwesomeIcon
-                        icon={faArrowRight}
-                        className="footer-arrow-icon"
-                      />
-                      Contact Us
-                    </Link>
-                  </li>
-                </ul>
-              </div>
-            </div>
-            <div
               className="col-xl-3 col-lg-4 col-md-6 ps-lg-5 wow fadeInUp"
               data-wow-delay=".6s"
               style={{
