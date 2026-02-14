@@ -1,3 +1,4 @@
+import FadeInUp from "./FadeInUp";
 import PageTitle from "./PageTitle";
 
 function TabbedContent() {
@@ -186,9 +187,7 @@ function TabbedContent() {
 
                   </ul>
                 </div>
-                <div className="about-image">
-                  <img src="/01a.png" alt="img" />
-                </div>
+
               </div>
             </div>
             <div id="TheVision" className="tab-pane fade" role="tabpanel">
@@ -534,27 +533,14 @@ function TabbedContent() {
               </div>
             </div>
             <div id="TheMint" className="tab-pane fade" role="tabpanel">
-              <div className="about-items">
-                <div className="about-content">
-                  <p>
-                    The collection features 10,001 unique Xolo NFTs built on the eco-friendly XRP Ledger (XRPL). Each unique asset is crafted with deep cultural roots, honoring the Xoloitzquintle's legacy as a spiritual guide and symbol of loyalty in Mesoamerican traditions.
-                    &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </p>
-                  <ul className="list-items">
-                    <li>
-                      <span>10,001 Unique Xolo NFTs</span>
-                    </li>
-                    <li>
-                      <span>11 Distinct Traits &amp; 317 Sub-traits</span>
-                    </li>
-                    <li>
-                      <span>Upcoming Mint on xrp.cafe</span>
-                    </li>
-                  </ul>
-                </div>
-                <div className="about-image">
-                  <img src="/01a.png" alt="img" />
-                </div>
-              </div>
+              <FadeInUp delay={0.5} as="h3">
+                This is a test heading
+              </FadeInUp>
+              <FadeInUp delay={0.5} as="p">
+                The collection features 10,001 unique Xolo NFTs built on the eco-friendly XRP Ledger (XRPL). Each unique asset is crafted with deep cultural roots, honoring the Xoloitzquintle's legacy as a spiritual guide and symbol of loyalty in Mesoamerican traditions.
+                <br />
+                The collection features 10,001 unique Xolo NFTs built on the eco-friendly XRP Ledger (XRPL). Each unique asset is crafted with deep cultural roots, honoring the Xoloitzquintle's legacy as a spiritual guide and symbol of loyalty in Mesoamerican traditions.
+              </FadeInUp>
             </div>
           </div>
         </div>
