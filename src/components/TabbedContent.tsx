@@ -263,7 +263,7 @@ function TabbedContent() {
               </div>
             </div>
             <div id="TheTeam" className="tab-pane fade" role="tabpanel">
-              <p
+              <h3
                 className="wow fadeInUp"
                 data-wow-delay=".3s"
                 style={{
@@ -272,66 +272,101 @@ function TabbedContent() {
                   animationName: "fadeInUp",
                 }}
               >
-                Our vision is to build a vibrant, global network
-                of Xolo NFT holders united through digital
-                innovation and real-world networking. Central to
-                this is XoloGlobe, our token-gated interactive
-                world map that lets collectors pin their
-                locations, showcase their NFTs, and build lasting
-                relationships—unlocking peer-to-peer travel, home
-                swaps, cultural exchanges, and lifelong
-                connections. We strive to create a thriving
-                decentralized community where art, adventure, and
-                meaningful networking converge, all while honoring
-                the Mesoamerican traditions of revering the
-                Xoloitzquintle as a sacred protector, healer, and
-                guide of souls, thereby enriching the XRPL
-                ecosystem for future generations. &nbsp; &nbsp;
-                &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-                &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-                &nbsp;{" "}
-              </p>
-              <div className="about-items">
-                <div className="about-content">
+                Meet the Team
+              </h3>
+              <p
+                className="wow fadeInUp mb-4"
+                data-wow-delay=".3s"
+                style={{
+                  visibility: "visible",
+                  animationDelay: "0.3s",
+                  animationName: "fadeInUp",
+                }}
+              >
 
-                  <ul
-                    className="list-items wow fadeInUp"
-                    data-wow-delay=".5s"
-                    style={{
-                      visibility: "visible",
-                      animationDelay: "0.5s",
-                      animationName: "fadeInUp",
-                    }}
-                  >
-                    <li>
-                      <span>Staying in a Xolo Host’s Dwelling — Immerse yourself in local life with overnight stays in the homes of Xolo hosts around the XoloGlobe, building deep cultural connections.</span>
-                    </li>
-                    <li>
-                      <span>House and Dwelling Swaps — Swap homes directly with members across the XoloGlobe for cost-free, trust-based travel and reciprocal hospitality.</span>
-                    </li>
-                    <li>
-                      <span>Peer-to-Peer Bed-and-Breakfast — Enjoy personalized stays with home-cooked breakfasts and insider tips from Xolo hosts on the XoloGlobe.</span>
-                    </li>
-                    <li>
-                      <span>Local Meetups and Day Activities — Connect with Xolo hosts for a guided day out, shared lunch, coffee, or activity—perfect for experiencing the XoloGlobe through authentic, no-commitment local encounters.</span>
-                    </li>
-                    <li>
-                      <span>Community Exchange Network — Tap into the XoloGlobe’s global network to offer or access member services, handmade goods, professional skills, or even work trades—fostering collaboration, learning, and mutual support beyond travel</span>
-                    </li>
-                  </ul>
-                </div>
-                <div
-                  className="about-image wow fadeInUp"
-                  data-wow-delay=".3s"
-                  style={{
-                    visibility: "visible",
-                    animationDelay: "0.3s",
-                    animationName: "fadeInUp",
-                  }}
-                >
-                  <img src="/01a.png" alt="img" />
-                </div>
-              </div>
+                United by culture, art, and crypto, we're forging XoloDojo and XoloGlobe: a token-gated global tribe for trust, travel, skill-sharing, and real-world adventures.
+              </p>
+              <h3
+                className="wow fadeInUp"
+                data-wow-delay=".3s"
+                style={{
+                  visibility: "visible",
+                  animationDelay: "0.3s",
+                  animationName: "fadeInUp",
+                }}
+              >
+                Cryptonite
+              </h3>
+              <h4>Founder & Visionary Explorer</h4>
+              <p
+
+                className="wow fadeInUp mb-4"
+                data-wow-delay=".3s"
+                style={{
+                  visibility: "visible",
+                  animationDelay: "0.3s",
+                  animationName: "fadeInUp",
+                }}
+              >
+
+                Cryptonite is a nomadic, blockchain-agnostic digital pirate and early Clubhouse degen who's been navigating the Cryptocurrenseas since 2016. With footprints wandered in 30+ countries fueling a profound love for diverse cultures and authentic human connections, he stands proud in the XRP Army. He's the driving force building The Xoloitzquintle Collection on the XRPL — blending ancient wisdom with modern decentralized dreams. Partnering with RedShadow and Code, he's crafting XoloDojo and XoloGlobe as portals to genuine community, shared experiences, and worldwide adventures.
+              </p>
+              <h3
+                className="wow fadeInUp"
+                data-wow-delay=".3s"
+                style={{
+                  visibility: "visible",
+                  animationDelay: "0.3s",
+                  animationName: "fadeInUp",
+                }}
+              >RedShadow</h3>
+              <h4>Visionary Artist & Cultural Alchemist</h4>
+              <p
+                className="wow fadeInUp mb-4"
+                data-wow-delay=".3s"
+                style={{
+                  visibility: "visible",
+                  animationDelay: "0.3s",
+                  animationName: "fadeInUp",
+                }}
+              >
+                RedShadow is the masterful creative mind behind every one of the 10,001 unique XoloNFTs—one hand drawn trait at a time. With an unwavering eye for intricate detail and deep reverence for Mesoamerican heritage, he reimagines the Xoloitzcuintle as sacred digital guardians—soul guides and loyal companions infused with timeless spiritual symbolism. His evocative, striking artwork fuses ancient cultural reverence with bold, contemporary digital expression, forming the visual heartbeat of XoloDojo and XoloGlobe. Through this collaboration with Cryptonite, RedShadow honors the Xolo's role as protector and guide, inviting holders into a world where art, heritage, and blockchain converge.
+              </p>
+              <h3
+                className="wow fadeInUp"
+                data-wow-delay=".3s"
+                style={{
+                  visibility: "visible",
+                  animationDelay: "0.3s",
+                  animationName: "fadeInUp",
+                }}
+              >
+                Code
+              </h3>
+              <h4>Lead Builder & Degen Architect</h4>
+              <p
+                className="wow fadeInUp mb-4"
+                data-wow-delay=".3s"
+                style={{
+                  visibility: "visible",
+                  animationDelay: "0.3s",
+                  animationName: "fadeInUp",
+                }}
+              >
+
+                Code is a battle-hardened degen from the golden Clubhouse days on Ethereum, a seasoned crypto trader with razor-sharp market instincts and hands-on building experience. Fluid in React.js and battle-tested in high-stakes web development, he's shipped name-brand websites (under NDA) for top players in the space. Now building with the Xolo pack on XRPL, Code delivers the technical backbone for XoloDojo and XoloGlobe—turning visionary ideas into seamless, secure, token-gated experiences. From smart community tools to immersive interfaces, he ensures the dojo runs smoothly, the globe connects flawlessly, and the pack thrives in Web3. Degen roots. Builder soul. Xolo loyalty.
+              </p>
+              <p
+                className="wow fadeInUp mb-4"
+                data-wow-delay=".3s"
+                style={{
+                  visibility: "visible",
+                  animationDelay: "0.3s",
+                  animationName: "fadeInUp",
+                }}
+              >
+                Together, we're not just minting NFTs — we're summoning a global pack of guardians ready to explore, connect, and build the future.
+              </p>
             </div>
             <div id="TheXoloGlobe" className="tab-pane fade" role="tabpanel">
               <h3
