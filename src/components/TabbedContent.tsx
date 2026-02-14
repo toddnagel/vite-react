@@ -143,52 +143,33 @@ function TabbedContent() {
         <div className="about-wrapper mt-4 mt-md-0">
           <div className="tab-content">
             <div id="TheXoloitzquintle" className="tab-pane fade active show" role="tabpanel">
-              <p>
-                Inside the Xolo Dojo, we’re cultivating a space for real human growth, trust, and connection in a fragmented world.
-                Within the Dojo lives the XoloGlobe—a vibrant, member-built global community where people open their homes, share their time, exchange skills and resources, and support one another with genuine reciprocity.
-                Through the XoloGlobe, members can:
-              </p>
-              <div className="about-items">
-                <div className="about-content">
-                  <ul className="list-items">
-                    <li>
-                      <span>Stay in a fellow Xolo's home for authentic immersion</span>
-                    </li>
-                    <li>
-                      <span>Swap houses for cost-free, trust-based travel</span>
-                    </li>
-                    <li>
-                      <span>Enjoy peer-to-peer bed-and-breakfast experiences with home-cooked meals and local wisdom</span>
-                    </li>
-
-                    <li>
-                      <span>Meet up for a day activity, lunch, coffee, or guided adventure</span>
-                    </li>
-
-                    <li>
-                      <span>Offer and access skills, services, handmade goods, or work trades</span>
-                    </li>
-
-                    <li>
-                      <span>The XoloGlobe inside the Xolo Dojo isn't just about travel or transactions—it's a living network for cultural exchange, lifelong learning, collaboration, and mutual support.</span>
-                    </li>
-
-                    <li>
-                      <span>Enjoy peer-to-peer bed-and-breakfast experiences with home-cooked meals and local wisdom</span>
-                    </li>
-
-                    <li>
-                      <span>We're not building another app.</span>
-                    </li>
-
-                    <li>
-                      <span>We're cultivating a global dojo where strangers become allies, travelers become locals, and shared experiences weave a stronger, more connected world—one stay, one swap, one skill shared, one meal together at a time.</span>
-                    </li>
-
-                  </ul>
-                </div>
-
-              </div>
+              <FadeInUp delay={0.5} as="p">
+                The Xoloitzquintle—known simply as Xolo—is no ordinary dog. For over 3,000 years it has been the earthly avatar of Xolotl, the Aztec god of lightning, fire, death, transformation, and deformity.
+                <br />
+                Xolotl, the shadowed twin of Quetzalcoatl, is born from Ometeotl, the primordial duality. Depicted as a skeletal dog-headed figure with blazing eyes, reversed feet, or a monstrous form, he embodies the destructive and renewing power of fire, the sudden crack of lightning, and the certainty of death. As guardian of Mictlan—the nine-layered underworld of rivers, jaguars, and freezing winds—Xolotl lights the path for souls, his fiery essence cutting through the darkness.
+                <br />
+                Tied to Venus as the Evening Star, Xolotl descends into the underworld each night, escorting the sun downward while his radiant brother Quetzalcoatl rises as the Morning Star. In the Aztec creation myth, Xolotl accompanies Quetzalcoatl into Mictlan to retrieve the bones of previous worlds. He weeps sacrificial tears to loosen them, but stumbles and shatters some—explaining humanity’s varied shapes and forms. As god of deformity, his own imperfect body mirrors the sacred divergence seen in the hairless Xolo.
+                <br />
+                In the Fifth Sun narrative, when the gods must sacrifice to ignite the current sun, Xolotl resists. He flees, transforming into a maguey plant, a salamander, and finally an axolotl before submitting. This defiance and ultimate surrender cement his role as the ultimate transformer—death and rebirth incarnate.
+                <br />
+                The Xolo carries this legacy. Revered by the Maya from ~1200 BCE (evidenced in burial figurines and skeletal remains at sites like Chichén Itzá and Palenque), it served as psychopomp, guiding souls through the afterlife. The Maya viewed its warm body as divine fire gifted by Xolotl, invoked in ancestor rituals and cosmic calendar ceremonies that echo today’s Día de los Muertos.
+                <br />
+                The Toltecs and Aztecs elevated it further, burying Xolos with the dead as sacred escorts through Mictlan’s trials, their loyalty mirroring Xolotl’s guardianship. In rituals, they were offered to appease him or placed in tombs as eternal protectors.
+                <br />
+                This mythic power endures. Frida Kahlo and Diego Rivera immortalized the Xolo’s otherworldly presence; its image graces Día de los Muertos altars as a timeless symbol of guidance. Untouched by heavy selective breeding, the Xolo remains a living bridge to ancient divinity.
+                <br />
+                The name itself tells a story. Rooted in Nahuatl “xōlōitzcuintli” (“dog of Xolotl”), it has appeared in many forms: Xoloitzcuintli, Xoloitzquintli, Xoloitzcuintle, and Xoloitzquintle. Spanish colonizers in 16th-century Mexico struggled with Nahuatl sounds, rendering the labialized /kʷi/ as “qui” or “qu”—hence the “q” that persists in our chosen spelling, Xoloitzquintle, as a deliberate echo of that historical fusion.
+                <br />
+                The short form Xolo (pronounced shō lō) comes from the Nahuatl root “xōlō” (servant/guide). The “x” sound—soft “sh” as in “shoe”—was softened over centuries of oral tradition and colonial contact, becoming the accessible shō lō heard today.
+                <br />
+                The Xoloitzquintle Collection channels this sacred narrative into 10,001 NFTs, each a digital homage to the Xolo’s divine journey. Join us in carrying forward the eternal story of Xolotl, Quetzalcoatl, and the soul’s passage through the cosmos.
+              </FadeInUp>
+              <FadeInUp delay={0.5} as="p" className="mb-4">
+                This is a test paragraph
+              </FadeInUp>
+              <FadeInUp delay={0.5} as="p">
+                This is a test paragraph
+              </FadeInUp>
             </div>
             <div id="TheVision" className="tab-pane fade" role="tabpanel">
               <p
@@ -568,6 +549,9 @@ function TabbedContent() {
               </div>
             </div>
             <div id="TheMint" className="tab-pane fade" role="tabpanel">
+              <FadeInUp delay={0.5} as="h2">
+                This is a test heading
+              </FadeInUp>
               <FadeInUp delay={0.5} as="h3">
                 This is a test heading
               </FadeInUp>
