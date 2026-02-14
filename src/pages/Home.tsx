@@ -141,10 +141,10 @@ function Home() {
               <div className="project-content">
                 <span>The Team</span>
                 <h3>
-                  <a href="project-details.html">
-                    RedShadow &amp; <br />
-                    Cryptonite
-                  </a>
+
+                  RedShadow &amp; <br />
+                  Cryptonite
+
                 </h3>
                 <p>
                   Cryptonite, the global explorer and XRPL enthusiast,
@@ -203,7 +203,7 @@ function Home() {
         <iframe
           width="100%"
           height="100%"
-          src="https://api.mapbox.com/styles/v1/danish44/cmhytc1wx002t01r0fiou0755.html?title=false&amp;access_token=pk.eyJ1IjoiZGFuaXNoNDQiLCJhIjoiY21oeXQ1ZHl5MDg0ajJpcXpoMHU4bDh3YyJ9.meXTImltU7jzZYdaeE5tsw&amp;zoomwheel=true#2/38/-34"
+          src="https://api.mapbox.com/styles/v1/danish44/cmhytc1wx002t01r0fiou0755.html?title=false&amp;access_token=&amp;zoomwheel=true#2/38/-34"
           title="Untitled"
           style={{ border: "none" }}
         ></iframe>
