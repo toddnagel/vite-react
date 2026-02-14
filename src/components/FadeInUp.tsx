@@ -12,7 +12,7 @@ function FadeInUp({
     children,
     delay = 0,
     className = '',
-    as: Component = 'div',
+    as: Component = 'p',
 }: FadeInUpProps) {
     const animation = useFadeInUp<HTMLElement>({ delay });
     const combinedClassName = `${className} ${animation.className}`.trim();
