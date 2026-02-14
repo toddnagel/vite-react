@@ -203,7 +203,7 @@ function Home() {
         <iframe
           width="100%"
           height="100%"
-          src="https://api.mapbox.com/styles/v1/danish44/cmhytc1wx002t01r0fiou0755.html?title=false&amp;access_token=&amp;zoomwheel=true#2/38/-34"
+          src={`https://api.mapbox.com/styles/v1/${import.meta.env.VITE_MAPBOX_USERNAME}/${import.meta.env.VITE_MAPBOX_STYLE_ID}.html?title=false&access_token=${import.meta.env.VITE_MAPBOX_ACCESS_TOKEN}&zoomwheel=true#2/38/-34`}
           title="Untitled"
           style={{ border: "none" }}
         ></iframe>
