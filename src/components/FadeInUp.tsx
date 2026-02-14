@@ -5,7 +5,7 @@ interface FadeInUpProps {
     children: ReactNode;
     delay?: number;
     className?: string;
-    as?: ElementType;
+    as?: ElementType; // Supports: 'div', 'p', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'span', etc.
 }
 
 function FadeInUp({
@@ -17,7 +17,7 @@ function FadeInUp({
     const animation = useFadeInUp<HTMLElement>({ delay });
     const combinedClassName = `${className} ${animation.className}`.trim();
 
-    // Type assertion needed because Component could be any element type
+    // Type assertion allows any HTML element type (h1-h6, p, div, span, etc.)
     const ComponentWithRef = Component as any;
 
     return (
