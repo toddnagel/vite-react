@@ -96,38 +96,35 @@ function Header() {
 
       <header
         id="header-sticky"
-        className={`header-1 ${isSticky ? 'sticky sticky-shrink' : ''}`}
-        style={{
-          ...(isSticky && {
-            position: 'fixed',
-            top: 0,
-            left: 0,
-            width: '100%',
-            zIndex: 100,
-            transition: 'all 0.9s',
-            backgroundColor: '#181818',
-            animation: 'fadeInDown 500ms ease-in-out',
-          }),
-        }}
+        className={`header-1 ${isSticky ? 'sticky' : ''} ${isSticky ? 'bg-[rgba(24,24,24,0.8)] backdrop-blur-md' : ''} transition-all duration-300`}
       >
         <div className="container-fluid">
           <div className="mega-menu-wrapper">
-            <div className={`header-main ${isSticky ? 'header-shrink' : ''}`}>
+            <div className={`header-main flex items-center justify-between ${isSticky ? 'py-1' : 'py-2'} transition-all duration-300`}>
               <div className="header-left">
                 <div className="logo">
-                  <Link className={`header-logo ${isSticky ? 'logo-shrink' : ''}`} to="/">
-                    <img src="/white-logo.png" alt="logo-img" />
+                  <Link className="header-logo" to="/">
+                    <img
+                      src="/white-logo.png"
+                      alt="logo-img"
+                      className="transition-all duration-300"
+                      style={{
+                        height: isSticky ? '48px' : '96px',
+                        width: isSticky ? '48px' : '96px',
+                      }}
+                    />
                   </Link>
                 </div>
                 <div className="mean__menu-wrapper">
                   <Menu
                     isMobileMenuOpen={isMobileMenuOpen}
                     setIsMobileMenuOpen={setIsMobileMenuOpen}
+                    isSticky={isSticky}
                   />
                 </div>
               </div>
-              <div className="header-right d-flex justify-content-end align-items-center" style={{ gap: '16px' }}>
-                <UserMenu />
+              <div className="header-right flex justify-end items-center gap-4">
+                <UserMenu isSticky={isSticky} />
                 <Menu
                   variant="mobile-toggle"
                   isMobileMenuOpen={isMobileMenuOpen}

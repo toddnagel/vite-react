@@ -13,9 +13,9 @@ function Home() {
           <div className="row">
             <div className="col-lg-12">
               <div className="hero-content">
-                <div className="color-bg">
+                {/* <div className="color-bg">
                   <img src="/color-bg.png" alt="img" />
-                </div>
+                </div> */}
               </div>
             </div>
           </div>

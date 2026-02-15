@@ -9,6 +9,7 @@ interface MenuProps {
     variant?: 'desktop' | 'mobile-toggle';
     isMobileMenuOpen?: boolean;
     setIsMobileMenuOpen?: React.Dispatch<React.SetStateAction<boolean>>;
+    isSticky?: boolean;
 }
 
 function Menu({
@@ -16,6 +17,7 @@ function Menu({
     variant = 'desktop',
     isMobileMenuOpen: externalIsOpen,
     setIsMobileMenuOpen: externalSetOpen,
+    isSticky = false,
 }: MenuProps) {
     const [internalIsOpen, setInternalIsOpen] = useState(false);
     const location = useLocation();
@@ -82,15 +84,14 @@ function Menu({
     return (
         <>
             {/* Desktop Menu - Only show on desktop screens */}
-            <nav className="main-menu desktop-menu-wrapper">
+            <nav className={`main-menu desktop-menu-wrapper ${isSticky ? '-mt-1' : ''}`}>
                 <ul>
                     {menuItems.map((item) => (
                         <li key={item.path}>
                             <NavLink
                                 to={item.path}
                                 className={({ isActive }) =>
-                                    `inline-block text-lg font-medium py-5 capitalize transition-all duration-400 ease-in-out no-underline ${isActive ? 'active' : ''
-                                    }`
+                                    `inline-block text-lg font-medium capitalize transition-all duration-300 ease-in-out no-underline ${isSticky ? 'py-1.5' : 'py-5'} ${isActive ? 'active' : ''}`
                                 }
                                 style={{ color: 'var(--white)' }}
                             >
