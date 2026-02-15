@@ -30,7 +30,13 @@ function UserMenu({ isSticky = false }: UserMenuProps) {
     }, [isDropdownOpen]);
 
     const handleLogin = () => {
-        loginWithRedirect();
+        // Store returnTo in sessionStorage for redirect after login
+        sessionStorage.setItem('auth0_app_state', JSON.stringify({ returnTo: '/profile' }));
+        loginWithRedirect({
+            appState: {
+                returnTo: '/profile',
+            },
+        });
     };
 
     const handleLogout = () => {
