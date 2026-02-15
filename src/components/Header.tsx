@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowUp } from "@fortawesome/free-solid-svg-icons";
 import Menu from "./Menu";
+import UserMenu from "./UserMenu";
 
 function Header() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -125,7 +126,8 @@ function Header() {
                   />
                 </div>
               </div>
-              <div className="header-right d-flex justify-content-end align-items-center">
+              <div className="header-right d-flex justify-content-end align-items-center" style={{ gap: '16px' }}>
+                <UserMenu />
                 <Menu
                   variant="mobile-toggle"
                   isMobileMenuOpen={isMobileMenuOpen}
