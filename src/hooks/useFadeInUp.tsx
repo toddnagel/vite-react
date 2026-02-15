@@ -22,7 +22,7 @@ export function useFadeInUp<T extends HTMLElement = HTMLElement>(
             const tabPane = element.closest('.tab-pane');
             const isInActiveTab = tabPane
                 ? tabPane.classList.contains('active') &&
-                  tabPane.classList.contains('show')
+                tabPane.classList.contains('show')
                 : true;
 
             // If element is in a tab, only animate when tab is active
