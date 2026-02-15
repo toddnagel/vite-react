@@ -5,225 +5,111 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUser, faSignOutAlt } from '@fortawesome/free-solid-svg-icons';
 
 function UserMenu() {
-  const { isAuthenticated, isLoading, user, loginWithRedirect, logout } = useAuth0();
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-  const dropdownRef = useRef<HTMLDivElement>(null);
+    const { isAuthenticated, isLoading, user, loginWithRedirect, logout } = useAuth0();
+    const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+    const dropdownRef = useRef<HTMLDivElement>(null);
 
-  // Close dropdown when clicking outside
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+    useEffect(() => {
+        const handleClickOutside = (event: MouseEvent) => {
+            if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+                setIsDropdownOpen(false);
+            }
+        };
+
+        if (isDropdownOpen) {
+            document.addEventListener('mousedown', handleClickOutside);
+        }
+
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside);
+        };
+    }, [isDropdownOpen]);
+
+    const handleLogin = () => {
+        loginWithRedirect();
+    };
+
+    const handleLogout = () => {
+        logout({
+            logoutParams: {
+                returnTo: window.location.origin,
+            },
+        });
         setIsDropdownOpen(false);
-      }
     };
 
-    if (isDropdownOpen) {
-      document.addEventListener('mousedown', handleClickOutside);
-    }
-
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
+    const getUserInitial = () => {
+        if (user?.name) {
+            return user.name.charAt(0).toUpperCase();
+        }
+        if (user?.email) {
+            return user.email.charAt(0).toUpperCase();
+        }
+        return 'U';
     };
-  }, [isDropdownOpen]);
 
-  const handleLogin = () => {
-    loginWithRedirect();
-  };
-
-  const handleLogout = () => {
-    logout({
-      logoutParams: {
-        returnTo: window.location.origin,
-      },
-    });
-    setIsDropdownOpen(false);
-  };
-
-  const getUserInitial = () => {
-    if (user?.name) {
-      return user.name.charAt(0).toUpperCase();
+    if (isLoading) {
+        return null;
     }
-    if (user?.email) {
-      return user.email.charAt(0).toUpperCase();
+
+    if (!isAuthenticated) {
+        return (
+            <button
+                onClick={handleLogin}
+                className="bg-transparent border border-white/30 text-white px-4 py-2 rounded cursor-pointer text-sm transition-all duration-300 ease-in-out hover:border-white/60 hover:bg-white/10"
+            >
+                Login
+            </button>
+        );
     }
-    return 'U';
-  };
 
-  if (isLoading) {
-    return null;
-  }
-
-  if (!isAuthenticated) {
     return (
-      <button
-        onClick={handleLogin}
-        className="user-menu-login-btn"
-        style={{
-          background: 'transparent',
-          border: '1px solid rgba(255, 255, 255, 0.3)',
-          color: 'white',
-          padding: '8px 16px',
-          borderRadius: '4px',
-          cursor: 'pointer',
-          fontSize: '14px',
-          transition: 'all 0.3s ease',
-        }}
-        onMouseEnter={(e) => {
-          e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.6)';
-          e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.1)';
-        }}
-        onMouseLeave={(e) => {
-          e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.3)';
-          e.currentTarget.style.backgroundColor = 'transparent';
-        }}
-      >
-        Login
-      </button>
-    );
-  }
-
-  return (
-    <div ref={dropdownRef} style={{ position: 'relative' }}>
-      <button
-        onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-        className="user-menu-avatar"
-        style={{
-          width: '40px',
-          height: '40px',
-          borderRadius: '50%',
-          border: '2px solid rgba(255, 255, 255, 0.3)',
-          background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-          color: 'white',
-          fontSize: '18px',
-          fontWeight: 'bold',
-          cursor: 'pointer',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          transition: 'all 0.3s ease',
-          padding: 0,
-        }}
-        onMouseEnter={(e) => {
-          e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.6)';
-          e.currentTarget.style.transform = 'scale(1.05)';
-        }}
-        onMouseLeave={(e) => {
-          e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.3)';
-          e.currentTarget.style.transform = 'scale(1)';
-        }}
-        aria-label="User menu"
-      >
-        {user?.picture ? (
-          <img
-            src={user.picture}
-            alt={user.name || 'User'}
-            style={{
-              width: '100%',
-              height: '100%',
-              borderRadius: '50%',
-              objectFit: 'cover',
-            }}
-          />
-        ) : (
-          getUserInitial()
-        )}
-      </button>
-
-      {isDropdownOpen && (
-        <div
-          className="user-menu-dropdown"
-          style={{
-            position: 'absolute',
-            top: 'calc(100% + 8px)',
-            right: 0,
-            backgroundColor: '#1a1a1a',
-            border: '1px solid rgba(255, 255, 255, 0.1)',
-            borderRadius: '8px',
-            minWidth: '200px',
-            boxShadow: '0 4px 12px rgba(0, 0, 0, 0.3)',
-            zIndex: 1000,
-            overflow: 'hidden',
-          }}
-        >
-          <div
-            style={{
-              padding: '12px 16px',
-              borderBottom: '1px solid rgba(255, 255, 255, 0.1)',
-            }}
-          >
-            <div
-              style={{
-                color: 'white',
-                fontSize: '14px',
-                fontWeight: '500',
-                marginBottom: '4px',
-              }}
+        <div ref={dropdownRef} className="relative">
+            <button
+                onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+                className="w-10 h-10 rounded-full border-2 border-white/30 bg-gradient-to-br from-indigo-500 to-purple-600 text-white text-lg font-bold cursor-pointer flex items-center justify-center transition-all duration-300 ease-in-out p-0 hover:border-white/60 hover:scale-105"
+                aria-label="User menu"
             >
-              {user?.name || 'User'}
-            </div>
-            <div
-              style={{
-                color: 'rgba(255, 255, 255, 0.6)',
-                fontSize: '12px',
-              }}
-            >
-              {user?.email}
-            </div>
-          </div>
-          <Link
-            to="/profile"
-            onClick={() => setIsDropdownOpen(false)}
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: '12px',
-              padding: '12px 16px',
-              color: 'white',
-              textDecoration: 'none',
-              fontSize: '14px',
-              transition: 'background-color 0.2s ease',
-            }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.1)';
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.backgroundColor = 'transparent';
-            }}
-          >
-            <FontAwesomeIcon icon={faUser} />
-            <span>Profile</span>
-          </Link>
-          <button
-            onClick={handleLogout}
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: '12px',
-              width: '100%',
-              padding: '12px 16px',
-              background: 'transparent',
-              border: 'none',
-              borderTop: '1px solid rgba(255, 255, 255, 0.1)',
-              color: 'white',
-              textAlign: 'left',
-              cursor: 'pointer',
-              fontSize: '14px',
-              transition: 'background-color 0.2s ease',
-            }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.1)';
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.backgroundColor = 'transparent';
-            }}
-          >
-            <FontAwesomeIcon icon={faSignOutAlt} />
-            <span>Logout</span>
-          </button>
+                {user?.picture ? (
+                    <img
+                        src={user.picture}
+                        alt={user.name || 'User'}
+                        className="w-full h-full rounded-full object-cover"
+                    />
+                ) : (
+                    getUserInitial()
+                )}
+            </button>
+
+            {isDropdownOpen && (
+                <div className="absolute top-full mt-2 right-0 bg-[#1a1a1a] border border-white/10 rounded-lg min-w-[200px] shadow-lg z-[1000] overflow-hidden">
+                    <div className="px-4 py-3 border-b border-white/10">
+                        <div className="text-white text-sm font-medium mb-1">
+                            {user?.name || 'User'}
+                        </div>
+                        {/* <div className="text-white/60 text-xs">
+                            {user?.email}
+                        </div> */}
+                    </div>
+                    <Link
+                        to="/profile"
+                        onClick={() => setIsDropdownOpen(false)}
+                        className="flex items-center gap-3 px-4 py-3 text-white no-underline text-sm transition-colors duration-200 hover:bg-white/10"
+                    >
+                        <FontAwesomeIcon icon={faUser} />
+                        <span>Profile</span>
+                    </Link>
+                    <button
+                        onClick={handleLogout}
+                        className="flex items-center gap-3 w-full px-4 py-3 bg-transparent border-0 border-t border-white/10 text-white text-left cursor-pointer text-sm transition-colors duration-200 hover:bg-white/10"
+                    >
+                        <FontAwesomeIcon icon={faSignOutAlt} />
+                        <span>Logout</span>
+                    </button>
+                </div>
+            )}
         </div>
-      )}
-    </div>
-  );
+    );
 }
 
 export default UserMenu;
