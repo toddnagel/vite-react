@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react';
-import { NavLink, useLocation } from 'react-router-dom';
+import { NavLink, useLocation, Link } from 'react-router-dom';
+import { useAuth0 } from '@auth0/auth0-react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faBars, faTimes } from '@fortawesome/free-solid-svg-icons';
+import { faBars, faTimes, faUser, faSignOutAlt, faSignInAlt } from '@fortawesome/free-solid-svg-icons';
 
 interface MenuProps {
     onLinkClick?: () => void;
@@ -18,6 +19,7 @@ function Menu({
 }: MenuProps) {
     const [internalIsOpen, setInternalIsOpen] = useState(false);
     const location = useLocation();
+    const { isAuthenticated, isLoading, loginWithRedirect, logout } = useAuth0();
 
     const isMobileMenuOpen =
         externalIsOpen !== undefined ? externalIsOpen : internalIsOpen;
@@ -147,6 +149,53 @@ function Menu({
                                             </NavLink>
                                         </li>
                                     ))}
+                                    {/* Auth Menu Items */}
+                                    {!isLoading && (
+                                        <>
+                                            {isAuthenticated ? (
+                                                <>
+                                                    <li>
+                                                        <Link
+                                                            to="/profile"
+                                                            onClick={closeMobileMenu}
+                                                        >
+                                                            <FontAwesomeIcon icon={faUser} />
+                                                            <span>Profile</span>
+                                                        </Link>
+                                                    </li>
+                                                    <li>
+                                                        <button
+                                                            onClick={() => {
+                                                                logout({
+                                                                    logoutParams: {
+                                                                        returnTo: window.location.origin,
+                                                                    },
+                                                                });
+                                                                closeMobileMenu();
+                                                            }}
+                                                            className="mobile-menu-logout-btn"
+                                                        >
+                                                            <FontAwesomeIcon icon={faSignOutAlt} />
+                                                            <span>Logout</span>
+                                                        </button>
+                                                    </li>
+                                                </>
+                                            ) : (
+                                                <li>
+                                                    <button
+                                                        onClick={() => {
+                                                            loginWithRedirect();
+                                                            closeMobileMenu();
+                                                        }}
+                                                        className="mobile-menu-login-btn"
+                                                    >
+                                                        <FontAwesomeIcon icon={faSignInAlt} />
+                                                        <span>Login</span>
+                                                    </button>
+                                                </li>
+                                            )}
+                                        </>
+                                    )}
                                 </ul>
                             </nav>
                         </div>
