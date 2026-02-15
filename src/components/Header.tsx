@@ -96,7 +96,7 @@ function Header() {
 
       <header
         id="header-sticky"
-        className={`header-1 ${isSticky ? 'sticky' : ''}`}
+        className={`header-1 ${isSticky ? 'sticky sticky-shrink' : ''}`}
         style={{
           ...(isSticky && {
             position: 'fixed',
@@ -112,10 +112,10 @@ function Header() {
       >
         <div className="container-fluid">
           <div className="mega-menu-wrapper">
-            <div className="header-main">
+            <div className={`header-main ${isSticky ? 'header-shrink' : ''}`}>
               <div className="header-left">
                 <div className="logo">
-                  <Link className="header-logo" to="/">
+                  <Link className={`header-logo ${isSticky ? 'logo-shrink' : ''}`} to="/">
                     <img src="/white-logo.png" alt="logo-img" />
                   </Link>
                 </div>
