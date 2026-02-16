@@ -22,6 +22,50 @@ function getPool(): mysql.Pool {
 }
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
+  // Debug endpoint to check environment variables (remove in production)
+  if (req.method === 'GET' && req.query.debug === 'env') {
+    return res.json({
+      hasDB_HOST: !!process.env.DB_HOST,
+      hasDB_PORT: !!process.env.DB_PORT,
+      hasDB_NAME: !!process.env.DB_NAME,
+      hasDB_USER: !!process.env.DB_USER,
+      hasDB_PASSWORD: !!process.env.DB_PASSWORD,
+      DB_HOST: process.env.DB_HOST ? `${process.env.DB_HOST.substring(0, 3)}***` : 'missing',
+      DB_PORT: process.env.DB_PORT || 'missing',
+      DB_NAME: process.env.DB_NAME ? '***set***' : 'missing',
+      DB_USER: process.env.DB_USER ? '***set***' : 'missing',
+      NODE_ENV: process.env.NODE_ENV,
+      VERCEL_ENV: process.env.VERCEL_ENV
+    });
+  }
+
+  // Test database connection endpoint
+  if (req.method === 'GET' && req.query.test === 'connection') {
+    try {
+      const pool = getPool();
+      await pool.execute('SELECT 1 as test');
+      return res.json({ 
+        success: true, 
+        message: 'Database connection successful',
+        config: {
+          host: process.env.DB_HOST ? `${process.env.DB_HOST.substring(0, 3)}***` : 'missing',
+          port: process.env.DB_PORT || 'missing',
+          database: process.env.DB_NAME ? '***set***' : 'missing',
+          user: process.env.DB_USER ? '***set***' : 'missing'
+        }
+      });
+    } catch (error: any) {
+      console.error('Connection test error:', error);
+      return res.status(500).json({ 
+        success: false,
+        error: 'Connection failed', 
+        details: error.message,
+        code: error.code,
+        errno: error.errno
+      });
+    }
+  }
+
   // Get user profile
   if (req.method === 'GET') {
     try {
@@ -37,10 +81,22 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       console.log('API: Getting profile for auth0_id:', auth0Id);
 
       const pool = getPool();
-      console.log('API: Connecting to database:', {
+      const dbConfig = {
         host: process.env.DB_HOST || 'localhost',
         port: process.env.DB_PORT || '3308',
-        database: process.env.DB_NAME || 'donovan_db'
+        database: process.env.DB_NAME || 'donovan_db',
+        user: process.env.DB_USER || 'donovan_user',
+        hasPassword: !!process.env.DB_PASSWORD,
+        nodeEnv: process.env.NODE_ENV,
+        vercelEnv: process.env.VERCEL_ENV
+      };
+      console.log('API: Connecting to database:', dbConfig);
+      console.log('API: Environment check:', {
+        hasDB_HOST: !!process.env.DB_HOST,
+        hasDB_PORT: !!process.env.DB_PORT,
+        hasDB_NAME: !!process.env.DB_NAME,
+        hasDB_USER: !!process.env.DB_USER,
+        hasDB_PASSWORD: !!process.env.DB_PASSWORD
       });
 
       try {
@@ -66,9 +122,32 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         console.error('API: Database error details:', {
           message: dbError.message,
           code: dbError.code,
-          errno: dbError.errno
+          errno: dbError.errno,
+          sqlState: dbError.sqlState,
+          sqlMessage: dbError.sqlMessage,
+          stack: dbError.stack
         });
-        return res.status(500).json({ error: 'Database error', details: dbError.message });
+        console.error('API: Database config at error time:', {
+          host: process.env.DB_HOST,
+          port: process.env.DB_PORT,
+          database: process.env.DB_NAME,
+          user: process.env.DB_USER,
+          hasPassword: !!process.env.DB_PASSWORD
+        });
+        return res.status(500).json({ 
+          error: 'Database error', 
+          details: dbError.message,
+          code: dbError.code,
+          // Only include sensitive info in development
+          ...(process.env.NODE_ENV !== 'production' && {
+            config: {
+              host: process.env.DB_HOST,
+              port: process.env.DB_PORT,
+              database: process.env.DB_NAME,
+              user: process.env.DB_USER
+            }
+          })
+        });
       }
     } catch (error: any) {
       console.error('API error:', error);

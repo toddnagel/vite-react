@@ -48,10 +48,22 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     }
 
     const pool = getPool();
-    console.log('API sync: Connecting to database:', {
+    const dbConfig = {
       host: process.env.DB_HOST || 'localhost',
       port: process.env.DB_PORT || '3308',
-      database: process.env.DB_NAME || 'donovan_db'
+      database: process.env.DB_NAME || 'donovan_db',
+      user: process.env.DB_USER || 'donovan_user',
+      hasPassword: !!process.env.DB_PASSWORD,
+      nodeEnv: process.env.NODE_ENV,
+      vercelEnv: process.env.VERCEL_ENV
+    };
+    console.log('API sync: Connecting to database:', dbConfig);
+    console.log('API sync: Environment check:', {
+      hasDB_HOST: !!process.env.DB_HOST,
+      hasDB_PORT: !!process.env.DB_PORT,
+      hasDB_NAME: !!process.env.DB_NAME,
+      hasDB_USER: !!process.env.DB_USER,
+      hasDB_PASSWORD: !!process.env.DB_PASSWORD
     });
 
     try {
@@ -108,8 +120,36 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         isNewUser: !Array.isArray(existingUser) || existingUser.length === 0,
       });
     } catch (dbError: any) {
-      console.error('Database error:', dbError);
-      return res.status(500).json({ error: 'Database error', details: dbError.message });
+      console.error('API sync: Database error:', dbError);
+      console.error('API sync: Database error details:', {
+        message: dbError.message,
+        code: dbError.code,
+        errno: dbError.errno,
+        sqlState: dbError.sqlState,
+        sqlMessage: dbError.sqlMessage,
+        stack: dbError.stack
+      });
+      console.error('API sync: Database config at error time:', {
+        host: process.env.DB_HOST,
+        port: process.env.DB_PORT,
+        database: process.env.DB_NAME,
+        user: process.env.DB_USER,
+        hasPassword: !!process.env.DB_PASSWORD
+      });
+      return res.status(500).json({ 
+        error: 'Database error', 
+        details: dbError.message,
+        code: dbError.code,
+        // Only include sensitive info in development
+        ...(process.env.NODE_ENV !== 'production' && {
+          config: {
+            host: process.env.DB_HOST,
+            port: process.env.DB_PORT,
+            database: process.env.DB_NAME,
+            user: process.env.DB_USER
+          }
+        })
+      });
     }
   } catch (error: any) {
     console.error('API error:', error);
