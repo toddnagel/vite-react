@@ -29,14 +29,15 @@ CSS TABLE OF CONTENTS
 
     $(document).ready( function() {
 			//>> Sticky Header Js Start <<//
+			// Disabled - Now handled by React state in Header.tsx
 
-			$(window).scroll(function () {
-				if ($(this).scrollTop() > 250) {
-					$("#header-sticky").addClass("sticky");
-				} else {
-					$("#header-sticky").removeClass("sticky");
-				}
-			});
+			// $(window).scroll(function () {
+			// 	if ($(this).scrollTop() > 250) {
+			// 		$("#header-sticky").addClass("sticky");
+			// 	} else {
+			// 		$("#header-sticky").removeClass("sticky");
+			// 	}
+			// });
 
 			//>> Counterup Start <<//
 			$(".count").counterUp({
@@ -148,15 +149,16 @@ CSS TABLE OF CONTENTS
 	
 
 			//>> Progress Bar Js Start <<//
-			$(".progress-bar").waypoint(
-				function () {
-					$(".progress-bar").css({
-						animation: "animate-positive 2.6s",
-						opacity: "1",
-					});
-				},
-				{ offset: "75%" }
-			);
+			// Disabled - No progress-bar elements in React components
+			// $(".progress-bar").waypoint(
+			// 	function () {
+			// 		$(".progress-bar").css({
+			// 			animation: "animate-positive 2.6s",
+			// 			opacity: "1",
+			// 		});
+			// 	},
+			// 	{ offset: "75%" }
+			// );
 
 
 			

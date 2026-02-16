@@ -1,13 +1,15 @@
 import { useState, useEffect } from 'react';
-import { NavLink, useLocation } from 'react-router-dom';
+import { NavLink, useLocation, Link } from 'react-router-dom';
+import { useAuth0 } from '@auth0/auth0-react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faBars, faTimes } from '@fortawesome/free-solid-svg-icons';
+import { faBars, faTimes, faUser, faSignOutAlt, faSignInAlt } from '@fortawesome/free-solid-svg-icons';
 
 interface MenuProps {
     onLinkClick?: () => void;
     variant?: 'desktop' | 'mobile-toggle';
     isMobileMenuOpen?: boolean;
     setIsMobileMenuOpen?: React.Dispatch<React.SetStateAction<boolean>>;
+    isSticky?: boolean;
 }
 
 function Menu({
@@ -15,9 +17,11 @@ function Menu({
     variant = 'desktop',
     isMobileMenuOpen: externalIsOpen,
     setIsMobileMenuOpen: externalSetOpen,
+    isSticky = false,
 }: MenuProps) {
     const [internalIsOpen, setInternalIsOpen] = useState(false);
     const location = useLocation();
+    const { isAuthenticated, isLoading, loginWithRedirect, logout } = useAuth0();
 
     const isMobileMenuOpen =
         externalIsOpen !== undefined ? externalIsOpen : internalIsOpen;
@@ -80,15 +84,14 @@ function Menu({
     return (
         <>
             {/* Desktop Menu - Only show on desktop screens */}
-            <nav className="main-menu desktop-menu-wrapper">
+            <nav className={`main-menu desktop-menu-wrapper ${isSticky ? '-mt-1' : ''}`}>
                 <ul>
                     {menuItems.map((item) => (
                         <li key={item.path}>
                             <NavLink
                                 to={item.path}
                                 className={({ isActive }) =>
-                                    `inline-block text-lg font-medium py-5 capitalize transition-all duration-400 ease-in-out no-underline ${isActive ? 'active' : ''
-                                    }`
+                                    `inline-block text-lg font-medium capitalize transition-all duration-300 ease-in-out no-underline ${isSticky ? 'py-1.5' : 'py-5'} ${isActive ? 'active' : ''}`
                                 }
                                 style={{ color: 'var(--white)' }}
                             >
@@ -147,6 +150,53 @@ function Menu({
                                             </NavLink>
                                         </li>
                                     ))}
+                                    {/* Auth Menu Items */}
+                                    {!isLoading && (
+                                        <>
+                                            {isAuthenticated ? (
+                                                <>
+                                                    <li>
+                                                        <Link
+                                                            to="/profile"
+                                                            onClick={closeMobileMenu}
+                                                        >
+                                                            <FontAwesomeIcon icon={faUser} />
+                                                            <span>Profile</span>
+                                                        </Link>
+                                                    </li>
+                                                    <li>
+                                                        <button
+                                                            onClick={() => {
+                                                                logout({
+                                                                    logoutParams: {
+                                                                        returnTo: window.location.origin,
+                                                                    },
+                                                                });
+                                                                closeMobileMenu();
+                                                            }}
+                                                            className="mobile-menu-logout-btn"
+                                                        >
+                                                            <FontAwesomeIcon icon={faSignOutAlt} />
+                                                            <span>Logout</span>
+                                                        </button>
+                                                    </li>
+                                                </>
+                                            ) : (
+                                                <li>
+                                                    <button
+                                                        onClick={() => {
+                                                            loginWithRedirect();
+                                                            closeMobileMenu();
+                                                        }}
+                                                        className="mobile-menu-login-btn"
+                                                    >
+                                                        <FontAwesomeIcon icon={faSignInAlt} />
+                                                        <span>Login</span>
+                                                    </button>
+                                                </li>
+                                            )}
+                                        </>
+                                    )}
                                 </ul>
                             </nav>
                         </div>

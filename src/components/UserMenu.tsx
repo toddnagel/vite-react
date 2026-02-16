@@ -4,7 +4,11 @@ import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUser, faSignOutAlt } from '@fortawesome/free-solid-svg-icons';
 
-function UserMenu() {
+interface UserMenuProps {
+    isSticky?: boolean;
+}
+
+function UserMenu({ isSticky = false }: UserMenuProps) {
     const { isAuthenticated, isLoading, user, loginWithRedirect, logout } = useAuth0();
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
     const dropdownRef = useRef<HTMLDivElement>(null);
@@ -26,7 +30,13 @@ function UserMenu() {
     }, [isDropdownOpen]);
 
     const handleLogin = () => {
-        loginWithRedirect();
+        // Store returnTo in sessionStorage for redirect after login
+        sessionStorage.setItem('auth0_app_state', JSON.stringify({ returnTo: '/profile' }));
+        loginWithRedirect({
+            appState: {
+                returnTo: '/profile',
+            },
+        });
     };
 
     const handleLogout = () => {
@@ -67,13 +77,19 @@ function UserMenu() {
         <div ref={dropdownRef} className="relative">
             <button
                 onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-                className="user-menu-avatar"
+                className="user-menu-avatar transition-all duration-300"
+                style={{
+                    width: isSticky ? '32px' : '40px',
+                    height: isSticky ? '32px' : '40px',
+                    fontSize: isSticky ? '14px' : '18px',
+                }}
                 aria-label="User menu"
             >
                 {user?.picture ? (
                     <img
                         src={user.picture}
                         alt={user.name || 'User'}
+                        className="w-full h-full rounded-full object-cover"
                     />
                 ) : (
                     getUserInitial()
@@ -82,14 +98,6 @@ function UserMenu() {
 
             {isDropdownOpen && (
                 <div className="user-menu-dropdown">
-                    <div>
-                        <div>
-                            {user?.name || 'User'}
-                        </div>
-                        <div>
-                            {user?.email}
-                        </div>
-                    </div>
                     <Link
                         to="/profile"
                         onClick={() => setIsDropdownOpen(false)}

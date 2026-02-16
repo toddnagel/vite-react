@@ -1,21 +1,93 @@
+import { useEffect, useRef, useState } from "react";
 import TabbedContent from "../components/TabbedContent";
 import PageTitle from "../components/PageTitle";
-import FadeInUp from "../components/FadeInUp";
 
 function Home() {
+  const parallaxRef = useRef<HTMLDivElement>(null);
+  const parallaxSectionRef = useRef<HTMLDivElement>(null);
+  const projectSectionRef = useRef<HTMLElement>(null);
+  const projectColorBgRef = useRef<HTMLDivElement>(null);
+  const [parallaxOffset, setParallaxOffset] = useState(0);
+  const [projectBlobOffset, setProjectBlobOffset] = useState(0);
+  const lastScrollY = useRef(0);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (!parallaxSectionRef.current) return;
+
+      const rect = parallaxSectionRef.current.getBoundingClientRect();
+      const windowHeight = window.innerHeight;
+      const currentScrollY = window.scrollY;
+
+      lastScrollY.current = currentScrollY;
+
+      // Apply parallax when section is in viewport (both directions)
+      if (rect.top <= windowHeight && rect.bottom >= 0) {
+        // Simple parallax: move image up as we scroll down
+        // Calculate based on section's position relative to viewport
+        const sectionTop = rect.top;
+        const sectionHeight = rect.height;
+
+        // Calculate parallax offset based on scroll position
+        // Move image up (negative Y) at 50% scroll speed
+        const scrollProgress = Math.max(0, (windowHeight - sectionTop) / (windowHeight + sectionHeight));
+        const offset = -scrollProgress * sectionHeight * 0.5;
+        setParallaxOffset(offset);
+      } else {
+        // Smoothly reset when section is out of viewport
+        setParallaxOffset(0);
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    handleScroll(); // Initial calculation
+
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  useEffect(() => {
+    const handleProjectScroll = () => {
+      if (!projectSectionRef.current) return;
+
+      const rect = projectSectionRef.current.getBoundingClientRect();
+      const windowHeight = window.innerHeight;
+
+      // Apply parallax when section is in viewport
+      if (rect.top <= windowHeight && rect.bottom >= 0) {
+        // Calculate scroll progress based on section's position
+        const sectionTop = rect.top;
+        const sectionHeight = rect.height;
+
+        // Calculate parallax offset - blob moves at 0.4x speed (matching orange blob)
+        const scrollProgress = Math.max(0, (windowHeight - sectionTop) / (windowHeight + sectionHeight));
+        const offset = scrollProgress * sectionHeight * 0.4;
+
+        setProjectBlobOffset(offset);
+      } else {
+        // Reset when section is out of viewport
+        setProjectBlobOffset(0);
+      }
+    };
+
+    window.addEventListener('scroll', handleProjectScroll, { passive: true });
+    handleProjectScroll(); // Initial calculation
+
+    return () => window.removeEventListener('scroll', handleProjectScroll);
+  }, []);
+
   return (
     <>
       <section
         className="hero-secton hero-1 bg-cover"
         style={{ backgroundImage: "url('/hero-bg-3.png')" }}
       >
-        <div className="container">
-          <div className="row">
-            <div className="col-lg-12">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex flex-wrap -mx-4">
+            <div className="w-full px-4">
               <div className="hero-content">
-                <div className="color-bg">
+                {/* <div className="color-bg">
                   <img src="/color-bg.png" alt="img" />
-                </div>
+                </div> */}
               </div>
             </div>
           </div>
@@ -28,23 +100,23 @@ function Home() {
 
       <TabbedContent />
 
-      <section className="service-section fix section-padding">
-        <div className="container">
+      <section className="service-section fix py-8 lg:py-12">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="section-title text-center">
-            <PageTitle title="The Xoloitzquintle Collection" animate delay={0} />
-            <FadeInUp delay={0.3} as="h2">
+            <PageTitle title="The Xoloitzquintle Collection" animate delay={0} iconType="star" iconCount={1} centered />
+            <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4 opacity-0 animate-[fadeInUp_0.6s_ease-out_0.3s_forwards]">
               A Sacred Legacy of <br />
               <span>Art, Culture, &amp; XRPL</span>
-            </FadeInUp>
+            </h2>
           </div>
-          <div className="row">
-            <FadeInUp delay={0.2} className="col-xl-6">
-              <div className="service-box-items">
-                <div className="service-image">
-                  <img src="/xolo-art.png" alt="Xolo NFT Art" />
+          <div className="flex flex-col items-center gap-6 mt-8">
+            <div className="w-full max-w-4xl mx-auto opacity-0 animate-[fadeInUp_0.6s_ease-out_0.2s_forwards]">
+              <div className="service-box-items flex flex-col md:flex-row items-center md:items-start justify-center gap-4 md:gap-6">
+                <div className="service-image flex-shrink-0 max-w-[300px]">
+                  <img src="/xolo-art.png" alt="Xolo NFT Art" className="min-w-[100px] w-[260px] md:w-[320px] lg:w-[380px]" />
                 </div>
-                <div className="service-content">
-                  <h3>10,001 Unique NFT Masterpieces</h3>
+                <div className="service-content text-center md:text-left">
+                  <h3 className="text-xl md:text-2xl font-bold mb-3">10,001 Unique NFT Masterpieces</h3>
                   <p>
                     A meaningful collection featuring 10,001 unique Xolo
                     NFTs with a combination of 7 distinct traits, capturing
@@ -52,14 +124,14 @@ function Home() {
                   </p>
                 </div>
               </div>
-            </FadeInUp>
-            <FadeInUp delay={0.4} className="col-xl-6">
-              <div className="service-box-items">
-                <div className="service-image">
-                  <img src="/xrpl-blockchain.png" alt="XRPL Blockchain" />
+            </div>
+            <div className="w-full max-w-4xl mx-auto opacity-0 animate-[fadeInUp_0.6s_ease-out_0.4s_forwards]">
+              <div className="service-box-items flex flex-col md:flex-row items-center md:items-start justify-center gap-4 md:gap-6">
+                <div className="service-image flex-shrink-0 max-w-[300px]">
+                  <img src="/xrpl-blockchain.png" alt="XRPL Blockchain" className="min-w-[100px] w-[260px] md:w-[320px] lg:w-[380px]" />
                 </div>
-                <div className="service-content">
-                  <h3>Built on the XRP Ledger (XRPL)</h3>
+                <div className="service-content text-center md:text-left">
+                  <h3 className="text-xl md:text-2xl font-bold mb-3">Built on the XRP Ledger (XRPL)</h3>
                   <p>
                     Hosted on the XRPL for its high speed payments, low-cost
                     transactions, and eco-friendly design. The visionary artist
@@ -67,14 +139,14 @@ function Home() {
                   </p>
                 </div>
               </div>
-            </FadeInUp>
-            <FadeInUp delay={0.6} className="col-xl-6">
-              <div className="service-box-items">
-                <div className="service-image">
-                  <img src="/xolo-travel.png" alt="Xolo Travel Vision" />
+            </div>
+            <div className="w-full max-w-4xl mx-auto opacity-0 animate-[fadeInUp_0.6s_ease-out_0.6s_forwards]">
+              <div className="service-box-items flex flex-col md:flex-row items-center md:items-start justify-center gap-4 md:gap-6">
+                <div className="service-image flex-shrink-0 max-w-[300px]">
+                  <img src="/xolo-travel.png" alt="Xolo Travel Vision" className="min-w-[100px] w-[260px] md:w-[320px] lg:w-[380px]" />
                 </div>
-                <div className="service-content">
-                  <h3>Decentralized Travel Vision</h3>
+                <div className="service-content text-center md:text-left">
+                  <h3 className="text-xl md:text-2xl font-bold mb-3">Decentralized Travel Vision</h3>
                   <p>
                     Our long-term goal: a platform for holders to explore the
                     world through unique, wallet-to-wallet travel
@@ -82,14 +154,14 @@ function Home() {
                   </p>
                 </div>
               </div>
-            </FadeInUp>
-            <FadeInUp delay={0.8} className="col-xl-6">
-              <div className="service-box-items mb-0">
-                <div className="service-image">
-                  <img src="/xrp-cafe-mint.png" alt="XRP Cafe Mint" />
+            </div>
+            <div className="w-full max-w-4xl mx-auto opacity-0 animate-[fadeInUp_0.6s_ease-out_0.8s_forwards]">
+              <div className="service-box-items flex flex-col md:flex-row items-center md:items-start justify-center gap-4 md:gap-6 mb-0">
+                <div className="service-image flex-shrink-0 max-w-[300px]">
+                  <img src="/xrp-cafe-mint.png" alt="XRP Cafe Mint" className="min-w-[100px] w-[260px] md:w-[320px] lg:w-[380px]" />
                 </div>
-                <div className="service-content">
-                  <h3>Upcoming Mint on xrp.cafe</h3>
+                <div className="service-content text-center md:text-left">
+                  <h3 className="text-xl md:text-2xl font-bold mb-3">Upcoming Mint on xrp.cafe</h3>
                   <p>
                     Prepare your Joey Wallet and 20 XRP minimum reserve
                     for the meaningful minting experience on the premier XRPL
@@ -97,115 +169,143 @@ function Home() {
                   </p>
                 </div>
               </div>
-            </FadeInUp>
+            </div>
           </div>
         </div>
       </section>
 
       <section
-        className="project-section fix section-padding section-bg bg-cover"
+        ref={projectSectionRef}
+        className="project-section fix py-8 section-bg bg-cover relative overflow-visible"
         style={{ backgroundImage: "url('/line-shape.png')" }}
       >
-        <div className="color-bg">
-          <img src="/color-bg-1.png" alt="img" />
+        <div
+          ref={projectColorBgRef}
+          className="color-bg-2 absolute pointer-events-none"
+          style={{
+            top: '-12%',
+            right: '-50px',
+            transform: `translateY(${projectBlobOffset}px)`,
+            willChange: 'transform',
+            transition: 'transform 0.1s ease-out',
+            zIndex: -1,
+            filter: 'brightness(1.2)',
+          }}
+        >
+          <img src="/color-bg-shape-2.png" alt="Orange blob" />
         </div>
-        <div className="project-wrapper">
-          <FadeInUp delay={0.3} as="h2" className="project-title text-center">
-            The Xolo's <br /> <img src="/has.png" alt="img" />{" "}
-            <span>Legacy</span>
-          </FadeInUp>
-          <div className="row align-items-center">
-            <FadeInUp delay={0.3} className="col-lg-6">
-              <div className="project-image">
-                <img src="/01.jpg" alt="Ancient Xolo Sculpture" />
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="project-wrapper">
+            <div className="text-center mb-4">
+              <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold opacity-0 animate-[fadeInUp_0.6s_ease-out_0.3s_forwards]">
+                The Xolo's <br /><img src="/has.png" alt="asterisk" className="inline-block w-5 h-5 md:w-6 md:h-6 mx-1 align-middle" /> Legacy
+              </h2>
+            </div>
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-center justify-items-center">
+              <div className="w-full opacity-0 animate-[fadeInUp_0.6s_ease-out_0.3s_forwards]">
+                <div className="project-image">
+                  <img src="/01.jpg" alt="Ancient Xolo Sculpture" />
+                </div>
               </div>
-            </FadeInUp>
-            <FadeInUp delay={0.5} className="col-lg-6">
-              <div className="project-content">
-                <span>Ancient Mesoamerica</span>
-                <h3>
-                  <a href="project-details.html">
-                    A Sacred <br />
-                    Heritage
-                  </a>
-                </h3>
-                <p>
-                  Dating back over 3,000 years, the Xolo is a living symbol
-                  of Mesoamerican heritage, revered as a spiritual guide to
-                  Mictlan, the Aztec afterlife.
-                </p>
+              <div className="w-full opacity-0 animate-[fadeInUp_0.6s_ease-out_0.5s_forwards]">
+                <div className="project-content">
+                  <span>Ancient Mesoamerica</span>
+                  <h3 className="text-2xl md:text-3xl font-bold mb-3">
+                    <a href="project-details.html">
+                      A Sacred <br />
+                      Heritage
+                    </a>
+                  </h3>
+                  <p>
+                    Dating back over 3,000 years, the Xolo is a living symbol
+                    of Mesoamerican heritage, revered as a spiritual guide to
+                    Mictlan, the Aztec afterlife.
+                  </p>
+                </div>
               </div>
-            </FadeInUp>
 
-            <FadeInUp delay={0.3} className="col-lg-6">
-              <div className="project-content">
-                <span>The Team</span>
-                <h3>
-
-                  RedShadow &amp; <br />
-                  Cryptonite
-
-                </h3>
-                <p>
-                  Cryptonite, the global explorer and XRPL enthusiast,
-                  partnered with RedShadow, the visionary artist, to bring
-                  the 10,001 Xolo NFTs to life.
-                </p>
+              <div className="w-full opacity-0 animate-[fadeInUp_0.6s_ease-out_0.3s_forwards]">
+                <div className="project-content">
+                  <span>The Team</span>
+                  <h3 className="text-2xl md:text-3xl font-bold mb-3">
+                    RedShadow &amp; <br />
+                    Cryptonite
+                  </h3>
+                  <p>
+                    Cryptonite, the global explorer and XRPL enthusiast,
+                    partnered with RedShadow, the visionary artist, to bring
+                    the 10,001 Xolo NFTs to life.
+                  </p>
+                </div>
               </div>
-            </FadeInUp>
-            <FadeInUp delay={0.5} className="col-lg-6">
-              <div className="project-image style-2">
-                <img src="/02.jpg" alt="Artist and Creator" />
+              <div className="w-full opacity-0 animate-[fadeInUp_0.6s_ease-out_0.5s_forwards]">
+                <div className="project-image style-2">
+                  <img src="/02.jpg" alt="Artist and Creator" />
+                </div>
               </div>
-            </FadeInUp>
-            <FadeInUp delay={0.3} className="col-lg-6">
-              <div className="project-image">
-                <img src="/03.jpg" alt="Map and travel icons" />
+              <div className="w-full opacity-0 animate-[fadeInUp_0.6s_ease-out_0.3s_forwards]">
+                <div className="project-image">
+                  <img src="/03.jpg" alt="Map and travel icons" />
+                </div>
               </div>
-            </FadeInUp>
-            <FadeInUp delay={0.5} className="col-lg-6">
-              <div className="project-content">
-                <span>Future Utility</span>
-                <h3>
-                  <a href="project-details.html">
-                    Fostering Global <br />
-                    Travel &amp; Connection
-                  </a>
-                </h3>
-                <p>
-                  The collection's long-term vision is to build a decentralized
-                  platform for Xolo NFT holders to enable unique
-                  wallet-to-wallet travel experiences on the XRPL.
-                </p>
+              <div className="w-full opacity-0 animate-[fadeInUp_0.6s_ease-out_0.5s_forwards]">
+                <div className="project-content">
+                  <span>Future Utility</span>
+                  <h3 className="text-2xl md:text-3xl font-bold mb-3">
+                    <a href="project-details.html">
+                      Fostering Global <br />
+                      Travel &amp; Connection
+                    </a>
+                  </h3>
+                  <p>
+                    The collection's long-term vision is to build a decentralized
+                    platform for Xolo NFT holders to enable unique
+                    wallet-to-wallet travel experiences on the XRPL.
+                  </p>
+                </div>
               </div>
-            </FadeInUp>
+            </div>
           </div>
         </div>
       </section>
 
       {/* Paralax Section Start */}
-      <div className="paralax-section fix section-padding pt-0">
-        <div className="paralax-image">
-          <img src="paralax-bg.png" alt="img" />
+      <div
+        ref={parallaxSectionRef}
+        className="paralax-section fix pt-0 overflow-hidden relative"
+        style={{ height: '500px', minHeight: '500px' }}
+      >
+        <div
+          ref={parallaxRef}
+          className="paralax-image absolute top-0 left-0 right-0 w-full"
+          style={{
+            transform: `translateY(${parallaxOffset}px)`,
+            willChange: 'transform',
+            height: '150%',
+            minHeight: '150%',
+            transition: 'transform 0.1s ease-out',
+          }}
+        >
+          <img
+            src="paralax-bg.png"
+            alt="Parallax background"
+            className="w-full h-full object-cover"
+            style={{
+              height: '100%',
+              width: '100%',
+              objectFit: 'cover',
+              objectPosition: 'center top',
+            }}
+          />
         </div>
       </div>
 
       {/* MAPBOX */}
-      <div
-        style={{
-          width: "90%",
-          height: "640px",
-          borderRadius: "0%",
-          overflow: "visible",
-          margin: "20px auto",
-        }}
-      >
+      <div className="w-[80%] h-[640px] rounded-none overflow-visible my-5 mx-auto">
         <iframe
-          width="100%"
-          height="100%"
+          className="w-full h-full border-none"
           src={`https://api.mapbox.com/styles/v1/${import.meta.env.VITE_MAPBOX_USERNAME}/${import.meta.env.VITE_MAPBOX_STYLE_ID}.html?title=false&access_token=${import.meta.env.VITE_MAPBOX_ACCESS_TOKEN}&zoomwheel=true#2/38/-34`}
           title="Untitled"
-          style={{ border: "none" }}
         ></iframe>
       </div>
     </>

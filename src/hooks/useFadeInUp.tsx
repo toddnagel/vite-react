@@ -12,10 +12,22 @@ export function useFadeInUp<T extends HTMLElement = HTMLElement>(
     const { delay = 0, threshold = 0.1, rootMargin = '0px' } = options;
     const [isVisible, setIsVisible] = useState(false);
     const elementRef = useRef<T>(null);
+    const hasAnimatedRef = useRef(false);
+    const currentTabIdRef = useRef<string | null>(null);
+    const triggerTimeoutRef = useRef<number | null>(null);
 
     useEffect(() => {
         const element = elementRef.current;
         if (!element) return;
+
+        // Get unique identifier for the current tab (if in a tab)
+        const getTabId = () => {
+            const tabPane = element.closest('.tab-pane');
+            if (!tabPane) return null;
+            const tabId = tabPane.id || tabPane.getAttribute('id') ||
+                Array.from(document.querySelectorAll('.tab-pane')).indexOf(tabPane).toString();
+            return tabId;
+        };
 
         // Function to check if element should be visible and trigger animation
         const checkAndTrigger = () => {
@@ -25,40 +37,65 @@ export function useFadeInUp<T extends HTMLElement = HTMLElement>(
                 tabPane.classList.contains('show')
                 : true;
 
-            // If element is in a tab, only animate when tab is active
-            if (tabPane && !isInActiveTab) {
-                setIsVisible(false);
-                return;
-            }
+            const tabId = getTabId();
 
-            // For elements in active tabs, always trigger animation
-            // (they're visible when tab is active, even if not scrolled into view)
-            if (tabPane && isInActiveTab) {
-                setIsVisible(true);
-                return;
+            // If element is in a tab
+            if (tabPane) {
+                // If tab is not active, reset state
+                if (!isInActiveTab) {
+                    setIsVisible(false);
+                    hasAnimatedRef.current = false;
+                    currentTabIdRef.current = null;
+                    return;
+                }
+
+                // If tab is active, check if we've already animated for this tab
+                if (isInActiveTab) {
+                    // If this is a different tab than last time, reset animation state
+                    if (currentTabIdRef.current !== tabId) {
+                        setIsVisible(false);
+                        hasAnimatedRef.current = false;
+                        currentTabIdRef.current = tabId;
+                    }
+
+                    // Trigger animation if we haven't animated yet for this tab
+                    if (!hasAnimatedRef.current) {
+                        // Use requestAnimationFrame to ensure DOM is ready
+                        requestAnimationFrame(() => {
+                            setIsVisible(true);
+                            hasAnimatedRef.current = true;
+                        });
+                    }
+                    return;
+                }
             }
 
             // For elements not in tabs, check if in viewport
-            const rect = element.getBoundingClientRect();
-            const isInViewport =
-                rect.top < window.innerHeight &&
-                rect.bottom > 0 &&
-                rect.left < window.innerWidth &&
-                rect.right > 0;
+            if (!tabPane) {
+                const rect = element.getBoundingClientRect();
+                const isInViewport =
+                    rect.top < window.innerHeight &&
+                    rect.bottom > 0 &&
+                    rect.left < window.innerWidth &&
+                    rect.right > 0;
 
-            if (isInViewport) {
-                setIsVisible(true);
+                if (isInViewport && !hasAnimatedRef.current) {
+                    setIsVisible(true);
+                    hasAnimatedRef.current = true;
+                }
             }
         };
 
         // Initial check
         checkAndTrigger();
 
-        // Intersection Observer for scroll-based detection
+        // Intersection Observer for scroll-based detection (only for non-tab elements)
         const observer = new IntersectionObserver(
             (entries) => {
                 entries.forEach((entry) => {
-                    if (entry.isIntersecting) {
+                    const tabPane = entry.target.closest('.tab-pane');
+                    // Only use intersection observer for elements not in tabs
+                    if (!tabPane && entry.isIntersecting) {
                         checkAndTrigger();
                     }
                 });
@@ -77,12 +114,15 @@ export function useFadeInUp<T extends HTMLElement = HTMLElement>(
 
         if (tabPane) {
             mutationObserver = new MutationObserver(() => {
-                // Reset animation state when tab changes
-                setIsVisible(false);
-                // Small delay to ensure DOM is updated, then check again
-                setTimeout(() => {
+                // Clear any pending timeouts
+                if (triggerTimeoutRef.current) {
+                    clearTimeout(triggerTimeoutRef.current);
+                }
+
+                // Debounce the check to avoid multiple rapid calls
+                triggerTimeoutRef.current = window.setTimeout(() => {
                     checkAndTrigger();
-                }, 100);
+                }, 10);
             });
 
             mutationObserver.observe(tabPane, {
@@ -91,11 +131,17 @@ export function useFadeInUp<T extends HTMLElement = HTMLElement>(
             });
         }
 
-        // Also listen for Bootstrap tab shown event
+        // Listen for Bootstrap tab shown event
         const handleTabShown = () => {
-            setTimeout(() => {
+            // Clear any pending timeouts
+            if (triggerTimeoutRef.current) {
+                clearTimeout(triggerTimeoutRef.current);
+            }
+
+            // Small delay to ensure DOM is updated
+            triggerTimeoutRef.current = window.setTimeout(() => {
                 checkAndTrigger();
-            }, 100);
+            }, 10);
         };
 
         // Listen on the tab pane itself if it exists
@@ -114,6 +160,9 @@ export function useFadeInUp<T extends HTMLElement = HTMLElement>(
                 tabPane.removeEventListener('shown.bs.tab', handleTabShown);
             }
             document.removeEventListener('shown.bs.tab', handleTabShown);
+            if (triggerTimeoutRef.current) {
+                clearTimeout(triggerTimeoutRef.current);
+            }
         };
     }, [threshold, rootMargin]);
 
