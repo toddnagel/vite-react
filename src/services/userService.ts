@@ -16,8 +16,18 @@ export async function syncUserWithDatabase(
   auth0User: User,
   accessToken?: string
 ): Promise<SyncUserResponse> {
+  const url = `${API_BASE_URL}/user/sync`;
+  console.log('syncUserWithDatabase: Making request to:', url);
+  console.log('syncUserWithDatabase: API_BASE_URL is:', API_BASE_URL);
+  console.log('syncUserWithDatabase: User data:', {
+    sub: auth0User.sub,
+    email: auth0User.email,
+    name: auth0User.name
+  });
+  
   try {
-    const response = await fetch(`${API_BASE_URL}/user/sync`, {
+    console.log('syncUserWithDatabase: Starting fetch to:', url);
+    const response = await fetch(url, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -29,17 +39,34 @@ export async function syncUserWithDatabase(
         name: auth0User.name,
         picture: auth0User.picture,
       }),
+    }).catch((fetchError) => {
+      console.error('syncUserWithDatabase: Fetch error (network/CORS):', fetchError);
+      throw new Error(`Network error: ${fetchError.message}`);
     });
 
+    console.log('syncUserWithDatabase: Response received, status:', response.status);
+    console.log('syncUserWithDatabase: Response ok:', response.ok);
+    console.log('syncUserWithDatabase: Response headers:', Object.fromEntries(response.headers.entries()));
+
     if (!response.ok) {
-      const error = await response.json().catch(() => ({ error: 'Unknown error' }));
+      const errorText = await response.text();
+      console.error('syncUserWithDatabase: Error response:', errorText);
+      let error;
+      try {
+        error = JSON.parse(errorText);
+      } catch {
+        error = { error: errorText || 'Unknown error' };
+      }
       throw new Error(error.error || `HTTP error! status: ${response.status}`);
     }
 
     const data: SyncUserResponse = await response.json();
+    console.log('syncUserWithDatabase: Success, data:', data);
     return data;
-  } catch (error) {
-    console.error('Error syncing user with database:', error);
+  } catch (error: any) {
+    console.error('syncUserWithDatabase: Exception caught:', error);
+    console.error('syncUserWithDatabase: Error message:', error.message);
+    console.error('syncUserWithDatabase: Error stack:', error.stack);
     throw error;
   }
 }

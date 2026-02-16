@@ -72,17 +72,17 @@ function Header() {
           <p className="text-center">Loading</p>
         </div>
         <div className="loader">
-          <div className="row">
-            <div className="col-3 loader-section section-left">
+          <div className="flex flex-wrap">
+            <div className="w-1/4 loader-section section-left">
               <div className="bg"></div>
             </div>
-            <div className="col-3 loader-section section-left">
+            <div className="w-1/4 loader-section section-left">
               <div className="bg"></div>
             </div>
-            <div className="col-3 loader-section section-right">
+            <div className="w-1/4 loader-section section-right">
               <div className="bg"></div>
             </div>
-            <div className="col-3 loader-section section-right">
+            <div className="w-1/4 loader-section section-right">
               <div className="bg"></div>
             </div>
           </div>
@@ -96,22 +96,24 @@ function Header() {
 
       <header
         id="header-sticky"
-        className={`header-1 ${isSticky ? 'sticky' : ''} ${isSticky ? 'bg-[rgba(24,24,24,0.8)] backdrop-blur-md' : ''} transition-all duration-300`}
+        className={`${isSticky ? 'fixed' : 'absolute'} p-0 top-0 left-0 right-0 z-50 w-full ${isSticky ? 'bg-[rgba(24,24,24,0.8)] backdrop-blur-md' : ''}`}
+        style={isSticky ? {
+          animation: 'slideDown 0.3s ease-out forwards',
+          transition: 'background-color 0.1s ease-out, backdrop-filter 0.1s ease-out',
+        } : {
+          transition: 'background-color 0.05s ease-out, backdrop-filter 0.05s ease-out, transform 0.3s ease-out, padding 0.3s ease-out',
+        }}
       >
-        <div className="container-fluid">
+        <div className="w-full px-4 sm:px-8 md:px-12 lg:px-16 xl:px-24 2xl:px-28">
           <div className="mega-menu-wrapper">
-            <div className={`header-main flex items-center justify-between ${isSticky ? 'py-1' : 'py-2'} transition-all duration-300`}>
-              <div className="header-left">
+            <div className={`header-main flex items-center justify-between ${isSticky ? 'py-1' : 'py-4'} transition-all duration-300`}>
+              <div className="header-left flex items-center gap-20 lg:gap-40">
                 <div className="logo">
                   <Link className="header-logo" to="/">
                     <img
                       src="/white-logo.png"
                       alt="logo-img"
-                      className="transition-all duration-300"
-                      style={{
-                        height: isSticky ? '48px' : '96px',
-                        width: isSticky ? '48px' : '96px',
-                      }}
+                      className={`transition-all duration-300 ${isSticky ? 'h-12 w-12' : 'h-24 w-24'}`}
                     />
                   </Link>
                 </div>

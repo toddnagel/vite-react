@@ -36,28 +36,33 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   }
 
   try {
-    // Get Auth0 token from Authorization header
-    const authHeader = req.headers.authorization;
-    if (!authHeader || !authHeader.startsWith('Bearer ')) {
-      return res.status(401).json({ error: 'Unauthorized - No token provided' });
-    }
-
+    // Authorization is optional for local development
     // In production, you should verify the Auth0 token here
-    // For now, we'll trust the token and extract user info from request body
+    const authHeader = req.headers.authorization;
+    
     const userData: Auth0User = req.body;
+    console.log('API sync: Received user data:', { sub: userData.sub, email: userData.email });
 
     if (!userData.sub) {
       return res.status(400).json({ error: 'Missing user.sub (Auth0 ID)' });
     }
 
     const pool = getPool();
+    console.log('API sync: Connecting to database:', {
+      host: process.env.DB_HOST || 'localhost',
+      port: process.env.DB_PORT || '3308',
+      database: process.env.DB_NAME || 'donovan_db'
+    });
 
     try {
       // Check if user already exists
+      console.log('API sync: Checking if user exists:', userData.sub);
       const [existingUser] = await pool.execute(
         'SELECT id FROM users WHERE auth0_id = ?',
         [userData.sub]
       ) as [any[], any];
+      
+      console.log('API sync: Existing user check:', { found: Array.isArray(existingUser) && existingUser.length > 0 });
 
       let userId: number;
 

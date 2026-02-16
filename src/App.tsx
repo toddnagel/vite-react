@@ -25,17 +25,24 @@ function AppContent() {
   // Sync user with database on login
   useUserSync();
 
-  // Redirect to profile after successful login
+  // Scroll to top on route change
+  useEffect(() => {
+    window.scrollTo({
+      top: 0,
+      left: 0,
+      behavior: 'smooth',
+    });
+  }, [location.pathname]);
+
+  // Redirect to profile ONLY after successful login (Auth0 callback)
   useEffect(() => {
     if (!isLoading && isAuthenticated) {
       // Check if we're coming from Auth0 callback (URL has code/state params)
       const urlParams = new URLSearchParams(window.location.search);
       const hasAuthParams = urlParams.has('code') || urlParams.has('state');
 
-      // Also check if we're on home page after login (sometimes redirect happens before params are cleared)
-      const isHomePage = location.pathname === '/';
-
-      if (hasAuthParams || (isHomePage && isAuthenticated)) {
+      // Only redirect if we have auth params (coming back from Auth0 login)
+      if (hasAuthParams) {
         // Get returnTo from sessionStorage (set by loginWithRedirect appState)
         const appState = sessionStorage.getItem('auth0_app_state');
         let returnTo = '/profile';
@@ -50,11 +57,8 @@ function AppContent() {
           }
         }
 
-        // Only redirect if we have auth params or we're on home page
-        if (hasAuthParams) {
-          // Clear URL params first
-          window.history.replaceState({}, '', returnTo);
-        }
+        // Clear URL params first
+        window.history.replaceState({}, '', returnTo);
 
         // Small delay to ensure Auth0 has processed the callback
         setTimeout(() => {
@@ -62,7 +66,7 @@ function AppContent() {
         }, 300);
       }
     }
-  }, [isAuthenticated, isLoading, navigate, location.pathname]);
+  }, [isAuthenticated, isLoading, navigate]);
 
   return (
     <>

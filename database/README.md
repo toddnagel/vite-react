@@ -8,40 +8,39 @@
 docker-compose up -d
 ```
 
+Wait a few seconds for MySQL to be ready.
+
 ### 2. Create Database Schema
 
 ```bash
-# Connect to database
-docker exec -it donovan-db psql -U donovan_user -d donovan_db
-
-# Or run the schema file
-docker exec -i donovan-db psql -U donovan_user -d donovan_db < database/schema.sql
+# Run the schema file (MySQL)
+docker exec -i donovan-db mysql -udonovan_user -pdonovan_password donovan_db < database/schema.sql
 ```
 
 ### 3. Verify Database
 
 ```bash
 # Connect to database
-docker exec -it donovan-db psql -U donovan_user -d donovan_db
+docker exec -it donovan-db mysql -udonovan_user -pdonovan_password donovan_db
 
 # List tables
-\dt
+SHOW TABLES;
 
 # Exit
-\q
+exit
 ```
 
 ## Database Connection
 
 **Local Development:**
 - Host: `localhost`
-- Port: `5433` (Note: Changed from 5432 to avoid conflict with other PostgreSQL instances)
+- Port: `3308` (MySQL)
 - Database: `donovan_db`
 - User: `donovan_user`
 - Password: `donovan_password`
 
 **Production (Hostinger):**
-- Update environment variables with Hostinger credentials
+- Update environment variables in Vercel with Hostinger credentials
 - Use backend API to connect (never connect directly from frontend)
 
 ## Useful Commands
@@ -58,4 +57,7 @@ docker-compose down -v
 
 # Restart database
 docker-compose restart
+
+# Check if database is running
+docker ps | grep donovan-db
 ```

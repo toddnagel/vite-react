@@ -1,5 +1,31 @@
-# Disclaimer
+# Xolo Dojo
 
-This is not mine, this is a free bit of help I am offering to a friend, and will be removed soon.
+React + Vite frontend with Auth0 authentication and MySQL database.
 
-Just saying.
+## Quick Start
+
+See [SETUP.md](./SETUP.md) for detailed setup instructions.
+
+**TL;DR:**
+```bash
+npm install
+cp .env.example .env.local  # Add your Auth0 credentials
+docker-compose up -d
+docker exec -i donovan-db mysql -udonovan_user -pdonovan_password donovan_db < database/schema.sql
+npm run dev:full
+```
+
+Visit http://localhost:5173
+
+## Development
+
+- `npm run dev:full` - Start both API server and frontend
+- `npm run dev` - Frontend only (port 5173)
+- `npm run dev:api` - API server only (port 3000)
+
+## Tech Stack
+
+- **Frontend:** React + Vite + Tailwind CSS
+- **Backend:** Express (local) / Vercel Serverless (production)
+- **Database:** MySQL (Docker for local, Hostinger for production)
+- **Auth:** Auth0
