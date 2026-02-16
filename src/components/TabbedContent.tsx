@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import PageTitle from "./PageTitle";
+import Counter from "./Counter";
 
 function TabbedContent() {
   const [activeTab, setActiveTab] = useState("TheXoloitzquintle");
@@ -468,7 +469,7 @@ function TabbedContent() {
               </div>
               <div className="content">
                 <h2 className="text-4xl md:text-5xl font-bold">
-                  <span className="count">10001</span>
+                  <Counter end={10001} />
                 </h2>
                 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
                 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <p>Unique Xolo NFTs</p>
@@ -482,7 +483,7 @@ function TabbedContent() {
               </div>
               <div className="content">
                 <h2 className="text-4xl md:text-5xl font-bold">
-                  <span className="count">11</span>
+                  <Counter end={11} />
                 </h2>
                 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
                 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <p>Distinct Traits</p>
@@ -496,7 +497,7 @@ function TabbedContent() {
               </div>
               <div className="content">
                 <h2 className="text-4xl md:text-5xl font-bold">
-                  <span className="count">333</span>
+                  <Counter end={333} />
                 </h2>
                 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
                 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <p>Unique Traits</p>

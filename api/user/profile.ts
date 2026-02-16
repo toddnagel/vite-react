@@ -22,10 +22,19 @@ function getPool(): mysql.Pool {
 }
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
-  // Debug endpoint to check environment variables (remove in production)
+  // Extract query params (Vercel may return them as arrays)
   const debugParam = Array.isArray(req.query.debug) ? req.query.debug[0] : req.query.debug;
   const testParam = Array.isArray(req.query.test) ? req.query.test[0] : req.query.test;
   
+  // Debug endpoints - only available in development
+  if (process.env.NODE_ENV === 'production') {
+    // In production, disable debug endpoints for security
+    if (debugParam === 'env' || testParam === 'connection') {
+      return res.status(404).json({ error: 'Not found' });
+    }
+  }
+  
+  // Debug endpoint to check environment variables (development only)
   if (req.method === 'GET' && debugParam === 'env') {
     return res.json({
       hasDB_HOST: !!process.env.DB_HOST,

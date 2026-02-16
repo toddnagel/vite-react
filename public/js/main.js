@@ -40,10 +40,11 @@ CSS TABLE OF CONTENTS
 			// });
 
 			//>> Counterup Start <<//
-			$(".count").counterUp({
-				delay: 15,
-				time: 4000,
-			});
+			// Disabled - Now using React Counter component with IntersectionObserver
+			// $(".count").counterUp({
+			// 	delay: 15,
+			// 	time: 4000,
+			// });
 
 			//>> Wow Animation Start <<//
 			new WOW().init();
