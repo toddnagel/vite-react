@@ -77,9 +77,9 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       const authHeader = req.headers.authorization;
       // Note: In production, you should verify the Auth0 token here
       
-      const auth0Id = req.query.auth0_id as string;
+      const auth0Id = Array.isArray(req.query.auth0_id) ? req.query.auth0_id[0] : req.query.auth0_id;
       if (!auth0Id) {
-        return res.status(400).json({ error: 'Missing auth0_id', query: req.query });
+        return res.status(400).json({ error: 'Missing auth0_id', query: req.query, receivedParams: Object.keys(req.query) });
       }
       
       console.log('API: Getting profile for auth0_id:', auth0Id);
