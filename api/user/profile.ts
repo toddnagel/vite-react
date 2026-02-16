@@ -23,7 +23,10 @@ function getPool(): mysql.Pool {
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   // Debug endpoint to check environment variables (remove in production)
-  if (req.method === 'GET' && req.query.debug === 'env') {
+  const debugParam = Array.isArray(req.query.debug) ? req.query.debug[0] : req.query.debug;
+  const testParam = Array.isArray(req.query.test) ? req.query.test[0] : req.query.test;
+  
+  if (req.method === 'GET' && debugParam === 'env') {
     return res.json({
       hasDB_HOST: !!process.env.DB_HOST,
       hasDB_PORT: !!process.env.DB_PORT,
@@ -35,12 +38,13 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       DB_NAME: process.env.DB_NAME ? '***set***' : 'missing',
       DB_USER: process.env.DB_USER ? '***set***' : 'missing',
       NODE_ENV: process.env.NODE_ENV,
-      VERCEL_ENV: process.env.VERCEL_ENV
+      VERCEL_ENV: process.env.VERCEL_ENV,
+      queryParams: req.query // Debug: show all query params
     });
   }
 
   // Test database connection endpoint
-  if (req.method === 'GET' && req.query.test === 'connection') {
+  if (req.method === 'GET' && testParam === 'connection') {
     try {
       const pool = getPool();
       await pool.execute('SELECT 1 as test');
@@ -75,7 +79,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       
       const auth0Id = req.query.auth0_id as string;
       if (!auth0Id) {
-        return res.status(400).json({ error: 'Missing auth0_id' });
+        return res.status(400).json({ error: 'Missing auth0_id', query: req.query });
       }
       
       console.log('API: Getting profile for auth0_id:', auth0Id);
