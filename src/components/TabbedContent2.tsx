@@ -1,7 +1,7 @@
 import FadeInUp from "./FadeInUp";
 import PageTitle from "./PageTitle";
 
-function TabbedContent2() {
+function TabbedContent() {
   return (
     <section className="about-section section-padding section-bg fix">
       <div className="bg-shape">
@@ -641,4 +641,4 @@ function TabbedContent2() {
   );
 }
 
-export default TabbedContent2;
+export default TabbedContent;
