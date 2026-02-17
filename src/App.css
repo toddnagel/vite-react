@@ -35,3 +35,8 @@
 .footer-widgets-wrapper .single-footer-widget .list-items li::before {
   display: none;
 }
+
+/* Ensure about-section tab body text has no underlines */
+.about-section .tab-content .tab-pane p {
+  text-decoration: none;
+}
