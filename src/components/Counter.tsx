@@ -19,7 +19,7 @@ function Counter({ end, duration = 2000, className = '' }: CounterProps) {
         entries.forEach((entry) => {
           if (entry.isIntersecting && !hasAnimated) {
             setHasAnimated(true);
-            
+
             // Animate counter
             const startTime = Date.now();
             const startValue = 0;
@@ -29,11 +29,11 @@ function Counter({ end, duration = 2000, className = '' }: CounterProps) {
               const now = Date.now();
               const elapsed = now - startTime;
               const progress = Math.min(elapsed / duration, 1);
-              
+
               // Easing function for smooth animation
               const easeOutQuart = 1 - Math.pow(1 - progress, 4);
               const currentValue = Math.floor(startValue + (endValue - startValue) * easeOutQuart);
-              
+
               setCount(currentValue);
 
               if (progress < 1) {
