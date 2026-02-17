@@ -13,7 +13,10 @@ function getPool(): mysql.Pool {
       database: process.env.DB_NAME || 'donovan_db',
       user: process.env.DB_USER || 'donovan_user',
       password: process.env.DB_PASSWORD || 'donovan_password',
-      ssl: process.env.NODE_ENV === 'production' ? { rejectUnauthorized: false } : undefined,
+      ssl:
+        process.env.NODE_ENV === 'production'
+          ? { rejectUnauthorized: false }
+          : undefined,
       waitForConnections: true,
       connectionLimit: 1, // Limit connections for serverless
       queueLimit: 0,
@@ -39,9 +42,12 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     // Authorization is optional for local development
     // In production, you should verify the Auth0 token here
     const authHeader = req.headers.authorization;
-    
+
     const userData: Auth0User = req.body;
-    console.log('API sync: Received user data:', { sub: userData.sub, email: userData.email });
+    console.log('API sync: Received user data:', {
+      sub: userData.sub,
+      email: userData.email,
+    });
 
     if (!userData.sub) {
       return res.status(400).json({ error: 'Missing user.sub (Auth0 ID)' });
@@ -55,7 +61,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       user: process.env.DB_USER || 'donovan_user',
       hasPassword: !!process.env.DB_PASSWORD,
       nodeEnv: process.env.NODE_ENV,
-      vercelEnv: process.env.VERCEL_ENV
+      vercelEnv: process.env.VERCEL_ENV,
     };
     console.log('API sync: Connecting to database:', dbConfig);
     console.log('API sync: Environment check:', {
@@ -63,18 +69,20 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       hasDB_PORT: !!process.env.DB_PORT,
       hasDB_NAME: !!process.env.DB_NAME,
       hasDB_USER: !!process.env.DB_USER,
-      hasDB_PASSWORD: !!process.env.DB_PASSWORD
+      hasDB_PASSWORD: !!process.env.DB_PASSWORD,
     });
 
     try {
       // Check if user already exists
       console.log('API sync: Checking if user exists:', userData.sub);
-      const [existingUser] = await pool.execute(
+      const [existingUser] = (await pool.execute(
         'SELECT id FROM users WHERE auth0_id = ?',
         [userData.sub]
-      ) as [any[], any];
-      
-      console.log('API sync: Existing user check:', { found: Array.isArray(existingUser) && existingUser.length > 0 });
+      )) as [any[], any];
+
+      console.log('API sync: Existing user check:', {
+        found: Array.isArray(existingUser) && existingUser.length > 0,
+      });
 
       let userId: number;
 
@@ -85,15 +93,25 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
           `UPDATE users 
            SET email = ?, name = ?, picture_url = ?, updated_at = CURRENT_TIMESTAMP
            WHERE auth0_id = ?`,
-          [userData.email || null, userData.name || null, userData.picture || null, userData.sub]
+          [
+            userData.email || null,
+            userData.name || null,
+            userData.picture || null,
+            userData.sub,
+          ]
         );
       } else {
         // Create new user
-        const [result] = await pool.execute(
+        const [result] = (await pool.execute(
           `INSERT INTO users (auth0_id, email, name, picture_url)
            VALUES (?, ?, ?, ?)`,
-          [userData.sub, userData.email || null, userData.name || null, userData.picture || null]
-        ) as [any, any];
+          [
+            userData.sub,
+            userData.email || null,
+            userData.name || null,
+            userData.picture || null,
+          ]
+        )) as [any, any];
         userId = result.insertId;
 
         // Create empty user profile
@@ -106,17 +124,20 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       }
 
       // Get full user data
-      const [userResult] = await pool.execute(
+      const [userResult] = (await pool.execute(
         `SELECT u.*, up.bio, up.wallet_address, up.wallet_type, up.preferences
          FROM users u
          LEFT JOIN user_profiles up ON u.id = up.user_id
          WHERE u.id = ?`,
         [userId]
-      ) as [any[], any];
+      )) as [any[], any];
 
       return res.status(200).json({
         success: true,
-        user: Array.isArray(userResult) && userResult.length > 0 ? userResult[0] : null,
+        user:
+          Array.isArray(userResult) && userResult.length > 0
+            ? userResult[0]
+            : null,
         isNewUser: !Array.isArray(existingUser) || existingUser.length === 0,
       });
     } catch (dbError: any) {
@@ -127,17 +148,17 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         errno: dbError.errno,
         sqlState: dbError.sqlState,
         sqlMessage: dbError.sqlMessage,
-        stack: dbError.stack
+        stack: dbError.stack,
       });
       console.error('API sync: Database config at error time:', {
         host: process.env.DB_HOST,
         port: process.env.DB_PORT,
         database: process.env.DB_NAME,
         user: process.env.DB_USER,
-        hasPassword: !!process.env.DB_PASSWORD
+        hasPassword: !!process.env.DB_PASSWORD,
       });
-      return res.status(500).json({ 
-        error: 'Database error', 
+      return res.status(500).json({
+        error: 'Database error',
         details: dbError.message,
         code: dbError.code,
         // Only include sensitive info in development
@@ -146,13 +167,15 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
             host: process.env.DB_HOST,
             port: process.env.DB_PORT,
             database: process.env.DB_NAME,
-            user: process.env.DB_USER
-          }
-        })
+            user: process.env.DB_USER,
+          },
+        }),
       });
     }
   } catch (error: any) {
     console.error('API error:', error);
-    return res.status(500).json({ error: 'Internal server error', details: error.message });
+    return res
+      .status(500)
+      .json({ error: 'Internal server error', details: error.message });
   }
 }
