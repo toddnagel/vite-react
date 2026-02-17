@@ -21,26 +21,20 @@ function Home() {
 
       lastScrollY.current = currentScrollY;
 
-      // Apply parallax when section is in viewport (both directions)
       if (rect.top <= windowHeight && rect.bottom >= 0) {
-        // Simple parallax: move image up as we scroll down
-        // Calculate based on section's position relative to viewport
         const sectionTop = rect.top;
         const sectionHeight = rect.height;
 
-        // Calculate parallax offset based on scroll position
-        // Move image up (negative Y) at 50% scroll speed
         const scrollProgress = Math.max(0, (windowHeight - sectionTop) / (windowHeight + sectionHeight));
         const offset = -scrollProgress * sectionHeight * 0.5;
         setParallaxOffset(offset);
       } else {
-        // Smoothly reset when section is out of viewport
         setParallaxOffset(0);
       }
     };
 
     window.addEventListener('scroll', handleScroll, { passive: true });
-    handleScroll(); // Initial calculation
+    handleScroll();
 
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
@@ -52,25 +46,21 @@ function Home() {
       const rect = projectSectionRef.current.getBoundingClientRect();
       const windowHeight = window.innerHeight;
 
-      // Apply parallax when section is in viewport
       if (rect.top <= windowHeight && rect.bottom >= 0) {
-        // Calculate scroll progress based on section's position
         const sectionTop = rect.top;
         const sectionHeight = rect.height;
 
-        // Calculate parallax offset - blob moves at 0.4x speed (matching orange blob)
         const scrollProgress = Math.max(0, (windowHeight - sectionTop) / (windowHeight + sectionHeight));
         const offset = scrollProgress * sectionHeight * 0.4;
 
         setProjectBlobOffset(offset);
       } else {
-        // Reset when section is out of viewport
         setProjectBlobOffset(0);
       }
     };
 
     window.addEventListener('scroll', handleProjectScroll, { passive: true });
-    handleProjectScroll(); // Initial calculation
+    handleProjectScroll();
 
     return () => window.removeEventListener('scroll', handleProjectScroll);
   }, []);
@@ -104,7 +94,7 @@ function Home() {
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="section-title text-center">
             <PageTitle title="The Xoloitzquintle Collection" animate delay={0} iconType="star" iconCount={1} centered />
-            <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4 opacity-0 animate-[fadeInUp_0.6s_ease-out_0.3s_forwards]">
+            <h2 className="text-3xl md:text-5xl lg:text-6xl font-bold mb-4 opacity-0 animate-[fadeInUp_0.6s_ease-out_0.3s_forwards]">
               A Sacred Legacy of <br />
               <span>Art, Culture, &amp; XRPL</span>
             </h2>
@@ -116,7 +106,7 @@ function Home() {
                   <img src="/xolo-art.png" alt="Xolo NFT Art" className="min-w-[100px] w-[260px] md:w-[320px] lg:w-[380px]" />
                 </div>
                 <div className="service-content text-center md:text-left">
-                  <h3 className="text-xl md:text-2xl font-bold mb-3">10,001 Unique NFT Masterpieces</h3>
+                  <h3 className="h3-default">10,001 Unique NFT Masterpieces</h3>
                   <p>
                     A meaningful collection featuring 10,001 unique Xolo
                     NFTs with a combination of 7 distinct traits, capturing
@@ -131,7 +121,7 @@ function Home() {
                   <img src="/xrpl-blockchain.png" alt="XRPL Blockchain" className="min-w-[100px] w-[260px] md:w-[320px] lg:w-[380px]" />
                 </div>
                 <div className="service-content text-center md:text-left">
-                  <h3 className="text-xl md:text-2xl font-bold mb-3">Built on the XRP Ledger (XRPL)</h3>
+                  <h3 className="h3-default">Built on the XRP Ledger (XRPL)</h3>
                   <p>
                     Hosted on the XRPL for its high speed payments, low-cost
                     transactions, and eco-friendly design. The visionary artist
@@ -146,7 +136,7 @@ function Home() {
                   <img src="/xolo-travel.png" alt="Xolo Travel Vision" className="min-w-[100px] w-[260px] md:w-[320px] lg:w-[380px]" />
                 </div>
                 <div className="service-content text-center md:text-left">
-                  <h3 className="text-xl md:text-2xl font-bold mb-3">Decentralized Travel Vision</h3>
+                  <h3 className="h3-default">Decentralized Travel Vision</h3>
                   <p>
                     Our long-term goal: a platform for holders to explore the
                     world through unique, wallet-to-wallet travel
@@ -161,7 +151,9 @@ function Home() {
                   <img src="/xrp-cafe-mint.png" alt="XRP Cafe Mint" className="min-w-[100px] w-[260px] md:w-[320px] lg:w-[380px]" />
                 </div>
                 <div className="service-content text-center md:text-left">
-                  <h3 className="text-xl md:text-2xl font-bold mb-3">Upcoming Mint on xrp.cafe</h3>
+                  <h3 className="h3-default">
+                    Upcoming Mint on xrp.cafe
+                  </h3>
                   <p>
                     Prepare your Joey Wallet and 20 XRP minimum reserve
                     for the meaningful minting experience on the premier XRPL
