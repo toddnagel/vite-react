@@ -189,35 +189,38 @@ function TabbedContent() {
               className={`tab-pane ${activeTab === "TheXoloitzquintle" ? "block" : "hidden"}`}
               role="tabpanel"
             >
+              <h3 className="text-2xl md:text-3xl font-bold mb-3 text-[#b7e9f7]">
+                Mythic Journey of the Xolo: Gods, Guardians, and Eternal Bonds
+              </h3>
               <p className="opacity-0 animate-[fadeInUp_0.6s_ease-out_0.3s_forwards] mb-4">
-                The Xoloitzquintle—known simply as Xolo—is no ordinary dog. For over 3,000 years it has been the earthly avatar of Xolotl, the Aztec god of lightning, fire, death, transformation, and deformity.
+                Picture this: the Aztec cosmos is basically a chaotic family reunion that never ends. At the center? The ultimate twin duo—Quetzalcoatl, the chill, feathered-serpent genius of wind, wisdom, creation, and "let's make everything better," and his rowdy, dog-headed brother Xolotl, the lightning-fast trickster god of fire, transformation, deformities, and "hold my conch shell while I pull off the impossible."
               </p>
               <p className="opacity-0 animate-[fadeInUp_0.6s_ease-out_0.4s_forwards] mb-4">
-                Xolotl, the shadowed twin of Quetzalcoatl, is born from Ometeotl, the primordial duality. Depicted as a skeletal dog-headed figure with blazing eyes, reversed feet, or a monstrous form, he embodies the destructive and renewing power of fire, the sudden crack of lightning, and the certainty of death. As guardian of Mictlan—the nine-layered underworld of rivers, jaguars, and freezing winds—Xolotl lights the path for souls, his fiery essence cutting through the darkness.
+                These two aren't just siblings; they're the original dynamic duo who literally rebuilt humanity after the world got wrecked four times (because ancient gods apparently loved a good reset button). Quetzalcoatl, ever the visionary, decides it's time for round five: populate the earth with actual people. But plot twist—he needs the sacred bones from the previous eras, stashed deep in Mictlan, the shadowy, nine-level underworld ruled by the skeletal party-pooper Mictlantecuhtli (the Lord of the Dead) and his queen Mictecacihuatl.
               </p>
               <p className="opacity-0 animate-[fadeInUp_0.6s_ease-out_0.5s_forwards] mb-4">
-                Tied to Venus as the Evening Star, Xolotl descends into the underworld each night, escorting the sun downward while his radiant brother Quetzalcoatl rises as the Morning Star. In the Aztec creation myth, Xolotl accompanies Quetzalcoatl into Mictlan to retrieve the bones of previous worlds. He weeps sacrificial tears to loosen them, but stumbles and shatters some—explaining humanity's varied shapes and forms. As god of deformity, his own imperfect body mirrors the sacred divergence seen in the hairless Xolo.
+                Quetzalcoatl can't solo this dungeon crawl. Enter Xolotl: dog-faced, shape-shifting, lightning-charged, and 100% ride-or-die. His name literally echoes in the word xoloitzcuintle—the sacred hairless dog bred in his image. Xolotl's like, "Bro, I've been guiding the sun through the underworld every night. I know the shortcuts. Let's go steal some bones."
               </p>
               <p className="opacity-0 animate-[fadeInUp_0.6s_ease-out_0.6s_forwards] mb-4">
-                In the Fifth Sun narrative, when the gods must sacrifice to ignite the current sun, Xolotl resists. He flees, transforming into a maguey plant, a salamander, and finally an axolotl before submitting. This defiance and ultimate surrender cement his role as the ultimate transformer—death and rebirth incarnate.
+                They descend into Mictlan's nightmare levels: rivers of blood, screaming winds, mountains of obsidian knives, jaguars that don't play fetch. Mictlantecuhtli isn't handing over the goods without a fight. He sets impossible trials—like blowing a conch shell with no holes. Xolotl, being the ultimate degen trickster, summons worms to drill openings. Boom—impossible becomes "done." They grab the bones and bolt, with the skeletal hordes chasing them like bad exes.
               </p>
               <p className="opacity-0 animate-[fadeInUp_0.6s_ease-out_0.7s_forwards] mb-4">
-                The Xolo carries this legacy. Revered by the Maya from ~1200 BCE (evidenced in burial figurines and skeletal remains at sites like Chichén Itzá and Palenque), it served as psychopomp, guiding souls through the afterlife. The Maya viewed its warm body as divine fire gifted by Xolotl, invoked in ancestor rituals and cosmic calendar ceremonies that echo today's Día de los Muertos.
+                In the getaway chaos, Quetzalcoatl trips (because even gods have off days), and some bones shatter. That's why humans come in every shape, size, and weird quirk—thanks, cosmic clumsiness!
               </p>
               <p className="opacity-0 animate-[fadeInUp_0.6s_ease-out_0.8s_forwards] mb-4">
-                The Toltecs and Aztecs elevated it further, burying Xolos with the dead as sacred escorts through Mictlan's trials, their loyalty mirroring Xolotl's guardianship. In rituals, they were offered to appease him or placed in tombs as eternal protectors.
+                Back topside, Quetzalcoatl mixes the bones with his own divine blood, breathing life into the current era. But Xolotl's gig doesn't stop there. He becomes the eternal soul-guide: escorting the dead through Mictlan's perils, warding off evil spirits, and making sure no one gets lost in the afterlife. That's why the Aztecs buried real xoloitzcuintles with their loved ones—loyal companions in life, healers (their body heat was legendary), and furry psychopomps in death. One Xolo to rule the journey, one soul to guide.
               </p>
               <p className="opacity-0 animate-[fadeInUp_0.6s_ease-out_0.9s_forwards] mb-4">
-                This mythic power endures. Frida Kahlo and Diego Rivera immortalized the Xolo's otherworldly presence; its image graces Día de los Muertos altars as a timeless symbol of guidance. Untouched by heavy selective breeding, the Xolo remains a living bridge to ancient divinity.
+                Fast-forward to today: in the Xolo Dojo, we're resurrecting this epic saga on the XRPL. Your XoloNFT isn't just a pretty (or gloriously wrinkly) piece of digital art—it's a sacred guardian reborn, channeling Xolotl's fierce loyalty, trickster smarts, and unbreakable bonds. Mint one, pin it, and unlock XoloGlobe—where holders reach out P2P, turn strangers into allies, share skills, trade services, or plan real-world adventures. Just like the gods' twin pact: no middleman, no limits, eternal vibes.
               </p>
               <p className="opacity-0 animate-[fadeInUp_0.6s_ease-out_1.0s_forwards] mb-4">
-                The name itself tells a story. Rooted in Nahuatl "xōlōitzcuintli" ("dog of Xolotl"), it has appeared in many forms: Xoloitzcuintli, Xoloitzquintli, Xoloitzcuintle, and Xoloitzquintle. Spanish colonizers in 16th-century Mexico struggled with Nahuatl sounds, rendering the labialized /kʷi/ as "qui" or "qu"—hence the "q" that persists in our chosen spelling, Xoloitzquintle, as a deliberate echo of that historical fusion.
+                One Xolo, one journey, one legendary pack.
               </p>
               <p className="opacity-0 animate-[fadeInUp_0.6s_ease-out_1.1s_forwards] mb-4">
-                The short form Xolo (pronounced shō lō) comes from the Nahuatl root "xōlō" (servant/guide). The "x" sound—soft "sh" as in "shoe"—was softened over centuries of oral tradition and colonial contact, becoming the accessible shō lō heard today.
+                Why the quirky spelling "Xoloitzquintle" (with that "qu" instead of "cu")? It's a loving nod to old-school Nahuatl orthography and how Spanish chroniclers/translators rendered the original xōlōitzcuintli (pronounced roughly "show-low-eats-QUEENT-lee"). The "qu" captures the guttural, ancient Aztec sound more faithfully in some traditional texts and codex styles—think of it as the mythic equivalent of using "ye olde" English for flair. We chose it to honor the deep cultural roots, keep the lore authentic, and give our guardians that extra layer of timeless mystery. (Plus, it looks cooler than plain "cu"—admit it.)
               </p>
               <p className="opacity-0 animate-[fadeInUp_0.6s_ease-out_1.2s_forwards] mb-4">
-                The Xoloitzquintle Collection channels this sacred narrative into 10,001 NFTs, each a digital homage to the Xolo's divine journey. Join us in carrying forward the eternal story of Xolotl, Quetzalcoatl, and the soul's passage through the cosmos.
+                Own your Xolo. Guide the journey. Join the pack.
               </p>
             </div>
             <div
