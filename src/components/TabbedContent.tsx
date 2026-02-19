@@ -1,7 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import PageTitle from "./PageTitle";
 import Counter from "./Counter";
-import FadeInUp from "./FadeInUp";
 
 function TabbedContent() {
   const [activeTab, setActiveTab] = useState("TheXoloitzquintle");
