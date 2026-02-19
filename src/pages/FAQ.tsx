@@ -1,152 +1,100 @@
+import { useState } from 'react';
 import PageTitle from '../components/PageTitle';
 
+const faqItems = [
+  {
+    id: 'faq-project-1',
+    question: 'What Is The Xoloitzquintle?',
+    answer:
+      "The Xoloitzcuintle (Shō-lō eats-kwēnt-lee), also known as Xolo (Shō-lō), is one of the world's oldest breeds, with archaeological evidence dating back over 3,000–3,500 years in Mesoamerican civilizations (including Colima, Toltec, Zapotec, Maya, and Aztec cultures). Revered as a sacred spiritual guide and loyal companion, it was believed to guard homes from evil spirits in life and accompany souls through the dangers of Mictlan (the Aztec underworld/afterlife) to reach eternal rest. Named after the god Xolotl (lightning, death, and transformation) and the Nahuatl word for dog (itzcuintli), the Xolo symbolizes protection, healing, and the journey between worlds.",
+  },
+  {
+    id: 'faq-project-2',
+    question: 'Who Is The Creator?',
+    answer:
+      "Cryptonite — a nomadic, blockchain-agnostic digital pirate who's been sailing the Cryptocurrenseas since 2016. With footprints in 34 countries shaping a deep appreciation for diverse cultures and meaningful connections, he's a proud XRP Army member building The Xoloitzquintle Collection on the XRPL. Teaming with visionary artist RedShadow, he's creating XoloDojo and XoloGlobe: a token-gated global community for trust, travel, skill-sharing, and genuine shared experiences. Own a XoloNFT and join the voyage.",
+  },
+  {
+    id: 'faq-project-3',
+    question: 'Who Is The Artist?',
+    answer:
+      "RedShadow is the visionary artist behind The Xoloitzquintle Collection. With a masterful eye for detail and deep respect for Mesoamerican heritage, RedShadow designs each of the 10,001 unique XoloNFTs as sacred digital guardians — blending timeless cultural symbolism with striking, evocative artwork that honors the Xoloitzquintle's spiritual role as a companion and soul guide. Teaming with Cryptonite, RedShadow's artistry forms the visual foundation of XoloDojo and XoloGlobe.",
+  },
+  {
+    id: 'faq-project-4',
+    question: 'When And Where And Where Can I Mint A Xolo NFT?',
+    answer:
+      "The mint for The Xoloitzcuintle Collection (10,001 unique XoloNFTs) is coming soon on xrp.cafe, the premier marketplace for XRPL-based NFTs. Built on the eco-friendly XRP Ledger (XRPL), the mint will feature low-cost, fast transactions with no gas wars. Prepare now: set up an XRPL-compatible wallet (like Joey Wallet, Xaman, or Mad Lab), fund it with at least 20 XRP, and stay tuned to xolodojo.io or @XoloDojo for the exact launch announcement and any allowlist details. Get ready to own your sacred Xolo guardian and unlock the XoloGlobe!",
+  },
+  {
+    id: 'faq-project-5',
+    question: 'What Wallet And Funds Do I Need To Prepare?',
+    answer:
+      'You will need an XRPL-compatible wallet like **Joey Wallet**. Ensure your wallet is funded with a minimum of **20 XRP** to cover the XRPL\'s wallet reserve and transaction fees.',
+  },
+];
+
 function FAQ() {
+  const [openId, setOpenId] = useState<string | null>('faq-project-2');
+
   return (
     <>
       <section
-        className="faq-section fix  style-padding section-padding  bg-cover"
+        className="relative bg-cover bg-center bg-no-repeat py-16 md:py-24"
         style={{ backgroundImage: "url('/Pattern.png')" }}
       >
-        <div className="container">
-          <div className="faq-banner">
-            <div className="section-title text-center">
+        <div className="container mx-auto max-w-7xl px-4">
+          <div className="flex flex-col items-center text-center">
+            <div className="mb-8">
               <PageTitle title="FAQ" />
             </div>
-            <div className="faq-image-banner">
-              <img src="/04a.png" alt="img" />
+            <div className="mb-10">
+              <img src="/04a.png" alt="" className="max-h-56 w-auto object-contain md:max-h-80" />
             </div>
           </div>
-          <div className="faq-wrapper style-inner-page">
-            <div className="row g-4">
-
-              <div className="col-lg-12">
-                <div className="faq-content">
-                  <h2>Project & Collection Questions</h2>
-                  <div className="faq-accordion">
-                    <div className="accordion" id="accordion-project">
-                      <div className="accordion-item">
-                        <h5 className="accordion-header">
-                          <button
-                            className="accordion-button collapsed"
-                            type="button"
-                            data-bs-toggle="collapse"
-                            data-bs-target="#faq-project-1"
-                            aria-expanded="false"
-                            aria-controls="faq-project-1"
-                          >
-                            What Is The Xoloitzquintle?
-                          </button>
-                        </h5>
-                        <div
-                          id="faq-project-1"
-                          className="accordion-collapse collapse"
-                          data-bs-parent="#accordion-project"
+          <div className="mx-auto max-w-4xl">
+            <h2 className="mb-6 text-2xl font-bold text-white md:text-3xl">
+              Project & Collection Questions
+            </h2>
+            <div className="divide-y divide-white/20 overflow-hidden rounded-xl border border-white/20 bg-white/5">
+              {faqItems.map((item) => {
+                const isOpen = openId === item.id;
+                return (
+                  <div key={item.id} className="bg-white/5 first:rounded-t-xl last:rounded-b-xl">
+                    <h3>
+                      <button
+                        type="button"
+                        onClick={() => setOpenId(isOpen ? null : item.id)}
+                        className="flex w-full items-center justify-between gap-4 py-4 px-5 text-left text-base font-medium text-white transition-colors hover:bg-white/10 md:text-lg"
+                        aria-expanded={isOpen}
+                        aria-controls={`${item.id}-body`}
+                        id={`${item.id}-head`}
+                      >
+                        {item.question}
+                        <span
+                          className={`shrink-0 text-xl text-white/80 transition-transform duration-100 ${isOpen ? 'rotate-180' : ''}`}
+                          aria-hidden
                         >
-                          <div className="accordion-body">
-                            The Xoloitzcuintle (Shō-lō eats-kwēnt-lee), also known as Xolo (Shō-lō), is one of the world's oldest breeds, with archaeological evidence dating back over 3,000–3,500 years in Mesoamerican civilizations (including Colima, Toltec, Zapotec, Maya, and Aztec cultures). Revered as a sacred spiritual guide and loyal companion, it was believed to guard homes from evil spirits in life and accompany souls through the dangers of Mictlan (the Aztec underworld/afterlife) to reach eternal rest. Named after the god Xolotl (lightning, death, and transformation) and the Nahuatl word for dog (itzcuintli), the Xolo symbolizes protection, healing, and the journey between worlds.
-                          </div>
-                        </div>
-                      </div>
-
-                      <div className="accordion-item">
-                        <h5 className="accordion-header">
-                          <button
-                            className="accordion-button"
-                            type="button"
-                            data-bs-toggle="collapse"
-                            data-bs-target="#faq-project-2"
-                            aria-expanded="true"
-                            aria-controls="faq-project-2"
-                          >
-                            Who Is The Creator?
-                          </button>
-                        </h5>
-                        <div
-                          id="faq-project-2"
-                          className="accordion-collapse show"
-                          data-bs-parent="#accordion-project"
-                        >
-                          <div className="accordion-body">
-                            Cryptonite — a nomadic, blockchain-agnostic digital pirate who's been sailing the Cryptocurrenseas since 2016. With footprints in 34 countries shaping a deep appreciation for diverse cultures and meaningful connections, he's a proud XRP Army member building The Xoloitzquintle Collection on the XRPL. Teaming with visionary artist RedShadow, he's creating XoloDojo and XoloGlobe: a token-gated global community for trust, travel, skill-sharing, and genuine shared experiences. Own a XoloNFT and join the voyage.
-                          </div>
-                        </div>
-                      </div>
-
-                      <div className="accordion-item">
-                        <h5 className="accordion-header">
-                          <button
-                            className="accordion-button collapsed"
-                            type="button"
-                            data-bs-toggle="collapse"
-                            data-bs-target="#faq-project-3"
-                            aria-expanded="false"
-                            aria-controls="faq-project-3"
-                          >
-                            Who Is The Artist?
-                          </button>
-                        </h5>
-                        <div
-                          id="faq-project-3"
-                          className="accordion-collapse collapse"
-                          data-bs-parent="#accordion-project"
-                        >
-                          <div className="accordion-body">
-                            RedShadow is the visionary artist behind The Xoloitzquintle Collection. With a masterful eye for detail and deep respect for Mesoamerican heritage, RedShadow designs each of the 10,001 unique XoloNFTs as sacred digital guardians — blending timeless cultural symbolism with striking, evocative artwork that honors the Xoloitzquintle's spiritual role as a companion and soul guide. Teaming with Cryptonite, RedShadow's artistry forms the visual foundation of XoloDojo and XoloGlobe.
-                          </div>
-                        </div>
-                      </div>
-
-                      <div className="accordion-item">
-                        <h5 className="accordion-header">
-                          <button
-                            className="accordion-button collapsed"
-                            type="button"
-                            data-bs-toggle="collapse"
-                            data-bs-target="#faq-project-4"
-                            aria-expanded="false"
-                            aria-controls="faq-project-4"
-                          >
-                            When And Where And Where Can I Mint A Xolo NFT?
-                          </button>
-                        </h5>
-                        <div
-                          id="faq-project-4"
-                          className="accordion-collapse collapse"
-                          data-bs-parent="#accordion-project"
-                        >
-                          <div className="accordion-body">
-                            The mint for The Xoloitzcuintle Collection (10,001 unique XoloNFTs) is coming soon on xrp.cafe, the premier marketplace for XRPL-based NFTs. Built on the eco-friendly XRP Ledger (XRPL), the mint will feature low-cost, fast transactions with no gas wars. Prepare now: set up an XRPL-compatible wallet (like Joey Wallet, Xaman, or Mad Lab), fund it with at least 20 XRP, and stay tuned to xolodojo.io or @XoloDojo for the exact launch announcement and any allowlist details. Get ready to own your sacred Xolo guardian and unlock the XoloGlobe!
-                          </div>
-                        </div>
-                      </div>
-
-                      <div className="accordion-item">
-                        <h5 className="accordion-header">
-                          <button
-                            className="accordion-button collapsed"
-                            type="button"
-                            data-bs-toggle="collapse"
-                            data-bs-target="#faq-project-5"
-                            aria-expanded="false"
-                            aria-controls="faq-project-5"
-                          >
-                            What Wallet And Funds Do I Need To Prepare?
-                          </button>
-                        </h5>
-                        <div
-                          id="faq-project-5"
-                          className="accordion-collapse collapse"
-                          data-bs-parent="#accordion-project"
-                        >
-                          <div className="accordion-body">
-                            You will need an XRPL-compatible wallet like **Joey Wallet**. Ensure your wallet is funded with a minimum of **20 XRP** to cover the XRPL's wallet reserve and transaction fees.
-                          </div>
-                        </div>
+                          ▼
+                        </span>
+                      </button>
+                    </h3>
+                    <div
+                      id={`${item.id}-body`}
+                      role="region"
+                      aria-labelledby={`${item.id}-head`}
+                      hidden={!isOpen}
+                      className="overflow-hidden fade-in-up-visible"
+                    >
+                      <div className="border-t border-white/20 bg-white/5 px-5 pb-4 pt-2">
+                        <p className="text-sm leading-relaxed text-white/90 md:text-base">
+                          {item.answer}
+                        </p>
                       </div>
                     </div>
                   </div>
-                </div>
-              </div>
+                );
+              })}
             </div>
           </div>
         </div>

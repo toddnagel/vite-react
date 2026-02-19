@@ -446,17 +446,78 @@ function TabbedContent() {
               className={`tab-pane ${activeTab === "TheMint" ? "block" : "hidden"}`}
               role="tabpanel"
             >
-              <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4 opacity-0 animate-[fadeInUp_0.6s_ease-out_0.1s_forwards]">
-                This is a test heading
-              </h2>
-              <h3 className="text-2xl md:text-3xl font-bold mb-4 opacity-0 animate-[fadeInUp_0.6s_ease-out_0.3s_forwards]">
-                This is a test heading
-              </h3>
-              <p className="opacity-0 animate-[fadeInUp_0.6s_ease-out_0.5s_forwards]">
-                The collection features 10,001 unique Xolo NFTs built on the eco-friendly XRP Ledger (XRPL). Each unique asset is crafted with deep cultural roots, honoring the Xoloitzquintle's legacy as a spiritual guide and symbol of loyalty in Mesoamerican traditions.
-                <br />
-                The collection features 10,001 unique Xolo NFTs built on the eco-friendly XRP Ledger (XRPL). Each unique asset is crafted with deep cultural roots, honoring the Xoloitzquintle's legacy as a spiritual guide and symbol of loyalty in Mesoamerican traditions.
-              </p>
+              <section className="how-to-work-section fix">
+                <div className="container">
+                  <div className="section-title text-center">
+                    <PageTitle title="The Xolo NFT Journey" alt="star icon" animate delay={0} />
+                    <h3 className="text-2xl md:text-3xl font-bold mb-2 text-[#b7e9f7]">
+                      Understanding the **Minting** <br />
+                      <span>
+                        Process <b>(4 Steps)</b>
+                      </span>
+                    </h3>
+                  </div>
+                  <div className="how-to-work-wrapper">
+                    <div className="icon">
+                      <div className="bar-shape">
+                        <img src="/work-bar-shape.png" alt="bar shape" />
+                      </div>
+                    </div>
+                    <div className="content">
+                      <h3>Set Up XRPL Wallet</h3>
+                      <p>
+                        Start by downloading a compatible wallet like **Joey Wallet**
+                        or Xumm.
+                      </p>
+                    </div>
+                    <div className="arrow-shape">
+                      <img src="/work-arrow.png" alt="arrow shape" />
+                    </div>
+                    <div className="icon">
+                      <div className="bar-shape">
+                        <img src="/work-bar-shape.png" alt="bar shape" />
+                      </div>
+                    </div>
+                    <div className="content">
+                      <h3>Fund With XRP</h3>
+                      <p>
+                        Deposit at least **20 XRP** to meet the ledger's minimum
+                        reserve requirement.
+                      </p>
+                    </div>
+                    <div className="arrow-shape">
+                      <img src="/work-arrow.png" alt="arrow shape" />
+                    </div>
+                    <div className="icon">
+                      <div className="bar-shape">
+                        <img src="/work-bar-shape.png" alt="bar shape" />
+                      </div>
+                    </div>
+                    <div className="content">
+                      <h3>Connect to xrp.cafe</h3>
+                      <p>
+                        Navigate to **xrp.cafe** and securely connect your funded XRPL
+                        wallet.
+                      </p>
+                    </div>
+                    <div className="arrow-shape">
+                      <img src="/work-arrow.png" alt="arrow shape" />
+                    </div>
+                    <div className="icon">
+                      <div className="bar-shape">
+                        <img src="/work-bar-shape.png" alt="bar shape" />
+                      </div>
+                    </div>
+                    <div className="content">
+                      <h3>Mint Your Xolo NFT</h3>
+                      <p>
+                        Be ready for the mint on **xrp.cafe** to claim your unique
+                        Xolo asset!
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </section>
             </div>
           </div>
         </div>
