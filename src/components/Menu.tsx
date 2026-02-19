@@ -91,7 +91,7 @@ function Menu({
                             <NavLink
                                 to={item.path}
                                 className={({ isActive }) =>
-                                    `inline-block text-lg font-medium capitalize transition-all duration-300 ease-in-out no-underline ${isSticky ? 'py-1.5' : 'py-5'} ${isActive ? 'active' : ''}`
+                                    `inline-block text-lg font-medium text-decoration-none capitalize transition-all duration-300 ease-in-out no-underline ${isSticky ? 'py-1.5' : 'py-5'} ${isActive ? 'active' : ''}`
                                 }
                                 style={{ color: 'var(--white)' }}
                             >
@@ -118,7 +118,7 @@ function Menu({
                     >
                         <div className="mobile-menu-drawer-inner">
                             <div className="mobile-menu-header">
-                                <NavLink to="/" onClick={closeMobileMenu}>
+                                <NavLink to="/" onClick={closeMobileMenu} className="text-decoration-none">
                                     <img
                                         src="/white-logo.png"
                                         alt="logo-img"
@@ -143,7 +143,7 @@ function Menu({
                                                 to={item.path}
                                                 onClick={closeMobileMenu}
                                                 className={({ isActive }) =>
-                                                    isActive ? 'active' : ''
+                                                    isActive ? 'active text-decoration-non' : 'text-decoration-non'
                                                 }
                                             >
                                                 {item.label}

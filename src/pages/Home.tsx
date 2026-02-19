@@ -203,10 +203,8 @@ function Home() {
                 <div className="project-content">
                   <span>Ancient Mesoamerica</span>
                   <h3 className="text-2xl md:text-3xl font-bold mb-3">
-                    <a href="project-details.html">
-                      A Sacred <br />
-                      Heritage
-                    </a>
+                    A Sacred <br />
+                    Heritage
                   </h3>
                   <p>
                     Dating back over 3,000 years, the Xolo is a living symbol
@@ -244,10 +242,8 @@ function Home() {
                 <div className="project-content">
                   <span>Future Utility</span>
                   <h3 className="text-2xl md:text-3xl font-bold mb-3">
-                    <a href="project-details.html">
-                      Fostering Global <br />
-                      Travel &amp; Connection
-                    </a>
+                    Fostering Global <br />
+                    Travel &amp; Connection
                   </h3>
                   <p>
                     The collection's long-term vision is to build a decentralized
