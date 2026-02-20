@@ -21,16 +21,16 @@ const faqItems = [
       "RedShadow is the visionary artist behind The Xoloitzquintle Collection. With a masterful eye for detail and deep respect for Mesoamerican heritage, RedShadow designs each of the 10,001 unique XoloNFTs as sacred digital guardians — blending timeless cultural symbolism with striking, evocative artwork that honors the Xoloitzquintle's spiritual role as a companion and soul guide. Teaming with Cryptonite, RedShadow's artistry forms the visual foundation of XoloDojo and XoloGlobe.",
   },
   {
-    id: 'faq-project-4',
-    question: 'When And Where And Where Can I Mint A Xolo NFT?',
-    answer:
-      "The mint for The Xoloitzcuintle Collection (10,001 unique XoloNFTs) is coming soon on xrp.cafe, the premier marketplace for XRPL-based NFTs. Built on the eco-friendly XRP Ledger (XRPL), the mint will feature low-cost, fast transactions with no gas wars. Prepare now: set up an XRPL-compatible wallet (like Joey Wallet, Xaman, or Mad Lab), fund it with at least 20 XRP, and stay tuned to xolodojo.io or @XoloDojo for the exact launch announcement and any allowlist details. Get ready to own your sacred Xolo guardian and unlock the XoloGlobe!",
-  },
-  {
     id: 'faq-project-5',
     question: 'What Wallet And Funds Do I Need To Prepare?',
     answer:
       'You will need an XRPL-compatible wallet like **Joey Wallet**. Ensure your wallet is funded with a minimum of **20 XRP** to cover the XRPL\'s wallet reserve and transaction fees.',
+  },
+  {
+    id: 'faq-project-4',
+    question: 'When And Where And Where Can I Mint A Xolo NFT?',
+    answer:
+      "The mint for The Xoloitzcuintle Collection (10,001 unique XoloNFTs) is coming soon on xrp.cafe, the premier marketplace for XRPL-based NFTs. Built on the eco-friendly XRP Ledger (XRPL), the mint will feature low-cost, fast transactions with no gas wars. Prepare now: set up an XRPL-compatible wallet (like Joey Wallet, Xaman, or Mad Lab), fund it with at least 20 XRP, and stay tuned to xolodojo.io or @XoloDojo for the exact launch announcement and any allowlist details. Get ready to own your sacred Xolo guardian and unlock the XoloGlobe!",
   },
 ];
 

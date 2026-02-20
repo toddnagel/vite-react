@@ -119,7 +119,7 @@ function TabbedContent() {
               <button
                 onClick={() => setActiveTab("TheXoloitzquintle")}
                 className={`px-6 py-3 rounded-full border border-white/20 cursor-pointer transition-all text-lg font-medium ${activeTab === "TheXoloitzquintle"
-                  ? "bg-[#b7e9f7] text-[#1a1a1a] border-[#b7e9f7]"
+                  ? "bg-[#28aae4] text-[#1a1a1a] border-[#28aae4]"
                   : "bg-[#1D1D21] text-white/70 hover:text-white hover:border-white/40"
                   }`}
                 aria-selected={activeTab === "TheXoloitzquintle"}
@@ -132,7 +132,7 @@ function TabbedContent() {
               <button
                 onClick={() => setActiveTab("TheTeam")}
                 className={`px-6 py-3 rounded-full border border-white/20 cursor-pointer transition-all text-lg font-medium ${activeTab === "TheTeam"
-                  ? "bg-[#b7e9f7] text-[#1a1a1a] border-[#b7e9f7]"
+                  ? "bg-[#28aae4] text-[#1a1a1a] border-[#28aae4]"
                   : "bg-[#1D1D21] text-white/70 hover:text-white hover:border-white/40"
                   }`}
                 aria-selected={activeTab === "TheTeam"}
@@ -145,7 +145,7 @@ function TabbedContent() {
               <button
                 onClick={() => setActiveTab("TheVision")}
                 className={`px-6 py-3 rounded-full border border-white/20 cursor-pointer transition-all text-lg font-medium ${activeTab === "TheVision"
-                  ? "bg-[#b7e9f7] text-[#1a1a1a] border-[#b7e9f7]"
+                  ? "bg-[#28aae4] text-[#1a1a1a] border-[#28aae4]"
                   : "bg-[#1D1D21] text-white/70 hover:text-white hover:border-white/40"
                   }`}
                 aria-selected={activeTab === "TheVision"}
@@ -158,7 +158,7 @@ function TabbedContent() {
               <button
                 onClick={() => setActiveTab("TheXoloGlobe")}
                 className={`px-6 py-3 rounded-full border border-white/20 cursor-pointer transition-all text-lg font-medium ${activeTab === "TheXoloGlobe"
-                  ? "bg-[#b7e9f7] text-[#1a1a1a] border-[#b7e9f7]"
+                  ? "bg-[#28aae4] text-[#1a1a1a] border-[#28aae4]"
                   : "bg-[#1D1D21] text-white/70 hover:text-white hover:border-white/40"
                   }`}
                 aria-selected={activeTab === "TheXoloGlobe"}
@@ -171,7 +171,7 @@ function TabbedContent() {
               <button
                 onClick={() => setActiveTab("TheMint")}
                 className={`px-6 py-3 rounded-full border border-white/20 cursor-pointer transition-all text-lg font-medium ${activeTab === "TheMint"
-                  ? "bg-[#b7e9f7] text-[#1a1a1a] border-[#b7e9f7]"
+                  ? "bg-[#28aae4] text-[#1a1a1a] border-[#28aae4]"
                   : "bg-[#1D1D21] text-white/70 hover:text-white hover:border-white/40"
                   }`}
                 aria-selected={activeTab === "TheMint"}
@@ -189,35 +189,38 @@ function TabbedContent() {
               className={`tab-pane ${activeTab === "TheXoloitzquintle" ? "block" : "hidden"}`}
               role="tabpanel"
             >
+              <h3 className="text-2xl md:text-3xl font-bold mb-3 text-[#28aae4]">
+                Mythic Journey of the Xolo: Gods, Guardians, and Eternal Bonds
+              </h3>
               <p className="opacity-0 animate-[fadeInUp_0.6s_ease-out_0.3s_forwards] mb-4">
-                The Xoloitzquintle—known simply as Xolo—is no ordinary dog. For over 3,000 years it has been the earthly avatar of Xolotl, the Aztec god of lightning, fire, death, transformation, and deformity.
+                Picture this: the Aztec cosmos is basically a chaotic family reunion that never ends. At the center? The ultimate twin duo—Quetzalcoatl, the chill, feathered-serpent genius of wind, wisdom, creation, and "let's make everything better," and his rowdy, dog-headed brother Xolotl, the lightning-fast trickster god of fire, transformation, deformities, and "hold my conch shell while I pull off the impossible."
               </p>
               <p className="opacity-0 animate-[fadeInUp_0.6s_ease-out_0.4s_forwards] mb-4">
-                Xolotl, the shadowed twin of Quetzalcoatl, is born from Ometeotl, the primordial duality. Depicted as a skeletal dog-headed figure with blazing eyes, reversed feet, or a monstrous form, he embodies the destructive and renewing power of fire, the sudden crack of lightning, and the certainty of death. As guardian of Mictlan—the nine-layered underworld of rivers, jaguars, and freezing winds—Xolotl lights the path for souls, his fiery essence cutting through the darkness.
+                These two aren't just siblings; they're the original dynamic duo who literally rebuilt humanity after the world got wrecked four times (because ancient gods apparently loved a good reset button). Quetzalcoatl, ever the visionary, decides it's time for round five: populate the earth with actual people. But plot twist—he needs the sacred bones from the previous eras, stashed deep in Mictlan, the shadowy, nine-level underworld ruled by the skeletal party-pooper Mictlantecuhtli (the Lord of the Dead) and his queen Mictecacihuatl.
               </p>
               <p className="opacity-0 animate-[fadeInUp_0.6s_ease-out_0.5s_forwards] mb-4">
-                Tied to Venus as the Evening Star, Xolotl descends into the underworld each night, escorting the sun downward while his radiant brother Quetzalcoatl rises as the Morning Star. In the Aztec creation myth, Xolotl accompanies Quetzalcoatl into Mictlan to retrieve the bones of previous worlds. He weeps sacrificial tears to loosen them, but stumbles and shatters some—explaining humanity's varied shapes and forms. As god of deformity, his own imperfect body mirrors the sacred divergence seen in the hairless Xolo.
+                Quetzalcoatl can't solo this dungeon crawl. Enter Xolotl: dog-faced, shape-shifting, lightning-charged, and 100% ride-or-die. His name literally echoes in the word xoloitzcuintle—the sacred hairless dog bred in his image. Xolotl's like, "Bro, I've been guiding the sun through the underworld every night. I know the shortcuts. Let's go steal some bones."
               </p>
               <p className="opacity-0 animate-[fadeInUp_0.6s_ease-out_0.6s_forwards] mb-4">
-                In the Fifth Sun narrative, when the gods must sacrifice to ignite the current sun, Xolotl resists. He flees, transforming into a maguey plant, a salamander, and finally an axolotl before submitting. This defiance and ultimate surrender cement his role as the ultimate transformer—death and rebirth incarnate.
+                They descend into Mictlan's nightmare levels: rivers of blood, screaming winds, mountains of obsidian knives, jaguars that don't play fetch. Mictlantecuhtli isn't handing over the goods without a fight. He sets impossible trials—like blowing a conch shell with no holes. Xolotl, being the ultimate degen trickster, summons worms to drill openings. Boom—impossible becomes "done." They grab the bones and bolt, with the skeletal hordes chasing them like bad exes.
               </p>
               <p className="opacity-0 animate-[fadeInUp_0.6s_ease-out_0.7s_forwards] mb-4">
-                The Xolo carries this legacy. Revered by the Maya from ~1200 BCE (evidenced in burial figurines and skeletal remains at sites like Chichén Itzá and Palenque), it served as psychopomp, guiding souls through the afterlife. The Maya viewed its warm body as divine fire gifted by Xolotl, invoked in ancestor rituals and cosmic calendar ceremonies that echo today's Día de los Muertos.
+                In the getaway chaos, Quetzalcoatl trips (because even gods have off days), and some bones shatter. That's why humans come in every shape, size, and weird quirk—thanks, cosmic clumsiness!
               </p>
               <p className="opacity-0 animate-[fadeInUp_0.6s_ease-out_0.8s_forwards] mb-4">
-                The Toltecs and Aztecs elevated it further, burying Xolos with the dead as sacred escorts through Mictlan's trials, their loyalty mirroring Xolotl's guardianship. In rituals, they were offered to appease him or placed in tombs as eternal protectors.
+                Back topside, Quetzalcoatl mixes the bones with his own divine blood, breathing life into the current era. But Xolotl's gig doesn't stop there. He becomes the eternal soul-guide: escorting the dead through Mictlan's perils, warding off evil spirits, and making sure no one gets lost in the afterlife. That's why the Aztecs buried real xoloitzcuintles with their loved ones—loyal companions in life, healers (their body heat was legendary), and furry psychopomps in death. One Xolo to rule the journey, one soul to guide.
               </p>
               <p className="opacity-0 animate-[fadeInUp_0.6s_ease-out_0.9s_forwards] mb-4">
-                This mythic power endures. Frida Kahlo and Diego Rivera immortalized the Xolo's otherworldly presence; its image graces Día de los Muertos altars as a timeless symbol of guidance. Untouched by heavy selective breeding, the Xolo remains a living bridge to ancient divinity.
+                Fast-forward to today: in the Xolo Dojo, we're resurrecting this epic saga on the XRPL. Your XoloNFT isn't just a pretty (or gloriously wrinkly) piece of digital art—it's a sacred guardian reborn, channeling Xolotl's fierce loyalty, trickster smarts, and unbreakable bonds. Mint one, pin it, and unlock XoloGlobe—where holders reach out P2P, turn strangers into allies, share skills, trade services, or plan real-world adventures. Just like the gods' twin pact: no middleman, no limits, eternal vibes.
               </p>
               <p className="opacity-0 animate-[fadeInUp_0.6s_ease-out_1.0s_forwards] mb-4">
-                The name itself tells a story. Rooted in Nahuatl "xōlōitzcuintli" ("dog of Xolotl"), it has appeared in many forms: Xoloitzcuintli, Xoloitzquintli, Xoloitzcuintle, and Xoloitzquintle. Spanish colonizers in 16th-century Mexico struggled with Nahuatl sounds, rendering the labialized /kʷi/ as "qui" or "qu"—hence the "q" that persists in our chosen spelling, Xoloitzquintle, as a deliberate echo of that historical fusion.
+                One Xolo, one journey, one legendary pack.
               </p>
               <p className="opacity-0 animate-[fadeInUp_0.6s_ease-out_1.1s_forwards] mb-4">
-                The short form Xolo (pronounced shō lō) comes from the Nahuatl root "xōlō" (servant/guide). The "x" sound—soft "sh" as in "shoe"—was softened over centuries of oral tradition and colonial contact, becoming the accessible shō lō heard today.
+                Why the quirky spelling "Xoloitzquintle" (with that "qu" instead of "cu")? It's a loving nod to old-school Nahuatl orthography and how Spanish chroniclers/translators rendered the original xōlōitzcuintli (pronounced roughly "show-low-eats-QUEENT-lee"). The "qu" captures the guttural, ancient Aztec sound more faithfully in some traditional texts and codex styles—think of it as the mythic equivalent of using "ye olde" English for flair. We chose it to honor the deep cultural roots, keep the lore authentic, and give our guardians that extra layer of timeless mystery. (Plus, it looks cooler than plain "cu"—admit it.)
               </p>
               <p className="opacity-0 animate-[fadeInUp_0.6s_ease-out_1.2s_forwards] mb-4">
-                The Xoloitzquintle Collection channels this sacred narrative into 10,001 NFTs, each a digital homage to the Xolo's divine journey. Join us in carrying forward the eternal story of Xolotl, Quetzalcoatl, and the soul's passage through the cosmos.
+                Own your Xolo. Guide the journey. Join the pack.
               </p>
             </div>
             <div
@@ -255,7 +258,7 @@ function TabbedContent() {
                       <span>House and Dwelling Swaps — Swap homes directly with members across the XoloGlobe for cost-free, trust-based travel and reciprocal hospitality.</span>
                     </li>
                     <li>
-                      <span>Peer-to-Peer Bed-and-Breakfast — Enjoy personalized stays with home-cooked breakfasts and insider tips from Xolo hosts on the XoloGlobe.</span>
+                      <span>Peer-to-Peer Bed-and-Breakfast — Enjoy personalized stays with insider tips from Xolo hosts on the XoloGlobe.</span>
                     </li>
                     <li>
                       <span>Local Meetups and Day Activities — Connect with Xolo hosts for a guided day out, shared lunch, coffee, or activity—perfect for experiencing the XoloGlobe through authentic, no-commitment local encounters.</span>
@@ -278,45 +281,67 @@ function TabbedContent() {
               role="tabpanel"
             >
               <div className="opacity-0 animate-[fadeInUp_0.6s_ease-out_0.3s_forwards]">
-                <h3 className="text-2xl md:text-3xl font-bold mb-3 text-[#b7e9f7]">
+                <h3 className="text-2xl md:text-3xl font-bold text-[#28aae4]">
                   Meet the Team
                 </h3>
-                <p className="mb-4">
+                <p className="mb-7 pt-4">
                   United by culture, art, and crypto, we're forging XoloDojo and XoloGlobe: a token-gated global tribe for trust, travel, skill-sharing, and real-world adventures.
                 </p>
               </div>
 
               <div className="opacity-0 animate-[fadeInUp_0.6s_ease-out_0.5s_forwards] mt-4">
-                <h3 className="text-2xl md:text-3xl font-bold mb-2 text-[#b7e9f7]">
+                <h3 className="text-2xl md:text-3xl font-bold text-[#28aae4]">
                   Cryptonite
                 </h3>
-                <h4 className="text-lg md:text-xl font-semibold text-[#b7f7d1] mb-3">Founder & Visionary Explorer</h4>
-                <p className="mb-4">
-                  Cryptonite is a nomadic, blockchain-agnostic digital pirate and early Clubhouse degen who's been navigating the Cryptocurrenseas since 2016. With footprints wandered in 30+ countries fueling a profound love for diverse cultures and authentic human connections, he stands proud in the XRP Army. He's the driving force building The Xoloitzquintle Collection on the XRPL — blending ancient wisdom with modern decentralized dreams. Partnering with RedShadow and Code, he's crafting XoloDojo and XoloGlobe as portals to genuine community, shared experiences, and worldwide adventures.
-                </p>
+                <h4 className="text-lg md:text-xl font-semibold text-[#642ff8]">
+                  Founder & Visionary Explorer
+                  </h4>
+                  <p className="mb-7 pt-4 text-justify text-[#8d6ca3] overflow-hidden">
+                <img src="/xolo-nft-showcase-01.png" alt="Xolo Travel" className="float-left mr-4 mb-2 max-w-[166px] rounded-sm" />
+                Cryptonite is a nomadic, blockchain-agnostic digital pirate who's been sailing the Cryptocurrenseas since 2016, 
+            with footprints in 34 countries that have shaped a deep appreciation for diverse cultures and meaningful connections. 
+            A proud XRP Army member marching forward with bullish conviction, he's the creator behind The Xoloitzquintle 
+            Collection on the XRPL — fusing ancient Mesoamerican reverence for the sacred Xoloitzquintle with modern 
+            innovation and genuine shared experiences. He's laying the foundation for XoloGlobe: a global, member-built 
+            dojo for trust, travel, skill-sharing, and soul-guided adventures — all powered by XoloDojo. 
+            Own a XoloNFT and join the voyage. If you ain't bullish, you're walking the plank.
+                            </p>
               </div>
 
               <div className="opacity-0 animate-[fadeInUp_0.6s_ease-out_0.7s_forwards] mt-4">
-                <h3 className="text-2xl md:text-3xl font-bold mb-2 text-[#b7e9f7]">RedShadow</h3>
-                <h4 className="text-lg md:text-xl font-semibold text-[#b7f7d1] mb-3">Visionary Artist & Cultural Alchemist</h4>
-                <p className="mb-4">
-                  RedShadow is the masterful creative mind behind every one of the 10,001 unique XoloNFTs—one hand drawn trait at a time. With an unwavering eye for intricate detail and deep reverence for Mesoamerican heritage, he reimagines the Xoloitzcuintle as sacred digital guardians—soul guides and loyal companions infused with timeless spiritual symbolism. His evocative, striking artwork fuses ancient cultural reverence with bold, contemporary digital expression, forming the visual heartbeat of XoloDojo and XoloGlobe. Through this collaboration with Cryptonite, RedShadow honors the Xolo's role as protector and guide, inviting holders into a world where art, heritage, and blockchain converge.
-                </p>
+                <h3 className="text-2xl md:text-3xl font-bold text-[#28aae4]">
+                  RedShadow
+                  </h3>
+                  <h4 className="text-lg md:text-xl font-semibold text-[#891387]">
+                  Visionary Artist & Cultural Alchemist
+                  </h4>
+                  <p className="mb-7 pt-4 text-justify text-[#8d6ca3] overflow-hidden">
+                  <img src="/xolo-nft-showcase-01.png" alt="Xolo Travel" className="float-right ml-4 mb-2 max-w-[166px] rounded-sm" />
+                  RedShadow is the visionary artist breathing life into The Xoloitzquintle Collection. With a masterful eye for 
+            detail and deep respect for Mesoamerican heritage, RedShadow crafts each of the 10,001 unique XoloNFTs as 
+            sacred digital guardians — blending timeless cultural symbolism with striking, evocative designs that honor 
+            the Xoloitzquintle's role as a spiritual companion and soul guide. Teaming with Cryptonite, RedShadow's 
+            artistry forms the visual heart of XoloDojo and XoloGlobe, inviting holders into a world where ancient 
+            legacy meets modern community and real-world reciprocity.
+                            </p>
               </div>
 
-              <div className="opacity-0 animate-[fadeInUp_0.6s_ease-out_0.9s_forwards] mt-4">
-                <h3 className="text-2xl md:text-3xl font-bold mb-2 text-[#b7e9f7]">
-                  Code
+              <div className="opacity-0 animate-[fadeInUp_0.6s_ease-out_0.9s_forwards] mt-4 clear-both">
+              <h3 className="text-2xl md:text-3xl font-bold text-[#28aae4]">
+              Code
                 </h3>
-                <h4 className="text-lg md:text-xl font-semibold text-[#b7f7d1] mb-3">Lead Builder & Degen Architect</h4>
-                <p className="mb-4">
+                <h4 className="text-lg md:text-xl font-semibold text-[#891387]">
+                Lead Builder & Degen Architect
+                  </h4>
+                  <p className="mb-7 pt-4 text-justify text-[#8d6ca3] overflow-hidden">
+                  <img src="/xolo-nft-showcase-01.png" alt="Xolo Travel" className="float-left mr-4 mb-2 max-w-[166px] rounded-sm" />
                   Code is a battle-hardened degen from the golden Clubhouse days on Ethereum, a seasoned crypto trader with razor-sharp market instincts and hands-on building experience. Fluid in React.js and battle-tested in high-stakes web development, he's shipped name-brand websites (under NDA) for top players in the space. Now building with the Xolo pack on XRPL, Code delivers the technical backbone for XoloDojo and XoloGlobe—turning visionary ideas into seamless, secure, token-gated experiences. From smart community tools to immersive interfaces, he ensures the dojo runs smoothly, the globe connects flawlessly, and the pack thrives in Web3. Degen roots. Builder soul. Xolo loyalty.
                 </p>
               </div>
 
-              <div className="opacity-0 animate-[fadeInUp_0.6s_ease-out_1.1s_forwards] mt-4">
-                <p className="mb-4">
-                  Together, we're not just minting NFTs — we're summoning a global pack of guardians ready to explore, connect, and build the future.
+              <div className="opacity-0 animate-[fadeInUp_0.6s_ease-out_1.1s_forwards]">
+              <p className="mb-7">
+              Together, we're not just minting NFTs — we're summoning a global pack of guardians ready to explore, connect, and build the future.
                 </p>
               </div>
             </div>
@@ -326,7 +351,7 @@ function TabbedContent() {
               role="tabpanel"
             >
               <div className="opacity-0 animate-[fadeInUp_0.6s_ease-out_0.3s_forwards]">
-                <h3 className="text-2xl md:text-3xl font-bold mb-4 text-[#b7e9f7]">
+                <h3 className="text-2xl md:text-3xl font-bold mb-4 text-[#28aae4]">
                   The living map of our global community
                 </h3>
                 <p>
@@ -346,7 +371,7 @@ function TabbedContent() {
               </div>
 
               <div className="opacity-0 animate-[fadeInUp_0.6s_ease-out_0.5s_forwards] mt-4">
-                <h4 className="text-lg md:text-xl font-semibold text-[#b7f7d1] mb-3">
+                <h4 className="text-lg md:text-xl font-semibold text-[#891387] mb-3">
                   Exclusive, token-gated, and built on trust
                 </h4>
                 <p>
@@ -361,7 +386,7 @@ function TabbedContent() {
 
 
                   <div className="opacity-0 animate-[fadeInUp_0.6s_ease-out_0.6s_forwards] mt-4">
-                    <h4 className="text-lg md:text-xl font-semibold text-[#b7f7d1] mb-3">
+                    <h4 className="text-lg md:text-xl font-semibold text-[#891387] mb-3">
                       How It Works
                     </h4>
 
@@ -388,7 +413,7 @@ function TabbedContent() {
                     </ul>
                   </div>
                   <div className="opacity-0 animate-[fadeInUp_0.6s_ease-out_0.8s_forwards] mt-4">
-                    <h4 className="text-lg md:text-xl font-semibold text-[#b7f7d1] mb-3">
+                    <h4 className="text-lg md:text-xl font-semibold text-[#891387] mb-3">
                       Why the Xolo Globe Matters
                     </h4>
                     <ul className="list-items">
@@ -408,7 +433,7 @@ function TabbedContent() {
                   </div>
 
                   <div className="opacity-0 animate-[fadeInUp_0.6s_ease-out_1.0s_forwards] mt-4">
-                    <h4 className="text-lg md:text-xl font-semibold text-[#b7f7d1] mb-3">A platform for more than one tribe</h4>
+                    <h4 className="text-lg md:text-xl font-semibold text-[#891387] mb-3">A platform for more than one tribe</h4>
                     <p>
                       Over time, the XoloGlobe will open its doors to
                       other verified, values-aligned NFT communities who
@@ -422,7 +447,7 @@ function TabbedContent() {
                   </div>
 
                   <div className="opacity-0 animate-[fadeInUp_0.6s_ease-out_1.2s_forwards] mt-4">
-                    <h3 className="text-2xl md:text-3xl font-bold mb-4 text-[#b7e9f7]">Ready to add your pin and light up the map?</h3>
+                    <h3 className="text-2xl md:text-3xl font-bold mb-4 text-[#28aae4]">Ready to add your pin and light up the map?</h3>
                     <p>
                       Connect your wallet and join the XoloGlobe today!
                     </p>
@@ -447,7 +472,7 @@ function TabbedContent() {
                 <div className="container">
                   <div className="section-title text-center">
                     <PageTitle title="The Xolo NFT Journey" alt="star icon" animate delay={0} />
-                    <h3 className="text-2xl md:text-3xl font-bold mb-2 text-[#b7e9f7]">
+                    <h3 className="text-2xl md:text-3xl font-bold mb-2 text-[#28aae4]">
                       Understanding the **Minting** <br />
                       <span>
                         Process <b>(4 Steps)</b>
