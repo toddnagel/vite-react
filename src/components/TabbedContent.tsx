@@ -119,7 +119,7 @@ function TabbedContent() {
               <button
                 onClick={() => setActiveTab("TheXoloitzquintle")}
                 className={`px-6 py-3 rounded-full border border-white/20 cursor-pointer transition-all text-lg font-medium ${activeTab === "TheXoloitzquintle"
-                  ? "bg-[#b7e9f7] text-[#1a1a1a] border-[#b7e9f7]"
+                  ? "bg-[#28aae4] text-[#1a1a1a] border-[#28aae4]"
                   : "bg-[#1D1D21] text-white/70 hover:text-white hover:border-white/40"
                   }`}
                 aria-selected={activeTab === "TheXoloitzquintle"}
@@ -132,7 +132,7 @@ function TabbedContent() {
               <button
                 onClick={() => setActiveTab("TheTeam")}
                 className={`px-6 py-3 rounded-full border border-white/20 cursor-pointer transition-all text-lg font-medium ${activeTab === "TheTeam"
-                  ? "bg-[#b7e9f7] text-[#1a1a1a] border-[#b7e9f7]"
+                  ? "bg-[#28aae4] text-[#1a1a1a] border-[#28aae4]"
                   : "bg-[#1D1D21] text-white/70 hover:text-white hover:border-white/40"
                   }`}
                 aria-selected={activeTab === "TheTeam"}
@@ -145,7 +145,7 @@ function TabbedContent() {
               <button
                 onClick={() => setActiveTab("TheVision")}
                 className={`px-6 py-3 rounded-full border border-white/20 cursor-pointer transition-all text-lg font-medium ${activeTab === "TheVision"
-                  ? "bg-[#b7e9f7] text-[#1a1a1a] border-[#b7e9f7]"
+                  ? "bg-[#28aae4] text-[#1a1a1a] border-[#28aae4]"
                   : "bg-[#1D1D21] text-white/70 hover:text-white hover:border-white/40"
                   }`}
                 aria-selected={activeTab === "TheVision"}
@@ -158,7 +158,7 @@ function TabbedContent() {
               <button
                 onClick={() => setActiveTab("TheXoloGlobe")}
                 className={`px-6 py-3 rounded-full border border-white/20 cursor-pointer transition-all text-lg font-medium ${activeTab === "TheXoloGlobe"
-                  ? "bg-[#b7e9f7] text-[#1a1a1a] border-[#b7e9f7]"
+                  ? "bg-[#28aae4] text-[#1a1a1a] border-[#28aae4]"
                   : "bg-[#1D1D21] text-white/70 hover:text-white hover:border-white/40"
                   }`}
                 aria-selected={activeTab === "TheXoloGlobe"}
@@ -171,7 +171,7 @@ function TabbedContent() {
               <button
                 onClick={() => setActiveTab("TheMint")}
                 className={`px-6 py-3 rounded-full border border-white/20 cursor-pointer transition-all text-lg font-medium ${activeTab === "TheMint"
-                  ? "bg-[#b7e9f7] text-[#1a1a1a] border-[#b7e9f7]"
+                  ? "bg-[#28aae4] text-[#1a1a1a] border-[#28aae4]"
                   : "bg-[#1D1D21] text-white/70 hover:text-white hover:border-white/40"
                   }`}
                 aria-selected={activeTab === "TheMint"}
@@ -189,7 +189,7 @@ function TabbedContent() {
               className={`tab-pane ${activeTab === "TheXoloitzquintle" ? "block" : "hidden"}`}
               role="tabpanel"
             >
-              <h3 className="text-2xl md:text-3xl font-bold mb-3 text-[#b7e9f7]">
+              <h3 className="text-2xl md:text-3xl font-bold mb-3 text-[#28aae4]">
                 Mythic Journey of the Xolo: Gods, Guardians, and Eternal Bonds
               </h3>
               <p className="opacity-0 animate-[fadeInUp_0.6s_ease-out_0.3s_forwards] mb-4">
@@ -281,45 +281,67 @@ function TabbedContent() {
               role="tabpanel"
             >
               <div className="opacity-0 animate-[fadeInUp_0.6s_ease-out_0.3s_forwards]">
-                <h3 className="text-2xl md:text-3xl font-bold mb-3 text-[#b7e9f7]">
+                <h3 className="text-2xl md:text-3xl font-bold text-[#28aae4]">
                   Meet the Team
                 </h3>
-                <p className="mb-4">
+                <p className="mb-7 pt-4">
                   United by culture, art, and crypto, we're forging XoloDojo and XoloGlobe: a token-gated global tribe for trust, travel, skill-sharing, and real-world adventures.
                 </p>
               </div>
 
               <div className="opacity-0 animate-[fadeInUp_0.6s_ease-out_0.5s_forwards] mt-4">
-                <h3 className="text-2xl md:text-3xl font-bold mb-2 text-[#b7e9f7]">
+                <h3 className="text-2xl md:text-3xl font-bold text-[#28aae4]">
                   Cryptonite
                 </h3>
-                <h4 className="text-lg md:text-xl font-semibold text-[#b7f7d1] mb-3">Founder & Visionary Explorer</h4>
-                <p className="mb-4">
-                  Cryptonite is a nomadic, blockchain-agnostic digital pirate and early Clubhouse degen who's been navigating the Cryptocurrenseas since 2016. With footprints wandered in 30+ countries fueling a profound love for diverse cultures and authentic human connections, he stands proud in the XRP Army. He's the driving force building The Xoloitzquintle Collection on the XRPL — blending ancient wisdom with modern decentralized dreams. Partnering with RedShadow and Code, he's crafting XoloDojo and XoloGlobe as portals to genuine community, shared experiences, and worldwide adventures.
-                </p>
+                <h4 className="text-lg md:text-xl font-semibold text-[#642ff8]">
+                  Founder & Visionary Explorer
+                  </h4>
+                  <p className="mb-7 pt-4 text-justify text-[#8d6ca3] overflow-hidden">
+                <img src="/xolo-nft-showcase-01.png" alt="Xolo Travel" className="float-left mr-4 mb-2 max-w-[166px] rounded-sm" />
+                Cryptonite is a nomadic, blockchain-agnostic digital pirate who's been sailing the Cryptocurrenseas since 2016, 
+            with footprints in 34 countries that have shaped a deep appreciation for diverse cultures and meaningful connections. 
+            A proud XRP Army member marching forward with bullish conviction, he's the creator behind The Xoloitzquintle 
+            Collection on the XRPL — fusing ancient Mesoamerican reverence for the sacred Xoloitzquintle with modern 
+            innovation and genuine shared experiences. He's laying the foundation for XoloGlobe: a global, member-built 
+            dojo for trust, travel, skill-sharing, and soul-guided adventures — all powered by XoloDojo. 
+            Own a XoloNFT and join the voyage. If you ain't bullish, you're walking the plank.
+                            </p>
               </div>
 
               <div className="opacity-0 animate-[fadeInUp_0.6s_ease-out_0.7s_forwards] mt-4">
-                <h3 className="text-2xl md:text-3xl font-bold mb-2 text-[#b7e9f7]">RedShadow</h3>
-                <h4 className="text-lg md:text-xl font-semibold text-[#b7f7d1] mb-3">Visionary Artist & Cultural Alchemist</h4>
-                <p className="mb-4">
-                  RedShadow is the masterful creative mind behind every one of the 10,001 unique XoloNFTs—one hand drawn trait at a time. With an unwavering eye for intricate detail and deep reverence for Mesoamerican heritage, he reimagines the Xoloitzcuintle as sacred digital guardians—soul guides and loyal companions infused with timeless spiritual symbolism. His evocative, striking artwork fuses ancient cultural reverence with bold, contemporary digital expression, forming the visual heartbeat of XoloDojo and XoloGlobe. Through this collaboration with Cryptonite, RedShadow honors the Xolo's role as protector and guide, inviting holders into a world where art, heritage, and blockchain converge.
-                </p>
+                <h3 className="text-2xl md:text-3xl font-bold text-[#28aae4]">
+                  RedShadow
+                  </h3>
+                  <h4 className="text-lg md:text-xl font-semibold text-[#891387]">
+                  Visionary Artist & Cultural Alchemist
+                  </h4>
+                  <p className="mb-7 pt-4 text-justify text-[#8d6ca3] overflow-hidden">
+                  <img src="/xolo-nft-showcase-01.png" alt="Xolo Travel" className="float-right ml-4 mb-2 max-w-[166px] rounded-sm" />
+                  RedShadow is the visionary artist breathing life into The Xoloitzquintle Collection. With a masterful eye for 
+            detail and deep respect for Mesoamerican heritage, RedShadow crafts each of the 10,001 unique XoloNFTs as 
+            sacred digital guardians — blending timeless cultural symbolism with striking, evocative designs that honor 
+            the Xoloitzquintle's role as a spiritual companion and soul guide. Teaming with Cryptonite, RedShadow's 
+            artistry forms the visual heart of XoloDojo and XoloGlobe, inviting holders into a world where ancient 
+            legacy meets modern community and real-world reciprocity.
+                            </p>
               </div>
 
-              <div className="opacity-0 animate-[fadeInUp_0.6s_ease-out_0.9s_forwards] mt-4">
-                <h3 className="text-2xl md:text-3xl font-bold mb-2 text-[#b7e9f7]">
-                  Code
+              <div className="opacity-0 animate-[fadeInUp_0.6s_ease-out_0.9s_forwards] mt-4 clear-both">
+              <h3 className="text-2xl md:text-3xl font-bold text-[#28aae4]">
+              Code
                 </h3>
-                <h4 className="text-lg md:text-xl font-semibold text-[#b7f7d1] mb-3">Lead Builder & Degen Architect</h4>
-                <p className="mb-4">
+                <h4 className="text-lg md:text-xl font-semibold text-[#891387]">
+                Lead Builder & Degen Architect
+                  </h4>
+                  <p className="mb-7 pt-4 text-justify text-[#8d6ca3] overflow-hidden">
+                  <img src="/xolo-nft-showcase-01.png" alt="Xolo Travel" className="float-left mr-4 mb-2 max-w-[166px] rounded-sm" />
                   Code is a battle-hardened degen from the golden Clubhouse days on Ethereum, a seasoned crypto trader with razor-sharp market instincts and hands-on building experience. Fluid in React.js and battle-tested in high-stakes web development, he's shipped name-brand websites (under NDA) for top players in the space. Now building with the Xolo pack on XRPL, Code delivers the technical backbone for XoloDojo and XoloGlobe—turning visionary ideas into seamless, secure, token-gated experiences. From smart community tools to immersive interfaces, he ensures the dojo runs smoothly, the globe connects flawlessly, and the pack thrives in Web3. Degen roots. Builder soul. Xolo loyalty.
                 </p>
               </div>
 
-              <div className="opacity-0 animate-[fadeInUp_0.6s_ease-out_1.1s_forwards] mt-4">
-                <p className="mb-4">
-                  Together, we're not just minting NFTs — we're summoning a global pack of guardians ready to explore, connect, and build the future.
+              <div className="opacity-0 animate-[fadeInUp_0.6s_ease-out_1.1s_forwards]">
+              <p className="mb-7">
+              Together, we're not just minting NFTs — we're summoning a global pack of guardians ready to explore, connect, and build the future.
                 </p>
               </div>
             </div>
@@ -329,7 +351,7 @@ function TabbedContent() {
               role="tabpanel"
             >
               <div className="opacity-0 animate-[fadeInUp_0.6s_ease-out_0.3s_forwards]">
-                <h3 className="text-2xl md:text-3xl font-bold mb-4 text-[#b7e9f7]">
+                <h3 className="text-2xl md:text-3xl font-bold mb-4 text-[#28aae4]">
                   The living map of our global community
                 </h3>
                 <p>
@@ -349,7 +371,7 @@ function TabbedContent() {
               </div>
 
               <div className="opacity-0 animate-[fadeInUp_0.6s_ease-out_0.5s_forwards] mt-4">
-                <h4 className="text-lg md:text-xl font-semibold text-[#b7f7d1] mb-3">
+                <h4 className="text-lg md:text-xl font-semibold text-[#891387] mb-3">
                   Exclusive, token-gated, and built on trust
                 </h4>
                 <p>
@@ -364,7 +386,7 @@ function TabbedContent() {
 
 
                   <div className="opacity-0 animate-[fadeInUp_0.6s_ease-out_0.6s_forwards] mt-4">
-                    <h4 className="text-lg md:text-xl font-semibold text-[#b7f7d1] mb-3">
+                    <h4 className="text-lg md:text-xl font-semibold text-[#891387] mb-3">
                       How It Works
                     </h4>
 
@@ -391,7 +413,7 @@ function TabbedContent() {
                     </ul>
                   </div>
                   <div className="opacity-0 animate-[fadeInUp_0.6s_ease-out_0.8s_forwards] mt-4">
-                    <h4 className="text-lg md:text-xl font-semibold text-[#b7f7d1] mb-3">
+                    <h4 className="text-lg md:text-xl font-semibold text-[#891387] mb-3">
                       Why the Xolo Globe Matters
                     </h4>
                     <ul className="list-items">
@@ -411,7 +433,7 @@ function TabbedContent() {
                   </div>
 
                   <div className="opacity-0 animate-[fadeInUp_0.6s_ease-out_1.0s_forwards] mt-4">
-                    <h4 className="text-lg md:text-xl font-semibold text-[#b7f7d1] mb-3">A platform for more than one tribe</h4>
+                    <h4 className="text-lg md:text-xl font-semibold text-[#891387] mb-3">A platform for more than one tribe</h4>
                     <p>
                       Over time, the XoloGlobe will open its doors to
                       other verified, values-aligned NFT communities who
@@ -425,7 +447,7 @@ function TabbedContent() {
                   </div>
 
                   <div className="opacity-0 animate-[fadeInUp_0.6s_ease-out_1.2s_forwards] mt-4">
-                    <h3 className="text-2xl md:text-3xl font-bold mb-4 text-[#b7e9f7]">Ready to add your pin and light up the map?</h3>
+                    <h3 className="text-2xl md:text-3xl font-bold mb-4 text-[#28aae4]">Ready to add your pin and light up the map?</h3>
                     <p>
                       Connect your wallet and join the XoloGlobe today!
                     </p>
@@ -450,7 +472,7 @@ function TabbedContent() {
                 <div className="container">
                   <div className="section-title text-center">
                     <PageTitle title="The Xolo NFT Journey" alt="star icon" animate delay={0} />
-                    <h3 className="text-2xl md:text-3xl font-bold mb-2 text-[#b7e9f7]">
+                    <h3 className="text-2xl md:text-3xl font-bold mb-2 text-[#28aae4]">
                       Understanding the **Minting** <br />
                       <span>
                         Process <b>(4 Steps)</b>
