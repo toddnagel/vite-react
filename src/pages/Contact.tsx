@@ -1,41 +1,98 @@
-import {
-  faClock,
-  faEnvelope,
-  faLocationDot,
-  faPhone,
-} from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import PageTitle from "../components/PageTitle";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faDiscord,
+  faReddit,
+} from "@fortawesome/free-brands-svg-icons";
+import { faX } from "@fortawesome/free-solid-svg-icons";
 
-const contactCards = [
+interface Owner {
+  id: number;
+  name: string;
+  title: string;
+  image: string;
+  socials: {
+    twitter: string;
+    discord: string;
+    reddit: string;
+  };
+}
+
+const owners: Owner[] = [
   {
-    icon: faLocationDot,
-    title: "Location",
-    lines: ["2455 Prudence Street Quas Detroits, MI 48234"],
-    links: false,
+    id: 1,
+    name: "Cryptonite",
+    title: "Founder & Visionary Explorer",
+    image: "/01.jpg",
+    socials: {
+      twitter: "#",
+      discord: "#",
+      reddit: "#",
+    },
   },
   {
-    icon: faEnvelope,
-    title: "Email us",
-    lines: ["info@example.com", "info@example.com"],
-    links: true,
-    href: "mailto:info@example.com",
+    id: 2,
+    name: "RedShadow",
+    title: "Visionary Artist & Cultural Alchemist",
+    image: "/02.jpg",
+    socials: {
+      twitter: "#",
+      discord: "#",
+      reddit: "#",
+    },
   },
   {
-    icon: faPhone,
-    title: "Free call",
-    lines: ["+02 (313) 369 5329", "+02 (313) 369 5329"],
-    links: true,
-    href: "tel:+023133695329",
-  },
-  {
-    icon: faClock,
-    title: "Opening hour",
-    lines: ["Sun to Fri: 09AM - 5PM", "Saturday: Closed"],
-    links: false,
+    id: 3,
+    name: "Code",
+    title: "Lead Builder & Degen Architect",
+    image: "/03.jpg",
+    socials: {
+      twitter: "#",
+      discord: "#",
+      reddit: "#",
+    },
   },
 ];
 
+function OwnerCard({ owner }: { owner: Owner }) {
+  return (
+    <div className="flex flex-col items-center text-center">
+      <div className="mb-4 overflow-hidden rounded-lg w-full max-w-xs">
+        <img
+          src={owner.image}
+          alt={owner.name}
+          className="w-full h-auto object-cover"
+        />
+      </div>
+      <h3 className="text-xl md:text-2xl font-bold text-white mb-1">
+        {owner.name}
+      </h3>
+      <p className="text-sm md:text-base text-[#b7e9f7] mb-4">
+        {owner.title}
+      </p>
+      <div className="flex items-center gap-2">
+        <a
+          href={owner.socials.twitter}
+          className="inline-flex items-center justify-center w-10 h-10 rounded-full border border-[#cfd0d4] text-[#cdcdcd] hover:text-[#b7e9f7] hover:bg-black/40 transition-all duration-300 ease-in-out"
+        >
+          <FontAwesomeIcon icon={faX} size="sm" />
+        </a>
+        <a
+          href={owner.socials.discord}
+          className="inline-flex items-center justify-center w-10 h-10 rounded-full border border-[#cfd0d4] text-[#cdcdcd] hover:text-[#b7e9f7] hover:bg-black/40 transition-all duration-300 ease-in-out"
+        >
+          <FontAwesomeIcon icon={faDiscord} size="sm" />
+        </a>
+        <a
+          href={owner.socials.reddit}
+          className="inline-flex items-center justify-center w-10 h-10 rounded-full border border-[#cfd0d4] text-[#cdcdcd] hover:text-[#b7e9f7] hover:bg-black/40 transition-all duration-300 ease-in-out"
+        >
+          <FontAwesomeIcon icon={faReddit} size="sm" />
+        </a>
+      </div>
+    </div>
+  );
+}
 
 function Contact() {
   return (
@@ -48,68 +105,14 @@ function Contact() {
           <div className="section-title max-w-2xl">
             <PageTitle title="contact us" animate delay={0} />
           </div>
-          <div className="mt-10 flex flex-col gap-10 lg:flex-row lg:items-center lg:gap-12">
-            <div
-              className="opacity-0 animate-[fadeInUp_0.6s_ease-out_0.3s_forwards] lg:w-1/3"
-              style={{ animationDelay: "0.3s" }}
-            >
-              <div className="overflow-hidden rounded-xl">
-                <img
-                  src="/contac-img-2.jpg"
-                  alt="Contact"
-                  className="h-auto w-full object-cover"
-                />
-              </div>
-            </div>
-            <div className="flex-1">
-              <h2 className="text-3xl font-bold text-white opacity-0 animate-[fadeInUp_0.6s_ease-out_0.3s_forwards] md:text-4xl">
-                Get in touch
-              </h2>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section className="relative py-16 md:py-24">
-        <div className="container mx-auto max-w-7xl px-4">
-          <div className="mb-12 text-center">
-            <PageTitle title="Quick support info" animate delay={0} />
-            <h2 className="mt-2 text-3xl font-bold text-white opacity-0 animate-[fadeInUp_0.6s_ease-out_0.3s_forwards] md:text-4xl">
-              Contact <span className="font-bold">information</span>
-            </h2>
-          </div>
-          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
-            {contactCards.map((card, index) => (
-              <div
-                key={card.title}
-                className="flex flex-col rounded-xl border border-white/20 bg-white/5 p-6 opacity-0 transition-colors hover:bg-white/10"
-                style={{
-                  animation: `fadeInUp 0.6s ease-out ${0.2 + index * 0.1}s forwards`,
-                }}
-              >
-                <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-lg bg-primary/30 text-xl text-primary-light">
-                  <FontAwesomeIcon icon={card.icon} />
-                </div>
-                <h3 className="h3-default text-white">{card.title}</h3>
-                <div className="mt-1 space-y-1 text-sm text-white/90">
-                  {card.links && card.href
-                    ? card.lines.map((line) => (
-                        <p key={line}>
-                          <a
-                            href={card.href}
-                            className="text-white/90 underline transition-colors hover:text-primary-light"
-                          >
-                            {line}
-                          </a>
-                        </p>
-                      ))
-                    : card.lines.map((line) => <p key={line}>{line}</p>)}
-                </div>
-              </div>
+          <div className="mt-10 grid grid-cols-1 lg:grid-cols-3 gap-8 md:gap-10">
+            {owners.map((owner) => (
+              <OwnerCard key={owner.id} owner={owner} />
             ))}
           </div>
         </div>
       </section>
+
     </>
   );
 }
