@@ -252,7 +252,7 @@ function TabbedContent() {
                     className="list-items opacity-0 animate-[fadeInUp_0.6s_ease-out_0.5s_forwards]"
                   >
                     <li>
-                      <span>Staying in a Xolo Host’s Dwelling — Immerse yourself in local life with overnight stays in the homes of Xolo hosts around the XoloGlobe, building deep cultural connections.</span>
+                      Staying in a Xolo Host’s Dwelling — Immerse yourself in local life with overnight stays in the homes of Xolo hosts around the XoloGlobe, building deep cultural connections.
                     </li>
                     <li>
                       <span>House and Dwelling Swaps — Swap homes directly with members across the XoloGlobe for cost-free, trust-based travel and reciprocal hospitality.</span>
@@ -295,53 +295,53 @@ function TabbedContent() {
                 </h3>
                 <h4 className="text-lg md:text-xl font-semibold text-[#642ff8]">
                   Founder & Visionary Explorer
-                  </h4>
-                  <p className="mb-7 pt-4 text-justify text-[#8d6ca3] overflow-hidden">
-                <img src="/xolo-nft-showcase-01.png" alt="Xolo Travel" className="float-left mr-4 mb-2 max-w-[166px] rounded-sm" />
-                Cryptonite is a nomadic, blockchain-agnostic digital pirate who's been sailing the Cryptocurrenseas since 2016, 
-            with footprints in 34 countries that have shaped a deep appreciation for diverse cultures and meaningful connections. 
-            A proud XRP Army member marching forward with bullish conviction, he's the creator behind The Xoloitzquintle 
-            Collection on the XRPL — fusing ancient Mesoamerican reverence for the sacred Xoloitzquintle with modern 
-            innovation and genuine shared experiences. He's laying the foundation for XoloGlobe: a global, member-built 
-            dojo for trust, travel, skill-sharing, and soul-guided adventures — all powered by XoloDojo. 
-            Own a XoloNFT and join the voyage. If you ain't bullish, you're walking the plank.
-                            </p>
+                </h4>
+                <p className="mb-7 pt-4 text-justify text-[#8d6ca3] overflow-hidden">
+                  <img src="/xolo-nft-showcase-01.png" alt="Xolo Travel" className="float-left mr-4 mb-2 max-w-[166px] rounded-sm" />
+                  Cryptonite is a nomadic, blockchain-agnostic digital pirate who's been sailing the Cryptocurrenseas since 2016,
+                  with footprints in 34 countries that have shaped a deep appreciation for diverse cultures and meaningful connections.
+                  A proud XRP Army member marching forward with bullish conviction, he's the creator behind The Xoloitzquintle
+                  Collection on the XRPL — fusing ancient Mesoamerican reverence for the sacred Xoloitzquintle with modern
+                  innovation and genuine shared experiences. He's laying the foundation for XoloGlobe: a global, member-built
+                  dojo for trust, travel, skill-sharing, and soul-guided adventures — all powered by XoloDojo.
+                  Own a XoloNFT and join the voyage. If you ain't bullish, you're walking the plank.
+                </p>
               </div>
 
               <div className="opacity-0 animate-[fadeInUp_0.6s_ease-out_0.7s_forwards] mt-4">
                 <h3 className="text-2xl md:text-3xl font-bold text-[#28aae4]">
                   RedShadow
-                  </h3>
-                  <h4 className="text-lg md:text-xl font-semibold text-[#891387]">
+                </h3>
+                <h4 className="text-lg md:text-xl font-semibold text-[#891387]">
                   Visionary Artist & Cultural Alchemist
-                  </h4>
-                  <p className="mb-7 pt-4 text-justify text-[#8d6ca3] overflow-hidden">
+                </h4>
+                <p className="mb-7 pt-4 text-justify text-[#8d6ca3] overflow-hidden">
                   <img src="/xolo-nft-showcase-01.png" alt="Xolo Travel" className="float-right ml-4 mb-2 max-w-[166px] rounded-sm" />
-                  RedShadow is the visionary artist breathing life into The Xoloitzquintle Collection. With a masterful eye for 
-            detail and deep respect for Mesoamerican heritage, RedShadow crafts each of the 10,001 unique XoloNFTs as 
-            sacred digital guardians — blending timeless cultural symbolism with striking, evocative designs that honor 
-            the Xoloitzquintle's role as a spiritual companion and soul guide. Teaming with Cryptonite, RedShadow's 
-            artistry forms the visual heart of XoloDojo and XoloGlobe, inviting holders into a world where ancient 
-            legacy meets modern community and real-world reciprocity.
-                            </p>
+                  RedShadow is the visionary artist breathing life into The Xoloitzquintle Collection. With a masterful eye for
+                  detail and deep respect for Mesoamerican heritage, RedShadow crafts each of the 10,001 unique XoloNFTs as
+                  sacred digital guardians — blending timeless cultural symbolism with striking, evocative designs that honor
+                  the Xoloitzquintle's role as a spiritual companion and soul guide. Teaming with Cryptonite, RedShadow's
+                  artistry forms the visual heart of XoloDojo and XoloGlobe, inviting holders into a world where ancient
+                  legacy meets modern community and real-world reciprocity.
+                </p>
               </div>
 
               <div className="opacity-0 animate-[fadeInUp_0.6s_ease-out_0.9s_forwards] mt-4 clear-both">
-              <h3 className="text-2xl md:text-3xl font-bold text-[#28aae4]">
-              Code
+                <h3 className="text-2xl md:text-3xl font-bold text-[#28aae4]">
+                  Code
                 </h3>
                 <h4 className="text-lg md:text-xl font-semibold text-[#891387]">
-                Lead Builder & Degen Architect
-                  </h4>
-                  <p className="mb-7 pt-4 text-justify text-[#8d6ca3] overflow-hidden">
+                  Lead Builder & Degen Architect
+                </h4>
+                <p className="mb-7 pt-4 text-justify text-[#8d6ca3] overflow-hidden">
                   <img src="/xolo-nft-showcase-01.png" alt="Xolo Travel" className="float-left mr-4 mb-2 max-w-[166px] rounded-sm" />
                   Code is a battle-hardened degen from the golden Clubhouse days on Ethereum, a seasoned crypto trader with razor-sharp market instincts and hands-on building experience. Fluid in React.js and battle-tested in high-stakes web development, he's shipped name-brand websites (under NDA) for top players in the space. Now building with the Xolo pack on XRPL, Code delivers the technical backbone for XoloDojo and XoloGlobe—turning visionary ideas into seamless, secure, token-gated experiences. From smart community tools to immersive interfaces, he ensures the dojo runs smoothly, the globe connects flawlessly, and the pack thrives in Web3. Degen roots. Builder soul. Xolo loyalty.
                 </p>
               </div>
 
               <div className="opacity-0 animate-[fadeInUp_0.6s_ease-out_1.1s_forwards]">
-              <p className="mb-7">
-              Together, we're not just minting NFTs — we're summoning a global pack of guardians ready to explore, connect, and build the future.
+                <p className="mb-7">
+                  Together, we're not just minting NFTs — we're summoning a global pack of guardians ready to explore, connect, and build the future.
                 </p>
               </div>
             </div>
