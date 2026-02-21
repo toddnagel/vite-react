@@ -66,7 +66,7 @@ function UserMenu({ isSticky = false }: UserMenuProps) {
         return (
             <button
                 onClick={handleLogin}
-                className="user-menu-login-btn"
+                className="px-4 py-2 rounded-md bg-[#1d1d21] text-white border border-[#cfd0d4] hover:bg-black/40 transition-all duration-200"
             >
                 Login
             </button>
@@ -77,12 +77,7 @@ function UserMenu({ isSticky = false }: UserMenuProps) {
         <div ref={dropdownRef} className="relative">
             <button
                 onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-                className="user-menu-avatar transition-all duration-300"
-                style={{
-                    width: isSticky ? '32px' : '38px',
-                    height: isSticky ? '32px' : '38px',
-                    fontSize: isSticky ? '14px' : '18px',
-                }}
+                className={`user-menu-avatar transition-all duration-300 flex items-center justify-center rounded-full overflow-hidden ${isSticky ? 'h-12 w-12 text-sm' : 'h-12 w-12 md:h-24 md:w-24 text-base md:text-xl'}`}
                 aria-label="User menu"
             >
                 {user?.picture ? (
@@ -92,7 +87,7 @@ function UserMenu({ isSticky = false }: UserMenuProps) {
                         className="w-full h-full rounded-full object-cover"
                     />
                 ) : (
-                    getUserInitial()
+                    <span className="text-white font-semibold">{getUserInitial()}</span>
                 )}
             </button>
 
