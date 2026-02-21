@@ -8,8 +8,6 @@ import {
   faXTwitter,
 } from "@fortawesome/free-brands-svg-icons";
 
-import { faX } from "@fortawesome/free-solid-svg-icons";
-
 function Footer() {
   const footerRef = useRef<HTMLElement>(null);
   const greenBlobRef = useRef<HTMLDivElement>(null);
