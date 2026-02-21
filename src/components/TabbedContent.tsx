@@ -469,7 +469,7 @@ function TabbedContent() {
               role="tabpanel"
             >
               <h2 className="text-3xl md:text-4xl font-bold mb-3 text-[#28aae4]">
-                Mythic Journey of the Xolo: Gods, Guardians, and Eternal Bonds
+                Mythic Journey of the Xolo: Gods, Guardians, and Eternal Bonds.
               </h2>
               <p className="opacity-0 animate-[fadeInUp_0.6s_ease-out_0.3s_forwards] mb-4">
                 Picture this: the Aztec cosmos is basically a chaotic family reunion that never ends. At the center? The ultimate twin duo—Quetzalcoatl, the chill, feathered-serpent genius of wind, wisdom, creation, and "let's make everything better," and his rowdy, dog-headed brother Xolotl, the lightning-fast trickster god of fire, transformation, deformities, and "hold my conch shell while I pull off the impossible."
