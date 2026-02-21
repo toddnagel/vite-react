@@ -5,6 +5,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faDiscord,
   faReddit,
+  faXTwitter,
 } from "@fortawesome/free-brands-svg-icons";
 
 import { faX } from "@fortawesome/free-solid-svg-icons";
@@ -153,7 +154,7 @@ function Footer() {
           </p>
           <div className="social-icon flex items-center gap-2 opacity-0 animate-[fadeInUp_0.6s_ease-out_0.8s_forwards]">
             <a href="#" className="inline-flex items-center justify-center w-12 h-12 rounded-full border border-[#cfd0d4] text-[#cdcdcd] hover:text-[#b7e9f7] hover:bg-black/40 transition-all duration-300 ease-in-out">
-              <FontAwesomeIcon icon={faX} />
+              <FontAwesomeIcon icon={faXTwitter} />
             </a>
             <a href="#" className="inline-flex items-center justify-center w-12 h-12 rounded-full border border-[#cfd0d4] text-[#cdcdcd] hover:text-[#b7e9f7] hover:bg-black/40 transition-all duration-300 ease-in-out">
               <FontAwesomeIcon icon={faDiscord} />
