@@ -5085,45 +5085,6 @@ span {
   background-color: var(--theme2);
 }
 
-/* Sticky Header - Keep for fixed positioning and animation */
-/* Padding and sizing now handled by Tailwind classes */
-
-/* Logo Sizing - Desktop */
-.header-1 .header-logo img {
-  height: 96px !important;
-  width: 96px !important;
-  transition: all 0.3s ease !important;
-}
-
-.header-1.sticky .header-logo img,
-.sticky .header-logo img {
-  height: 48px !important;
-  width: 48px !important;
-}
-
-/* Mobile Logo Shrinking */
-@media (max-width: 991px) {
-  .header-logo img {
-    max-height: 45px !important;
-  }
-
-  .header-1.sticky .header-logo img,
-  .sticky .header-logo img {
-    max-height: 28px !important;
-  }
-}
-
-@media (max-width: 575px) {
-  .header-logo img {
-    max-height: 40px !important;
-  }
-
-  .header-1.sticky .header-logo img,
-  .sticky .header-logo img {
-    max-height: 24px !important;
-  }
-}
-
 /* Mobile Menu Auth Buttons */
 .mobile-menu-nav ul li button {
   background: transparent !important;
@@ -5210,24 +5171,6 @@ span {
 @media (max-width: 1399px) {
   .header-style4 .main-menu ul li:not(:last-child) {
     margin-right: 20px;
-  }
-}
-@media (max-width: 575px) {
-  .header-style4 .header-logo {
-    max-width: 120px;
-    display: block;
-  }
-  .header-style4 .header-logo img {
-    width: 100%;
-  }
-  .header-style4 .mega-menu-wrapper .search-icon,
-  .header-style4 .mega-menu-wrapper .sidebar__toggle {
-    width: 40px;
-    height: 40px;
-  }
-  .header-style4 .mega-menu-wrapper .search-icon i,
-  .header-style4 .mega-menu-wrapper .sidebar__toggle i {
-    color: var(--black);
   }
 }
 
