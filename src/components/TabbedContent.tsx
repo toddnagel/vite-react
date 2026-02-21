@@ -540,6 +540,105 @@ function TabbedContent() {
                   </div>
                 </div>
               </section>
+              <h3 className="text-2xl md:text-3xl font-bold mb-3 text-[#28aae4]">
+                Mythic Journey of the Xolo: Gods, Guardians, and Eternal Bonds
+              </h3>
+              <p className="opacity-0 animate-[fadeInUp_0.6s_ease-out_0.3s_forwards] mb-4">
+                Picture this: the Aztec cosmos is basically a chaotic family reunion that never ends. At the center? The ultimate twin duo—Quetzalcoatl, the chill, feathered-serpent genius of wind, wisdom, creation, and "let's make everything better," and his rowdy, dog-headed brother Xolotl, the lightning-fast trickster god of fire, transformation, deformities, and "hold my conch shell while I pull off the impossible."
+              </p>
+              <p className="opacity-0 animate-[fadeInUp_0.6s_ease-out_0.4s_forwards] mb-4">
+                These two aren't just siblings; they're the original dynamic duo who literally rebuilt humanity after the world got wrecked four times (because ancient gods apparently loved a good reset button). Quetzalcoatl, ever the visionary, decides it's time for round five: populate the earth with actual people. But plot twist—he needs the sacred bones from the previous eras, stashed deep in Mictlan, the shadowy, nine-level underworld ruled by the skeletal party-pooper Mictlantecuhtli (the Lord of the Dead) and his queen Mictecacihuatl.
+              </p>
+              <h3 className="text-2xl md:text-3xl font-bold mb-3 text-[#28aae4]">
+              The Xoloitzquintle Mint
+              </h3>
+              <h3 className="text-2xl md:text-3xl font-bold mb-3 text-[#28aae4]">
+              Claim Your Sacred Guide
+              </h3>
+              <h3 className="text-2xl md:text-3xl font-bold mb-3 text-[#28aae4]">
+              10,001 Unique XRPL NFTs
+              </h3> 
+              <p className="opacity-0 animate-[fadeInUp_0.6s_ease-out_0.5s_forwards] mb-4">
+Hand-drawn with deep Mesoamerican roots — 7 distinct traits + 217 sub-traits by RedShadow.
+Built on the eco-friendly XRP Ledger: fast transactions, low fees, no gas wars.
+</p>
+<p className="opacity-0 animate-[fadeInUp_0.6s_ease-out_0.4s_forwards] mb-4">
+Mint Status: Coming Soon
+Launching on the premier XRPL marketplace: xrp.cafe
+Exact date, price, and any allowlist details TBA — stay tuned via @XoloDojo and xolodojo.io.
+Prepare now to own your loyal Xolo guardian and unlock the XoloGlobe: a token-gated world map for holders to connect, share locations, plan travel swaps, and build community IRL.
+</p>
+<h3 className="text-2xl md:text-3xl font-bold mb-3 text-[#28aae4]">
+Prepare to Mint – 4 Simple Steps
+</h3> 
+              <p className="opacity-0 animate-[fadeInUp_0.6s_ease-out_0.4s_forwards] mb-4">
+              <ul
+                    className="list-items opacity-0 animate-[fadeInUp_0.6s_ease-out_0.5s_forwards]"
+                  >
+                    <li>
+                      <span>
+                      Set Up Your XRPL Wallet
+                      Download a trusted, XRPL-compatible wallet:
+                      </span>
+                      <ul
+                    className="list-items opacity-0 animate-[fadeInUp_0.6s_ease-out_0.5s_forwards]"
+                  >
+                    <li>
+                    Joey Wallet (recommended for ease)
+                    </li>
+                    <li>
+                    Xaman (formerly Xumm – strong security focus)
+                      </li>
+                    <li>
+                    MadLabs / Xoge (advanced features)
+                    Create or use an existing wallet. Back up your seed phrase securely — never share it.
+                    </li>
+
+                    </ul>
+                    </li>
+                    <li>
+                      <span>
+                      Fund with XRP (Minimum 20+ Recommended)
+                      </span>
+                      The XRP Ledger requires a base reserve (around 10–20 XRP depending on features) plus extra for fees and trust lines.
+                      Send at least 20 XRP to your wallet to cover:
+                      
+                      </li>
+                    <li>
+                    <span>
+                        
+                        </span>
+                    </li>
+                    <li>
+                    <span>
+                        
+                        </span>
+                    </li>
+                    </ul>
+
+
+
+
+
+Wallet activation/reserve
+Transaction costs
+Mint fees (typically very low on XRPL)
+Buy XRP on exchanges like Uphold, Bitrue, or via the XRPL DEX.
+Connect to xrp.cafe
+Go to https://xrp.cafe
+Click "Connect Wallet" → Choose your XRPL wallet → Sign the secure request.
+Once connected, you'll see the official Xoloitzquintle collection when it drops.
+Mint Your Xolo When Live
+On launch: Navigate to the Xoloitzquintle collection page.
+Select your mint quantity (if allowed), confirm the transaction.
+Your unique NFT arrives in seconds on the ledger.
+Then verify ownership on xolodojo.io to access XoloGlobe perks!
+Why Mint a Xolo?
+Cultural Depth — Honor the sacred Xoloitzquintle, ancient spiritual guide and symbol of loyalty.
+XRPL Benefits — Eco-friendly, pennies-per-transaction, lightning-fast, no Ethereum-style bidding wars.
+Long-Term Utility — Token-gate the XoloGlobe: pin your location, connect with fellow holders worldwide, share travel stories, skills, and culture.
+Community First — Join a decentralized network fostering global connections on the XRPL.
+              </p>             
             </div>
           </div>
         </div>
