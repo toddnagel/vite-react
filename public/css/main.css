@@ -6,11 +6,11 @@ Description: AIForge - AI Startup & Technology HTML Template
 Version: 1.0.0
 */
 /*CSS Table Of Content Ends Here*/
-@import url("https://fonts.cdnfonts.com/css/satoshi");
-@import url("https://fonts.googleapis.com/css2?family=Marcellus&display=swap");
-@import url("https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=swap");
-@import url("https://fonts.googleapis.com/css2?family=Syncopate:wght@400;700&display=swap");
-@import url("https://fonts.googleapis.com/css2?family=Urbanist:ital,wght@0,100..900;1,100..900&display=swap");
+@import url('https://fonts.cdnfonts.com/css/satoshi');
+@import url('https://fonts.googleapis.com/css2?family=Marcellus&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Syncopate:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Urbanist:ital,wght@0,100..900;1,100..900&display=swap');
 :root {
   --body: #fff;
   --black: #000;
@@ -52,7 +52,7 @@ Version: 1.0.0
   background: #1d1d21;
 }
 .theme-btn::after {
-  content: "";
+  content: '';
   background-color: var(--theme);
   position: absolute;
   top: 0;
@@ -188,7 +188,7 @@ Version: 1.0.0
     Template Default Fonts & Fonts Styles
  ---------------------------------------------- */
 body {
-  font-family: "Satoshi Variable", sans-serif;
+  font-family: 'Satoshi Variable', sans-serif;
   font-size: 18px;
   font-weight: 500;
   line-height: 28px;
@@ -255,11 +255,11 @@ span {
 .tabs-navigation .nav .nav-item .nav-link {
   border-radius: 50px;
   border: 1px solid rgba(207, 208, 212, 0.2);
-  background: #1D1D21;
+  background: #1d1d21;
   font-size: 24px;
   font-weight: 500;
   color: var(--white);
-  font-family: "Satoshi Variable", sans-serif;
+  font-family: 'Satoshi Variable', sans-serif;
   padding: 20px 40px;
   line-height: 1;
   text-align: center;
@@ -268,8 +268,8 @@ span {
 }
 @media (max-width: 1399px) {
   .tabs-navigation .nav {
-      display: flex;
-      margin-bottom: 40px;
+    display: flex;
+    margin-bottom: 40px;
   }
 }
 
@@ -308,7 +308,7 @@ span {
   font-size: 24px;
   font-weight: 500;
   color: var(--white);
-  font-family: "Satoshi Variable", sans-serif;
+  font-family: 'Satoshi Variable', sans-serif;
   padding: 35px 60px;
   line-height: 1;
   text-align: center;
@@ -345,16 +345,16 @@ span {
   max-width: 100%;
   flex: 1;
 }
-.about-wrapper .about-items .about-content .list-items {
+.list-items {
   margin-top: 25px;
-  margin-bottom: 50px;
+  /* margin-bottom: 50px; */
 }
-.about-wrapper .about-items .about-content .list-items li {
+.list-items li {
   position: relative;
   padding-left: 32px;
   line-height: 1.6;
 }
-.about-wrapper .about-items .about-content .list-items li::before {
+.list-items li::before {
   content: '';
   position: absolute;
   left: 0;
@@ -367,16 +367,16 @@ span {
   background-size: contain;
   display: block;
 }
-.about-wrapper .about-items .about-content .list-items li > ul {
+.list-items li > ul {
   margin-top: 16px;
 }
-.about-wrapper .about-items .about-content .list-items li span {
+.list-items li span {
   display: inline-block;
   font-weight: 700;
   color: var(--white);
   padding-left: 0;
 }
-.about-wrapper .about-items .about-content .list-items li:not(:last-child) {
+.list-items li:not(:last-child) {
   margin-bottom: 15px;
 }
 .about-wrapper .about-items .about-image {
@@ -573,7 +573,7 @@ span {
 .about-wrapper-3 .about-items .about-content h3 span {
   color: var(--theme);
   font-weight: 400;
-  font-family: "Satoshi Variable", sans-serif;
+  font-family: 'Satoshi Variable', sans-serif;
 }
 .about-wrapper-3 .about-image-items-2 {
   margin-top: 30px;
@@ -768,7 +768,7 @@ span {
   color: var(--white);
   font-size: 48px;
   font-weight: 700;
-  font-family: "Urbanist", sans-serif;
+  font-family: 'Urbanist', sans-serif;
 }
 .about-wrapper-6 .about-content .about-content-item .count-item p {
   color: rgba(255, 255, 255, 0.7);
@@ -835,7 +835,7 @@ span {
   .about-icon-item
   .content
   h5 {
-  font-family: "Urbanist", sans-serif;
+  font-family: 'Urbanist', sans-serif;
   color: var(--white);
   margin-bottom: 5px;
 }
@@ -1242,7 +1242,7 @@ span {
   position: absolute;
   top: 15px;
   left: 0;
-  content: "";
+  content: '';
   height: 1px;
   width: 460px;
   background-color: #e0e1e5;
@@ -1257,7 +1257,7 @@ span {
   position: absolute;
   top: 15px;
   right: 0;
-  content: "";
+  content: '';
   height: 1px;
   width: 460px;
   background-color: #e0e1e5;
@@ -1305,7 +1305,7 @@ span {
   left: 0;
   width: 100%;
   height: 1px;
-  content: "";
+  content: '';
   z-index: -1;
   background-color: rgba(93, 96, 99, 0.24);
 }
@@ -1475,7 +1475,7 @@ span {
   bottom: 0;
   width: 100%;
   height: 100%;
-  content: "";
+  content: '';
   top: 9px;
   width: 26%;
   height: 1px;
@@ -1489,7 +1489,7 @@ span {
 }
 .login-wrapper .signin-item h5::after {
   position: absolute;
-  content: "";
+  content: '';
   top: 9px;
   right: 0;
   width: 26%;
@@ -1817,7 +1817,7 @@ span {
   bottom: 0;
   width: 100%;
   height: 100%;
-  content: "";
+  content: '';
   background: linear-gradient(
     0deg,
     rgba(0, 0, 0, 0.2) 0%,
@@ -1945,7 +1945,7 @@ span {
   bottom: 0;
   width: 100%;
   height: 100%;
-  content: "";
+  content: '';
   background-color: #1a1a1e;
   top: 50%;
 }
@@ -2016,7 +2016,7 @@ span {
 }
 .cta-discuss-content h2 span {
   font-weight: 400;
-  font-family: "Marcellus", sans-serif;
+  font-family: 'Marcellus', sans-serif;
 }
 .cta-discuss-content h2 span b {
   color: var(--theme);
@@ -2089,7 +2089,7 @@ span {
   background-color: transparent;
   text-transform: capitalize;
   font-size: 27px;
-  font-family: "Satoshi Variable", sans-serif;
+  font-family: 'Satoshi Variable', sans-serif;
   padding-left: 0;
 }
 @media (max-width: 1199px) {
@@ -2106,8 +2106,8 @@ span {
   .accordion-item
   .accordion-header
   .accordion-button::after {
-  content: "+";
-  font-family: "Font Awesome 6 Pro";
+  content: '+';
+  font-family: 'Font Awesome 6 Pro';
   background: transparent;
   font-weight: 500;
   transition: all 0.3s ease-in-out !important;
@@ -2119,8 +2119,8 @@ span {
   .accordion-item
   .accordion-header
   .accordion-button:not(.collapsed)::after {
-  content: "-";
-  font-family: "Font Awesome 6 Pro";
+  content: '-';
+  font-family: 'Font Awesome 6 Pro';
   background: transparent;
   font-weight: 500;
   color: var(--theme);
@@ -2162,7 +2162,7 @@ span {
   .accordion-button {
   text-transform: capitalize;
   font-size: 24px;
-  font-family: "Satoshi Variable", sans-serif;
+  font-family: 'Satoshi Variable', sans-serif;
   color: var(--header2);
 }
 @media (max-width: 1199px) {
@@ -2351,7 +2351,7 @@ span {
   background-color: transparent;
   text-transform: capitalize;
   font-size: 20px;
-  font-family: "Urbanist", sans-serif;
+  font-family: 'Urbanist', sans-serif;
   padding-left: 0;
   padding: 20px 32px 15px;
 }
@@ -2369,8 +2369,8 @@ span {
   .accordion-item
   .accordion-header
   .accordion-button::after {
-  content: "+";
-  font-family: "Font Awesome 6 Pro";
+  content: '+';
+  font-family: 'Font Awesome 6 Pro';
   background: transparent;
   font-weight: 500;
   transition: all 0.3s ease-in-out !important;
@@ -2382,8 +2382,8 @@ span {
   .accordion-item
   .accordion-header
   .accordion-button:not(.collapsed)::after {
-  content: "\f068";
-  font-family: "Font Awesome 6 Pro";
+  content: '\f068';
+  font-family: 'Font Awesome 6 Pro';
   background: transparent;
   font-weight: 500;
   color: var(--theme3);
@@ -2436,7 +2436,7 @@ span {
   background-color: transparent;
   text-transform: capitalize;
   font-size: 20px;
-  font-family: "Urbanist", sans-serif;
+  font-family: 'Urbanist', sans-serif;
   padding-left: 0;
   padding: 20px 32px;
 }
@@ -2454,8 +2454,8 @@ span {
   .accordion-item
   .accordion-header
   .accordion-button::after {
-  content: "+";
-  font-family: "Font Awesome 6 Pro";
+  content: '+';
+  font-family: 'Font Awesome 6 Pro';
   background: transparent;
   font-weight: 500;
   transition: all 0.3s ease-in-out !important;
@@ -2467,8 +2467,8 @@ span {
   .accordion-item
   .accordion-header
   .accordion-button:not(.collapsed)::after {
-  content: "\f068";
-  font-family: "Font Awesome 6 Pro";
+  content: '\f068';
+  font-family: 'Font Awesome 6 Pro';
   background: transparent;
   font-weight: 500;
   color: var(--theme6);
@@ -2682,7 +2682,7 @@ span {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  content: "";
+  content: '';
   width: 92px;
   height: 92px;
   border: 1px solid rgba(207, 208, 212, 0.2);
@@ -2716,7 +2716,7 @@ span {
 .feature-item4 .serial {
   -webkit-text-stroke-width: 1px;
   -webkit-text-stroke-color: rgba(4, 28, 51, 0.24);
-  font-family: "DM Sans";
+  font-family: 'DM Sans';
   font-size: 100px;
   font-weight: 600;
   line-height: 120px;
@@ -2851,7 +2851,7 @@ span {
   bottom: 0;
   width: 100%;
   height: 100%;
-  content: "";
+  content: '';
   width: 28px;
   height: 68px;
   background: #f2f7fe;
@@ -2860,7 +2860,7 @@ span {
   transition: all 0.4s ease-in-out;
 }
 .why-choose-us-item-5 .content h3 {
-  font-family: "Plus Jakarta Sans", sans-serif;
+  font-family: 'Plus Jakarta Sans', sans-serif;
   font-size: 24px;
   color: var(--header);
   margin-bottom: 10px;
@@ -2910,14 +2910,14 @@ span {
   bottom: 0;
   width: 100%;
   height: 100%;
-  content: "";
+  content: '';
   border: 1px solid var(--theme5);
   right: -4px;
   top: 4px;
   left: initial;
 }
 .feature-ai-wrapper-5 .feature-ai-content .feature-ai-item .content h5 {
-  font-family: "Plus Jakarta Sans", sans-serif;
+  font-family: 'Plus Jakarta Sans', sans-serif;
   margin-bottom: 5px;
   color: var(--header);
 }
@@ -3030,7 +3030,7 @@ span {
 .feature-ai-wrapper-5 .feature-ai-image .video-bg .video-content h3 {
   color: var(--white);
   font-size: 32px;
-  font-family: "Syncopate", sans-serif;
+  font-family: 'Syncopate', sans-serif;
 }
 .feature-ai-wrapper-5 .feature-ai-image .video-bg .video-content p {
   font-size: 14px;
@@ -3051,7 +3051,7 @@ span {
   bottom: 0;
   width: 100%;
   height: 100%;
-  content: "";
+  content: '';
   background: #1c1d21;
   bottom: -35%;
   z-index: -1;
@@ -3307,7 +3307,7 @@ span {
   line-height: 72px;
   text-transform: uppercase;
   color: var(--theme6);
-  font-family: "Urbanist", sans-serif;
+  font-family: 'Urbanist', sans-serif;
   display: flex;
   align-items: center;
   gap: 20px;
@@ -3438,7 +3438,7 @@ span {
 }
 .offer-wrapper-6 .offer-box-item-6 .content h4 {
   color: var(--white);
-  font-family: "Urbanist", sans-serif;
+  font-family: 'Urbanist', sans-serif;
   margin-bottom: 5px;
 }
 .offer-wrapper-6 .offer-box-item-6 .content p {
@@ -3497,7 +3497,7 @@ span {
   border-right: none;
 }
 .funfact-wrapper-6 .funfact-content h2 {
-  font-family: "Urbanist", sans-serif;
+  font-family: 'Urbanist', sans-serif;
   font-size: 56px;
   font-weight: 800;
   margin-bottom: 10px;
@@ -3531,7 +3531,7 @@ span {
 .our-process-wrapper-6 .our-process-item-6 .number {
   font-size: 64px;
   font-weight: 700;
-  font-family: "Urbanist", sans-serif;
+  font-family: 'Urbanist', sans-serif;
   color: rgba(255, 255, 255, 0.32);
   width: 120px;
   height: 120px;
@@ -3545,7 +3545,7 @@ span {
 }
 .our-process-wrapper-6 .our-process-item-6 h3 {
   font-size: 24px;
-  font-family: "Urbanist", sans-serif;
+  font-family: 'Urbanist', sans-serif;
   margin-bottom: 10px;
   margin-top: 30px;
 }
@@ -3797,8 +3797,8 @@ span {
   position: absolute;
   top: 0;
   left: 0;
-  content: "\f061";
-  font-family: "Font Awesome 6 Pro";
+  content: '\f061';
+  font-family: 'Font Awesome 6 Pro';
   opacity: 0;
   visibility: hidden;
   transition: all 0.4s ease-in-out;
@@ -3834,7 +3834,7 @@ span {
   bottom: 0;
   width: 100%;
   height: 100%;
-  content: "";
+  content: '';
   background-color: var(--black);
   border-radius: 10px;
   transition: all 0.4s ease-in-out;
@@ -3965,11 +3965,11 @@ span {
   color: var(--theme2);
 }
 .footer-widgets-wrapper.style-5 .single-footer-widget .widget-head h3 {
-  font-family: "Plus Jakarta Sans", sans-serif;
+  font-family: 'Plus Jakarta Sans', sans-serif;
   color: var(--header);
 }
 .footer-widgets-wrapper.style-5 .single-footer-widget .footer-content h5 {
-  font-family: "Plus Jakarta Sans", sans-serif;
+  font-family: 'Plus Jakarta Sans', sans-serif;
   color: var(--header);
   margin-bottom: 24px;
 }
@@ -4051,7 +4051,7 @@ span {
   color: var(--text2);
 }
 .footer-widgets-wrapper.style-6 .single-footer-widget .widget-head h3 {
-  font-family: "Urbanist", sans-serif;
+  font-family: 'Urbanist', sans-serif;
   font-size: 24px;
 }
 .footer-widgets-wrapper.style-6 .single-footer-widget .widget-head h3 a {
@@ -4060,7 +4060,7 @@ span {
 .footer-widgets-wrapper.style-6 .single-footer-widget .footer-content h4 {
   font-size: 20px;
   font-weight: 500;
-  font-family: "Urbanist", sans-serif;
+  font-family: 'Urbanist', sans-serif;
   margin-bottom: 24px;
   color: rgba(255, 255, 255, 0.7);
 }
@@ -4122,7 +4122,7 @@ span {
   color: var(--theme6) !important;
 }
 .footer-widgets-wrapper.style-6 .single-footer-widget .newsletter-content h3 {
-  font-family: "Urbanist", sans-serif;
+  font-family: 'Urbanist', sans-serif;
   margin-bottom: 30px;
   font-size: 32px;
 }
@@ -4338,7 +4338,7 @@ span {
   bottom: 0;
   width: 100%;
   height: 100%;
-  content: "";
+  content: '';
   width: 1.5px;
   height: 10px;
   background-color: var(--text2);
@@ -4502,7 +4502,7 @@ span {
   height: 100vh;
   width: 320px;
   max-width: 85vw;
-  background-color: #1D1D21;
+  background-color: #1d1d21;
   z-index: 9999;
   transition: transform 0.3s ease-in-out;
   box-shadow: -2px 0 10px rgba(0, 0, 0, 0.3);
@@ -4619,7 +4619,7 @@ span {
   width: 100%;
 }
 .header-main .main-menu ul li .submenu li a::before {
-  content: "";
+  content: '';
   position: absolute;
   width: 0px;
   height: 2px;
@@ -4773,7 +4773,7 @@ span {
   opacity: 0;
   -webkit-transition: all 0.3s ease-in-out;
   transition: all 0.3s ease-in-out;
-  content: "";
+  content: '';
 }
 .header-main
   .main-menu
@@ -4837,7 +4837,7 @@ span {
   display: inline-block;
   font-size: 18px;
   font-weight: 400;
-  font-family: "Satoshi Variable", sans-serif;
+  font-family: 'Satoshi Variable', sans-serif;
 }
 .header-main .main-menu ul li:hover > a {
   color: var(--theme);
@@ -5104,7 +5104,7 @@ span {
   .header-logo img {
     max-height: 45px !important;
   }
-  
+
   .header-1.sticky .header-logo img,
   .sticky .header-logo img {
     max-height: 28px !important;
@@ -5115,7 +5115,7 @@ span {
   .header-logo img {
     max-height: 40px !important;
   }
-  
+
   .header-1.sticky .header-logo img,
   .sticky .header-logo img {
     max-height: 24px !important;
@@ -5242,9 +5242,15 @@ span {
   -ms-transform: translateX(calc(100% + 80px));
   -o-transform: translateX(calc(100% + 80px));
   transform: translateX(calc(100% + 80px));
-  -webkit-transition: transform 0.45s ease-in-out, opacity 0.45s ease-in-out;
-  -moz-transition: transform 0.45s ease-in-out, opacity 0.45s ease-in-out;
-  transition: transform 0.45s ease-in-out, opacity 0.45s ease-in-out;
+  -webkit-transition:
+    transform 0.45s ease-in-out,
+    opacity 0.45s ease-in-out;
+  -moz-transition:
+    transform 0.45s ease-in-out,
+    opacity 0.45s ease-in-out;
+  transition:
+    transform 0.45s ease-in-out,
+    opacity 0.45s ease-in-out;
   z-index: 99999;
   overflow-y: scroll;
   overscroll-behavior-y: contain;
@@ -5525,7 +5531,7 @@ span {
 .breadcrumb-wrapper .page-heading h1 span {
   font-weight: 400;
   color: var(--theme);
-  font-family: "Marcellus", sans-serif;
+  font-family: 'Marcellus', sans-serif;
 }
 @media (max-width: 575px) {
   .breadcrumb-wrapper .page-heading h1 {
@@ -5619,7 +5625,7 @@ span {
 .ripple::before {
   -webkit-animation-delay: 0.9s;
   animation-delay: 0.9s;
-  content: "";
+  content: '';
   position: absolute;
   right: 0;
   bottom: 0;
@@ -5627,7 +5633,7 @@ span {
 .ripple::after {
   -webkit-animation-delay: 0.6s;
   animation-delay: 0.6s;
-  content: "";
+  content: '';
   position: absolute;
   right: 0;
   bottom: 0;
@@ -5969,7 +5975,7 @@ span {
 }
 .hero-1 .hero-content h1 .text-2 {
   font-weight: 400;
-  font-family: "Marcellus", sans-serif;
+  font-family: 'Marcellus', sans-serif;
 }
 .hero-1 .hero-image {
   margin-top: 150px;
@@ -6030,7 +6036,7 @@ span {
   }
 }
 .hero-2 .hero-content h1 span {
-  font-family: "Marcellus", sans-serif;
+  font-family: 'Marcellus', sans-serif;
   font-weight: 400;
 }
 .hero-2 .hero-content p {
@@ -6121,7 +6127,7 @@ span {
 }
 .hero-3 .hero-content h1 span {
   font-weight: 400;
-  font-family: "Satoshi Variable", sans-serif;
+  font-family: 'Satoshi Variable', sans-serif;
 }
 .hero-3 .hero-content p {
   font-size: 24px;
@@ -6218,8 +6224,18 @@ span {
   font-size: 72px;
   font-weight: 700;
   line-height: 92px;
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
-    Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+  font-family:
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    'Segoe UI',
+    Roboto,
+    Oxygen,
+    Ubuntu,
+    Cantarell,
+    'Open Sans',
+    'Helvetica Neue',
+    sans-serif;
 }
 .hero-4 .hero-content4 .hero-pra {
   font-size: 16px;
@@ -6331,13 +6347,13 @@ span {
   bottom: 0;
   width: 100%;
   height: 100%;
-  content: "";
+  content: '';
   background: #060606;
   z-index: -1;
 }
 .hero-5::after {
   position: absolute;
-  content: "";
+  content: '';
   left: 0;
   bottom: 0;
   width: 181px;
@@ -6457,7 +6473,7 @@ span {
   transform: rotate(-260deg);
 }
 .hero-5 .hero-image .hero-image-2 .hero-text h4 {
-  font-family: "Plus Jakarta Sans", sans-serif;
+  font-family: 'Plus Jakarta Sans', sans-serif;
   color: var(--white);
 }
 .hero-5 .hero-image .hero-image-2 .shape-image {
@@ -6479,7 +6495,7 @@ span {
   }
 }
 .hero-5 .hero-content h1 {
-  font-family: "Plus Jakarta Sans", sans-serif;
+  font-family: 'Plus Jakarta Sans', sans-serif;
   font-size: 96px;
   font-weight: 800;
   line-height: 116%;
@@ -6581,11 +6597,11 @@ span {
 }
 .hero-5 .hero-content .hero-button-item .hero-cont h3 {
   font-size: 40px;
-  font-family: "Plus Jakarta Sans", sans-serif;
+  font-family: 'Plus Jakarta Sans', sans-serif;
   margin-bottom: 10px;
 }
 .hero-5 .hero-content .hero-button-item .hero-cont h4 {
-  font-family: "Plus Jakarta Sans", sans-serif;
+  font-family: 'Plus Jakarta Sans', sans-serif;
 }
 @media (max-width: 767px) {
   .hero-5 .hero-content .hero-button-item .hero-cont h4 br {
@@ -6644,7 +6660,7 @@ span {
 }
 .hero-6 .hero-content h1 {
   color: var(--white);
-  font-family: "Urbanist", sans-serif;
+  font-family: 'Urbanist', sans-serif;
   margin-bottom: 24px;
   font-size: 72px;
   font-weight: 700;
@@ -6828,7 +6844,7 @@ span {
   opacity: 0;
   -webkit-transition: all 0.3s ease-in-out;
   transition: all 0.3s ease-in-out;
-  content: "";
+  content: '';
 }
 .mean-container
   .mean-nav
@@ -7632,7 +7648,7 @@ span {
   bottom: 0;
   width: 100%;
   height: 100%;
-  content: "";
+  content: '';
   background: linear-gradient(
     0deg,
     rgba(0, 0, 0, 0.8) 0%,
@@ -8051,7 +8067,7 @@ span {
   bottom: 0;
   width: 100%;
   height: 100%;
-  content: "";
+  content: '';
   width: 24px;
   height: 2px;
   background-color: rgba(255, 255, 255, 0.7);
@@ -8060,7 +8076,7 @@ span {
 }
 .news-card-items-5 .news-content h3 {
   font-size: 24px;
-  font-family: "Plus Jakarta Sans", sans-serif;
+  font-family: 'Plus Jakarta Sans', sans-serif;
 }
 @media (max-width: 575px) {
   .news-card-items-5 .news-content h3 {
@@ -8094,7 +8110,7 @@ span {
 }
 .news-card-items-6 .news-content h3 {
   font-size: 24px;
-  font-family: "Urbanist", sans-serif;
+  font-family: 'Urbanist', sans-serif;
   margin-bottom: 30px;
 }
 .news-card-items-6 .news-content h3 a {
@@ -8150,7 +8166,11 @@ span {
   }
 }
 .preloader .animation-preloader .txt-loading {
-  font: bold 5em "Satoshi Variable", sans-serif, "Satoshi Variable", sans-serif;
+  font:
+    bold 5em 'Satoshi Variable',
+    sans-serif,
+    'Satoshi Variable',
+    sans-serif;
   text-align: center;
   user-select: none;
 }
@@ -8211,7 +8231,7 @@ span {
   content: attr(data-text-preloader);
   left: 0;
   opacity: 0;
-  font-family: "Satoshi Variable", sans-serif;
+  font-family: 'Satoshi Variable', sans-serif;
   position: absolute;
   top: -3px;
   transform: rotateY(-90deg);
@@ -8564,7 +8584,7 @@ input.main-search-input::placeholder {
 }
 .project-wrapper .project-title span {
   font-weight: 400;
-  font-family: "Marcellus", sans-serif;
+  font-family: 'Marcellus', sans-serif;
 }
 .project-wrapper .project-image {
   margin-top: 30px;
@@ -8653,7 +8673,7 @@ input.main-search-input::placeholder {
 }
 .project-box-content h2 span {
   font-weight: 400;
-  font-family: "Satoshi Variable", sans-serif;
+  font-family: 'Satoshi Variable', sans-serif;
   color: var(--theme);
 }
 .project-box-content p {
@@ -8701,7 +8721,7 @@ input.main-search-input::placeholder {
   bottom: 0;
   width: 100%;
   height: 100%;
-  content: "";
+  content: '';
   top: 70%;
 }
 
@@ -9051,7 +9071,7 @@ input.main-search-input::placeholder {
   bottom: 0;
   width: 100%;
   height: 100%;
-  content: "";
+  content: '';
   background: linear-gradient(180deg, rgba(6, 6, 6, 0) 51.68%, #060606 91.16%);
 }
 .project-image-item-5 .project-image img {
@@ -9071,7 +9091,7 @@ input.main-search-input::placeholder {
 }
 .project-image-item-5 .project-image .project-content h2 {
   font-size: 100px;
-  font-family: "Plus Jakarta Sans", sans-serif;
+  font-family: 'Plus Jakarta Sans', sans-serif;
 }
 @media (max-width: 1199px) {
   .project-image-item-5 .project-image .project-content h2 {
@@ -9130,7 +9150,7 @@ input.main-search-input::placeholder {
 }
 .prpject-card-items-6 .project-image .project-content h3 {
   font-size: 24px;
-  font-family: "Urbanist", sans-serif;
+  font-family: 'Urbanist', sans-serif;
   margin-top: 5px;
 }
 .prpject-card-items-6 .project-image .project-content h3 a {
@@ -9166,7 +9186,7 @@ input.main-search-input::placeholder {
   margin-bottom: 15px;
 }
 .section-title.style-5 h2 {
-  font-family: "Plus Jakarta Sans", sans-serif;
+  font-family: 'Plus Jakarta Sans', sans-serif;
   font-size: 48px;
 }
 @media (max-width: 991px) {
@@ -9204,7 +9224,7 @@ input.main-search-input::placeholder {
   bottom: 0;
   width: 100%;
   height: 100%;
-  content: "";
+  content: '';
   background-color: var(--theme5);
   height: 3px;
   width: 15px;
@@ -9213,7 +9233,7 @@ input.main-search-input::placeholder {
 }
 .section-title.style-5 h6::after {
   position: absolute;
-  content: "";
+  content: '';
   background-color: var(--theme5);
   height: 3px;
   width: 15px;
@@ -9224,7 +9244,7 @@ input.main-search-input::placeholder {
   display: none;
 }
 .section-title.style-6 h2 {
-  font-family: "Urbanist", sans-serif;
+  font-family: 'Urbanist', sans-serif;
   font-size: 48px;
 }
 @media (max-width: 991px) {
@@ -9252,12 +9272,12 @@ input.main-search-input::placeholder {
 }
 .section-title h2 span {
   font-weight: 400;
-  font-family: "Marcellus", sans-serif;
+  font-family: 'Marcellus', sans-serif;
 }
 .section-title h2 b {
   color: var(--theme);
   font-weight: 400;
-  font-family: "Marcellus", sans-serif;
+  font-family: 'Marcellus', sans-serif;
 }
 .section-title.style-2 {
   margin-top: -5px;
@@ -9507,7 +9527,7 @@ input.main-search-input::placeholder {
   top: 0;
   right: 0;
   bottom: 0;
-  content: "";
+  content: '';
   width: 74px;
   height: 78px;
   border-radius: 50%;
@@ -9647,7 +9667,7 @@ input.main-search-input::placeholder {
   bottom: 0;
   width: 100%;
   height: 100%;
-  content: "";
+  content: '';
   border-radius: 10px;
   border: 1px solid rgba(207, 208, 212, 0.2);
   top: 26px;
@@ -9667,7 +9687,7 @@ input.main-search-input::placeholder {
   position: absolute;
   right: 20px;
   bottom: 20px;
-  content: "";
+  content: '';
   -webkit-transition: all 0.4s ease-in-out;
   transition: all 0.4s ease-in-out;
   z-index: 2;
@@ -9778,7 +9798,7 @@ input.main-search-input::placeholder {
   bottom: 0;
   width: 100%;
   height: 100%;
-  content: "";
+  content: '';
   background: linear-gradient(
     0deg,
     rgba(6, 6, 6, 0.72) 0%,
@@ -9793,7 +9813,7 @@ input.main-search-input::placeholder {
   position: absolute;
   right: 20px;
   bottom: -4px;
-  content: "";
+  content: '';
   -webkit-transition: all 0.4s ease-in-out;
   transition: all 0.4s ease-in-out;
   z-index: 2;
@@ -9862,7 +9882,7 @@ input.main-search-input::placeholder {
   text-align: center;
 }
 .team-card-item-5 .team-content h5 {
-  font-family: "Plus Jakarta Sans", sans-serif;
+  font-family: 'Plus Jakarta Sans', sans-serif;
   margin-bottom: 10px;
 }
 .team-card-item-5 .team-content h5 a {
@@ -10234,7 +10254,7 @@ input.main-search-input::placeholder {
   }
 }
 .testimonial-wrapper-5 .testimonial-box-item-5 .testimonial-content p {
-  font-family: "Plus Jakarta Sans", sans-serif;
+  font-family: 'Plus Jakarta Sans', sans-serif;
   color: var(--text2);
   font-size: 20px;
   font-weight: 600;
@@ -10271,7 +10291,7 @@ input.main-search-input::placeholder {
   .testimonial-content
   .client-info-item
   h5 {
-  font-family: "Plus Jakarta Sans", sans-serif;
+  font-family: 'Plus Jakarta Sans', sans-serif;
   color: var(--header);
   font-weight: 800;
   margin-bottom: 5px;
@@ -10423,7 +10443,7 @@ input.main-search-input::placeholder {
 }
 .testimonial-wrapper-6 .testimonial-card-item-6 .testimonial-content h3 {
   font-size: 20px;
-  font-family: "Urbanist", sans-serif;
+  font-family: 'Urbanist', sans-serif;
   margin-bottom: 5px;
 }
 
@@ -10527,4 +10547,3 @@ input.main-search-input::placeholder {
 }
 
 /*# sourceMappingURL=main.css.map */
-

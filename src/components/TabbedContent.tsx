@@ -252,7 +252,7 @@ function TabbedContent() {
                     className="list-items opacity-0 animate-[fadeInUp_0.6s_ease-out_0.5s_forwards]"
                   >
                     <li>
-                      <span>Staying in a Xolo Host’s Dwelling — Immerse yourself in local life with overnight stays in the homes of Xolo hosts around the XoloGlobe, building deep cultural connections.</span>
+                      Staying in a Xolo Host’s Dwelling — Immerse yourself in local life with overnight stays in the homes of Xolo hosts around the XoloGlobe, building deep cultural connections.
                     </li>
                     <li>
                       <span>House and Dwelling Swaps — Swap homes directly with members across the XoloGlobe for cost-free, trust-based travel and reciprocal hospitality.</span>
@@ -295,53 +295,53 @@ function TabbedContent() {
                 </h3>
                 <h4 className="text-lg md:text-xl font-semibold text-[#642ff8]">
                   Founder & Visionary Explorer
-                  </h4>
-                  <p className="mb-7 pt-4 text-justify text-[#8d6ca3] overflow-hidden">
-                <img src="/xolo-nft-showcase-01.png" alt="Xolo Travel" className="float-left mr-4 mb-2 max-w-[166px] rounded-sm" />
-                Cryptonite is a nomadic, blockchain-agnostic digital pirate who's been sailing the Cryptocurrenseas since 2016, 
-            with footprints in 34 countries that have shaped a deep appreciation for diverse cultures and meaningful connections. 
-            A proud XRP Army member marching forward with bullish conviction, he's the creator behind The Xoloitzquintle 
-            Collection on the XRPL — fusing ancient Mesoamerican reverence for the sacred Xoloitzquintle with modern 
-            innovation and genuine shared experiences. He's laying the foundation for XoloGlobe: a global, member-built 
-            dojo for trust, travel, skill-sharing, and soul-guided adventures — all powered by XoloDojo. 
-            Own a XoloNFT and join the voyage. If you ain't bullish, you're walking the plank.
-                            </p>
+                </h4>
+                <p className="mb-7 pt-4 text-justify text-[#8d6ca3] overflow-hidden">
+                  <img src="/xolo-nft-showcase-01.png" alt="Xolo Travel" className="float-left mr-4 mb-2 max-w-[166px] rounded-sm" />
+                  Cryptonite is a nomadic, blockchain-agnostic digital pirate who's been sailing the Cryptocurrenseas since 2016,
+                  with footprints in 34 countries that have shaped a deep appreciation for diverse cultures and meaningful connections.
+                  A proud XRP Army member marching forward with bullish conviction, he's the creator behind The Xoloitzquintle
+                  Collection on the XRPL — fusing ancient Mesoamerican reverence for the sacred Xoloitzquintle with modern
+                  innovation and genuine shared experiences. He's laying the foundation for XoloGlobe: a global, member-built
+                  dojo for trust, travel, skill-sharing, and soul-guided adventures — all powered by XoloDojo.
+                  Own a XoloNFT and join the voyage. If you ain't bullish, you're walking the plank.
+                </p>
               </div>
 
               <div className="opacity-0 animate-[fadeInUp_0.6s_ease-out_0.7s_forwards] mt-4">
                 <h3 className="text-2xl md:text-3xl font-bold text-[#28aae4]">
                   RedShadow
-                  </h3>
-                  <h4 className="text-lg md:text-xl font-semibold text-[#891387]">
+                </h3>
+                <h4 className="text-lg md:text-xl font-semibold text-[#891387]">
                   Visionary Artist & Cultural Alchemist
-                  </h4>
-                  <p className="mb-7 pt-4 text-justify text-[#8d6ca3] overflow-hidden">
+                </h4>
+                <p className="mb-7 pt-4 text-justify text-[#8d6ca3] overflow-hidden">
                   <img src="/xolo-nft-showcase-01.png" alt="Xolo Travel" className="float-right ml-4 mb-2 max-w-[166px] rounded-sm" />
-                  RedShadow is the visionary artist breathing life into The Xoloitzquintle Collection. With a masterful eye for 
-            detail and deep respect for Mesoamerican heritage, RedShadow crafts each of the 10,001 unique XoloNFTs as 
-            sacred digital guardians — blending timeless cultural symbolism with striking, evocative designs that honor 
-            the Xoloitzquintle's role as a spiritual companion and soul guide. Teaming with Cryptonite, RedShadow's 
-            artistry forms the visual heart of XoloDojo and XoloGlobe, inviting holders into a world where ancient 
-            legacy meets modern community and real-world reciprocity.
-                            </p>
+                  RedShadow is the visionary artist breathing life into The Xoloitzquintle Collection. With a masterful eye for
+                  detail and deep respect for Mesoamerican heritage, RedShadow crafts each of the 10,001 unique XoloNFTs as
+                  sacred digital guardians — blending timeless cultural symbolism with striking, evocative designs that honor
+                  the Xoloitzquintle's role as a spiritual companion and soul guide. Teaming with Cryptonite, RedShadow's
+                  artistry forms the visual heart of XoloDojo and XoloGlobe, inviting holders into a world where ancient
+                  legacy meets modern community and real-world reciprocity.
+                </p>
               </div>
 
               <div className="opacity-0 animate-[fadeInUp_0.6s_ease-out_0.9s_forwards] mt-4 clear-both">
-              <h3 className="text-2xl md:text-3xl font-bold text-[#28aae4]">
-              Code
+                <h3 className="text-2xl md:text-3xl font-bold text-[#28aae4]">
+                  Code
                 </h3>
                 <h4 className="text-lg md:text-xl font-semibold text-[#891387]">
-                Lead Builder & Degen Architect
-                  </h4>
-                  <p className="mb-7 pt-4 text-justify text-[#8d6ca3] overflow-hidden">
+                  Lead Builder & Degen Architect
+                </h4>
+                <p className="mb-7 pt-4 text-justify text-[#8d6ca3] overflow-hidden">
                   <img src="/xolo-nft-showcase-01.png" alt="Xolo Travel" className="float-left mr-4 mb-2 max-w-[166px] rounded-sm" />
                   Code is a battle-hardened degen from the golden Clubhouse days on Ethereum, a seasoned crypto trader with razor-sharp market instincts and hands-on building experience. Fluid in React.js and battle-tested in high-stakes web development, he's shipped name-brand websites (under NDA) for top players in the space. Now building with the Xolo pack on XRPL, Code delivers the technical backbone for XoloDojo and XoloGlobe—turning visionary ideas into seamless, secure, token-gated experiences. From smart community tools to immersive interfaces, he ensures the dojo runs smoothly, the globe connects flawlessly, and the pack thrives in Web3. Degen roots. Builder soul. Xolo loyalty.
                 </p>
               </div>
 
               <div className="opacity-0 animate-[fadeInUp_0.6s_ease-out_1.1s_forwards]">
-              <p className="mb-7">
-              Together, we're not just minting NFTs — we're summoning a global pack of guardians ready to explore, connect, and build the future.
+                <p className="mb-7">
+                  Together, we're not just minting NFTs — we're summoning a global pack of guardians ready to explore, connect, and build the future.
                 </p>
               </div>
             </div>
@@ -468,81 +468,9 @@ function TabbedContent() {
               className={`tab-pane ${activeTab === "TheMint" ? "block" : "hidden"}`}
               role="tabpanel"
             >
-              <section className="how-to-work-section fix">
-                <div className="container">
-                  <div className="section-title text-center">
-                    <PageTitle title="The Xolo NFT Journey" alt="star icon" animate delay={0} />
-                    <h3 className="text-2xl md:text-3xl font-bold mb-2 text-[#28aae4]">
-                      Understanding the **Minting** <br />
-                      <span>
-                        Process <b>(4 Steps)</b>
-                      </span>
-                    </h3>
-                  </div>
-                  <div className="how-to-work-wrapper">
-                    <div className="icon">
-                      <div className="bar-shape">
-                        <img src="/work-bar-shape.png" alt="bar shape" />
-                      </div>
-                    </div>
-                    <div className="content">
-                      <h3>Set Up XRPL Wallet</h3>
-                      <p>
-                        Start by downloading a compatible wallet like **Joey Wallet**
-                        or Xumm.
-                      </p>
-                    </div>
-                    <div className="arrow-shape">
-                      <img src="/work-arrow.png" alt="arrow shape" />
-                    </div>
-                    <div className="icon">
-                      <div className="bar-shape">
-                        <img src="/work-bar-shape.png" alt="bar shape" />
-                      </div>
-                    </div>
-                    <div className="content">
-                      <h3>Fund With XRP</h3>
-                      <p>
-                        Deposit at least **20 XRP** to meet the ledger's minimum
-                        reserve requirement.
-                      </p>
-                    </div>
-                    <div className="arrow-shape">
-                      <img src="/work-arrow.png" alt="arrow shape" />
-                    </div>
-                    <div className="icon">
-                      <div className="bar-shape">
-                        <img src="/work-bar-shape.png" alt="bar shape" />
-                      </div>
-                    </div>
-                    <div className="content">
-                      <h3>Connect to xrp.cafe</h3>
-                      <p>
-                        Navigate to **xrp.cafe** and securely connect your funded XRPL
-                        wallet.
-                      </p>
-                    </div>
-                    <div className="arrow-shape">
-                      <img src="/work-arrow.png" alt="arrow shape" />
-                    </div>
-                    <div className="icon">
-                      <div className="bar-shape">
-                        <img src="/work-bar-shape.png" alt="bar shape" />
-                      </div>
-                    </div>
-                    <div className="content">
-                      <h3>Mint Your Xolo NFT</h3>
-                      <p>
-                        Be ready for the mint on **xrp.cafe** to claim your unique
-                        Xolo asset!
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </section>
-              <h3 className="text-2xl md:text-3xl font-bold mb-3 text-[#28aae4]">
+              <h2 className="text-3xl md:text-4xl font-bold mb-3 text-[#28aae4]">
                 Mythic Journey of the Xolo: Gods, Guardians, and Eternal Bonds
-              </h3>
+              </h2>
               <p className="opacity-0 animate-[fadeInUp_0.6s_ease-out_0.3s_forwards] mb-4">
                 Picture this: the Aztec cosmos is basically a chaotic family reunion that never ends. At the center? The ultimate twin duo—Quetzalcoatl, the chill, feathered-serpent genius of wind, wisdom, creation, and "let's make everything better," and his rowdy, dog-headed brother Xolotl, the lightning-fast trickster god of fire, transformation, deformities, and "hold my conch shell while I pull off the impossible."
               </p>
@@ -550,95 +478,94 @@ function TabbedContent() {
                 These two aren't just siblings; they're the original dynamic duo who literally rebuilt humanity after the world got wrecked four times (because ancient gods apparently loved a good reset button). Quetzalcoatl, ever the visionary, decides it's time for round five: populate the earth with actual people. But plot twist—he needs the sacred bones from the previous eras, stashed deep in Mictlan, the shadowy, nine-level underworld ruled by the skeletal party-pooper Mictlantecuhtli (the Lord of the Dead) and his queen Mictecacihuatl.
               </p>
               <h3 className="text-2xl md:text-3xl font-bold mb-3 text-[#28aae4]">
-              The Xoloitzquintle Mint
+                The Xoloitzquintle Mint
               </h3>
               <h3 className="text-2xl md:text-3xl font-bold mb-3 text-[#28aae4]">
-              Claim Your Sacred Guide
+                Claim Your Sacred Guide
               </h3>
-              <h3 className="text-2xl md:text-3xl font-bold mb-3 text-[#28aae4]">
-              10,001 Unique XRPL NFTs
-              </h3> 
+              <h4 className="text-xl md:text-2xl font-bold mb-3 text-[#28aae4]">
+                10,001 Unique XRPL NFTs
+              </h4>
               <p className="opacity-0 animate-[fadeInUp_0.6s_ease-out_0.5s_forwards] mb-4">
-Hand-drawn with deep Mesoamerican roots — 7 distinct traits + 217 sub-traits by RedShadow.
-Built on the eco-friendly XRP Ledger: fast transactions, low fees, no gas wars.
-</p>
-<p className="opacity-0 animate-[fadeInUp_0.6s_ease-out_0.4s_forwards] mb-4">
-Mint Status: Coming Soon
-Launching on the premier XRPL marketplace: xrp.cafe
-Exact date, price, and any allowlist details TBA — stay tuned via @XoloDojo and xolodojo.io.
-Prepare now to own your loyal Xolo guardian and unlock the XoloGlobe: a token-gated world map for holders to connect, share locations, plan travel swaps, and build community IRL.
-</p>
-<h3 className="text-2xl md:text-3xl font-bold mb-3 text-[#28aae4]">
-Prepare to Mint – 4 Simple Steps
-</h3> 
+                Hand-drawn with deep Mesoamerican roots — 7 distinct traits + 217 sub-traits by RedShadow.
+                Built on the eco-friendly XRP Ledger: fast transactions, low fees, no gas wars.
+              </p>
               <p className="opacity-0 animate-[fadeInUp_0.6s_ease-out_0.4s_forwards] mb-4">
-              <ul
-                    className="list-items opacity-0 animate-[fadeInUp_0.6s_ease-out_0.5s_forwards]"
-                  >
-                    <li>
-                      <span>
+                Mint Status: Coming Soon
+                Launching on the premier XRPL marketplace: xrp.cafe
+                Exact date, price, and any allowlist details TBA — stay tuned via @XoloDojo and xolodojo.io.
+                Prepare now to own your loyal Xolo guardian and unlock the XoloGlobe: a token-gated world map for holders to connect, share locations, plan travel swaps, and build community IRL.
+              </p>
+              <h3 className="text-2xl md:text-3xl font-bold mb-3 text-[#28aae4]">
+                Prepare to Mint – 4 Simple Steps
+              </h3>
+              <p className="opacity-0 animate-[fadeInUp_0.6s_ease-out_0.4s_forwards] mb-4">
+                <ul className="list-items opacity-0 animate-[fadeInUp_0.6s_ease-out_0.5s_forwards]">
+                  <li>
+                    <span>
                       Set Up Your XRPL Wallet
                       Download a trusted, XRPL-compatible wallet:
-                      </span>
-                      <ul
-                    className="list-items opacity-0 animate-[fadeInUp_0.6s_ease-out_0.5s_forwards]"
-                  >
-                    <li>
-                    Joey Wallet (recommended for ease)
-                    </li>
-                    <li>
-                    Xaman (formerly Xumm – strong security focus)
+                    </span>
+                    <ul className="list-items opacity-0 animate-[fadeInUp_0.6s_ease-out_0.5s_forwards]">
+                      <li>
+                        Joey Wallet (recommended for ease)
                       </li>
-                    <li>
-                    MadLabs / Xoge (advanced features)
-                    Create or use an existing wallet. Back up your seed phrase securely — never share it.
-                    </li>
-
+                      <li>
+                        Xaman (formerly Xumm – strong security focus)
+                      </li>
+                      <li>
+                        MadLabs / Xoge (advanced features)
+                        Create or use an existing wallet. Back up your seed phrase securely — never share it.
+                      </li>
                     </ul>
-                    </li>
-                    <li>
-                      <span>
+                  </li>
+                  <li>
+                    <span>
                       Fund with XRP (Minimum 20+ Recommended)
-                      </span>
-                      The XRP Ledger requires a base reserve (around 10–20 XRP depending on features) plus extra for fees and trust lines.
-                      Send at least 20 XRP to your wallet to cover:
-                      
+                    </span>
+                    The XRP Ledger requires a base reserve (around 10–20 XRP depending on features) plus extra for fees and trust lines.
+                    Send at least 20 XRP to your wallet to cover:
+                    <ul className="list-items opacity-0 animate-[fadeInUp_0.6s_ease-out_0.5s_forwards]">
+                      <li>
+                        Wallet activation/reserve
                       </li>
-                    <li>
-                    <span>
-                        
-                        </span>
-                    </li>
-                    <li>
-                    <span>
-                        
-                        </span>
-                    </li>
+                      <li>
+                        Transaction costs
+                      </li>
+                      <li>
+                        Mint fees (typically very low on XRPL)
+                        Buy XRP on exchanges like Uphold, Bitrue, or via the XRPL DEX.
+                      </li>
                     </ul>
-
-
-
-
-
-Wallet activation/reserve
-Transaction costs
-Mint fees (typically very low on XRPL)
-Buy XRP on exchanges like Uphold, Bitrue, or via the XRPL DEX.
-Connect to xrp.cafe
-Go to https://xrp.cafe
-Click "Connect Wallet" → Choose your XRPL wallet → Sign the secure request.
-Once connected, you'll see the official Xoloitzquintle collection when it drops.
-Mint Your Xolo When Live
-On launch: Navigate to the Xoloitzquintle collection page.
-Select your mint quantity (if allowed), confirm the transaction.
-Your unique NFT arrives in seconds on the ledger.
-Then verify ownership on xolodojo.io to access XoloGlobe perks!
-Why Mint a Xolo?
-Cultural Depth — Honor the sacred Xoloitzquintle, ancient spiritual guide and symbol of loyalty.
-XRPL Benefits — Eco-friendly, pennies-per-transaction, lightning-fast, no Ethereum-style bidding wars.
-Long-Term Utility — Token-gate the XoloGlobe: pin your location, connect with fellow holders worldwide, share travel stories, skills, and culture.
-Community First — Join a decentralized network fostering global connections on the XRPL.
-              </p>             
+                  </li>
+                  <li>
+                    <span>
+                      Connect to xrp.cafe<br />
+                      Go to https://xrp.cafe  <br />
+                      Click "Connect Wallet" → Choose your XRPL wallet → Sign the secure request.<br />
+                      Once connected, you'll see the official Xoloitzquintle collection when it drops.
+                    </span>
+                  </li>
+                  <li>
+                    <span>
+                      Mint Your Xolo When Live<br />
+                      On launch: Navigate to the Xoloitzquintle collection page.<br />
+                      Select your mint quantity (if allowed), confirm the transaction.<br />
+                      Your unique NFT arrives in seconds on the ledger.<br />
+                      Then verify ownership on xolodojo.io to access XoloGlobe perks!
+                    </span>
+                  </li>
+                </ul>
+              </p>
+              <h3 className="text-2xl md:text-3xl font-bold mb-3 text-[#28aae4]">
+                Why Mint a Xolo?
+              </h3>
+              <p className="opacity-0 animate-[fadeInUp_0.6s_ease-out_0.4s_forwards] mb-4">
+                Cultural Depth — Honor the sacred Xoloitzquintle, ancient spiritual guide and symbol of loyalty.
+                XRPL Benefits — Eco-friendly, pennies-per-transaction, lightning-fast, no Ethereum-style bidding wars.
+                Long-Term Utility — Token-gate the XoloGlobe: pin your location, connect with fellow holders worldwide, share travel stories, skills, and culture.
+                Community First — Join a decentralized network fostering global connections on the XRPL.
+              </p>
             </div>
           </div>
         </div>
