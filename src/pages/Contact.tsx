@@ -73,19 +73,19 @@ function OwnerCard({ owner }: { owner: Owner }) {
       <div className="flex items-center gap-2">
         <a
           href={owner.socials.twitter}
-          className="inline-flex items-center justify-center w-10 h-10 rounded-full border border-[#cfd0d4] text-[#cdcdcd] hover:text-[#b7e9f7] hover:bg-black/40 transition-all duration-300 ease-in-out"
+          className="inline-flex items-center justify-center w-10 h-10 rounded-full border border-[#b7e9f7] text-[#cdcdcd] hover:text-white hover:bg-[#b7e9f7] transition-all duration-300 ease-in-out"
         >
           <FontAwesomeIcon icon={faXTwitter} size="sm" />
         </a>
         <a
           href={owner.socials.discord}
-          className="inline-flex items-center justify-center w-10 h-10 rounded-full border border-[#cfd0d4] text-[#cdcdcd] hover:text-[#b7e9f7] hover:bg-black/40 transition-all duration-300 ease-in-out"
+          className="inline-flex items-center justify-center w-10 h-10 rounded-full border border-[#b7e9f7] text-[#cdcdcd] hover:text-white hover:bg-[#b7e9f7] transition-all duration-300 ease-in-out"
         >
           <FontAwesomeIcon icon={faDiscord} size="sm" />
         </a>
         <a
           href={owner.socials.reddit}
-          className="inline-flex items-center justify-center w-10 h-10 rounded-full border border-[#cfd0d4] text-[#cdcdcd] hover:text-[#b7e9f7] hover:bg-black/40 transition-all duration-300 ease-in-out"
+          className="inline-flex items-center justify-center w-10 h-10 rounded-full border border-[#b7e9f7] text-[#cdcdcd] hover:text-white hover:bg-[#b7e9f7] transition-all duration-300 ease-in-out"
         >
           <FontAwesomeIcon icon={faReddit} size="sm" />
         </a>
