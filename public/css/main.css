@@ -370,6 +370,9 @@ span {
 .list-items li > ul {
   margin-top: 16px;
 }
+.list-items ul.list-items li::before {
+  background-image: url('/star.png');
+}
 .list-items li span {
   display: inline-block;
   font-weight: 700;
