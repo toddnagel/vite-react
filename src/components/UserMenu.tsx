@@ -79,8 +79,8 @@ function UserMenu({ isSticky = false }: UserMenuProps) {
                 onClick={() => setIsDropdownOpen(!isDropdownOpen)}
                 className="user-menu-avatar transition-all duration-300"
                 style={{
-                    width: isSticky ? '32px' : '40px',
-                    height: isSticky ? '32px' : '40px',
+                    width: isSticky ? '32px' : '38px',
+                    height: isSticky ? '32px' : '38px',
                     fontSize: isSticky ? '14px' : '18px',
                 }}
                 aria-label="User menu"

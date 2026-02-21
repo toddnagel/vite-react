@@ -23,8 +23,7 @@ function Header() {
     <>
       <div
         id="preloader"
-        className="preloader loaded"
-        style={{ display: "none" }}
+        className="preloader loaded hidden"
       >
         <div className="animation-preloader">
           <div className="spinner"></div>
@@ -96,15 +95,9 @@ function Header() {
 
       <header
         id="header-sticky"
-        className={`${isSticky ? 'fixed' : 'absolute'} p-0 top-0 left-0 right-0 z-50 w-full ${isSticky ? 'bg-[rgba(24,24,24,0.8)] backdrop-blur-md' : ''}`}
-        style={isSticky ? {
-          animation: 'slideDown 0.3s ease-out forwards',
-          transition: 'background-color 0.1s ease-out, backdrop-filter 0.1s ease-out',
-        } : {
-          transition: 'background-color 0.05s ease-out, backdrop-filter 0.05s ease-out, transform 0.3s ease-out, padding 0.3s ease-out',
-        }}
+        className={`${isSticky ? 'fixed' : 'absolute'} p-0 top-0 left-0 right-0 z-50 w-full ${isSticky ? 'bg-[rgba(24,24,24,0.8)] backdrop-blur-md' : ''} transition-all duration-300 ease-out`}
       >
-        <div className="w-full px-4 sm:px-8 md:px-12 lg:px-16 xl:px-24 2xl:px-28">
+        <div className="transition-all w-full px-4 sm:px-8 md:px-12 lg:px-16 xl:px-24 2xl:px-28">
           <div className="mega-menu-wrapper">
             <div className={`header-main flex items-center justify-between ${isSticky ? 'py-1' : 'py-4'} transition-all duration-300`}>
               <div className="header-left flex items-center gap-20 lg:gap-40">
@@ -113,7 +106,7 @@ function Header() {
                     <img
                       src="/white-logo.png"
                       alt="logo-img"
-                      className={`transition-all duration-300 ${isSticky ? 'h-12 w-12' : 'h-24 w-24'}`}
+                      className={`transition-all duration-300 ${isSticky ? 'h-12 w-12' : 'h-12 w-12 md:h-24 md:w-24'}`}
                     />
                   </Link>
                 </div>

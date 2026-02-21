@@ -3,8 +3,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faDiscord,
   faReddit,
+  faXTwitter,
 } from "@fortawesome/free-brands-svg-icons";
-import { faX } from "@fortawesome/free-solid-svg-icons";
 
 interface Owner {
   id: number;
@@ -75,7 +75,7 @@ function OwnerCard({ owner }: { owner: Owner }) {
           href={owner.socials.twitter}
           className="inline-flex items-center justify-center w-10 h-10 rounded-full border border-[#cfd0d4] text-[#cdcdcd] hover:text-[#b7e9f7] hover:bg-black/40 transition-all duration-300 ease-in-out"
         >
-          <FontAwesomeIcon icon={faX} size="sm" />
+          <FontAwesomeIcon icon={faXTwitter} size="sm" />
         </a>
         <a
           href={owner.socials.discord}
@@ -98,7 +98,7 @@ function Contact() {
   return (
     <>
       <section
-        className="relative bg-cover bg-center bg-no-repeat py-16 md:py-24"
+        className="transition-all relative bg-cover bg-center bg-no-repeat py-16 md:py-24 mt-4 md:mt-6 lg:mt-8"
         style={{ backgroundImage: "url('/contact-bg.jpg')" }}
       >
         <div className="container mx-auto max-w-7xl px-4">
