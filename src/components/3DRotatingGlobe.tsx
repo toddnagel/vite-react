@@ -64,9 +64,6 @@ export default function RotatingGlobe3D() {
                     map.current.setTerrain({ source: 'mapbox-dem', exaggeration: 1.5 });
                 }
 
-                // Enable sky layer for atmosphere
-                map.current.setStyle(map.current.getStyle(), { validate: false });
-
                 // Add building extrusion layer if available
                 const layers = map.current.getStyle().layers;
                 if (layers) {
