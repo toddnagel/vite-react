@@ -60,7 +60,7 @@ function FAQ() {
               {faqItems.map((item) => {
                 const isOpen = openId === item.id;
                 return (
-                  <div key={item.id} className="bg-white/5 first:rounded-t-xl last:rounded-b-xl">
+                  <div key={item.id} className="bg-white/5 first:rounded-t-xl last:rounded-b-xl overflow-hidden">
                     <h3>
                       <button
                         type="button"
