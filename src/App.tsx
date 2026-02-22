@@ -10,10 +10,6 @@ import Home from "./pages/Home";
 import About from "./pages/About";
 import FAQ from "./pages/FAQ";
 import Contact from "./pages/Contact";
-import Vision from "./pages/Vision";
-import RedShadow from "./pages/RedShadow";
-import Cryptonite from "./pages/Cryptonite";
-import Terms from "./pages/Terms";
 import Profile from "./pages/Profile";
 import NotFound from "./pages/404";
 
@@ -22,10 +18,8 @@ function AppContent() {
   const navigate = useNavigate();
   const location = useLocation();
 
-  // Sync user with database on login
   useUserSync();
 
-  // Scroll to top on route change
   useEffect(() => {
     window.scrollTo({
       top: 0,
@@ -41,9 +35,7 @@ function AppContent() {
       const urlParams = new URLSearchParams(window.location.search);
       const hasAuthParams = urlParams.has('code') || urlParams.has('state');
 
-      // Only redirect if we have auth params (coming back from Auth0 login)
       if (hasAuthParams) {
-        // Get returnTo from sessionStorage (set by loginWithRedirect appState)
         const appState = sessionStorage.getItem('auth0_app_state');
         let returnTo = '/profile';
 
@@ -57,10 +49,8 @@ function AppContent() {
           }
         }
 
-        // Clear URL params first
         window.history.replaceState({}, '', returnTo);
 
-        // Small delay to ensure Auth0 has processed the callback
         setTimeout(() => {
           navigate(returnTo, { replace: true });
         }, 300);
@@ -76,10 +66,6 @@ function AppContent() {
         <Route path="/about" element={<About />} />
         <Route path="/faq" element={<FAQ />} />
         <Route path="/contact" element={<Contact />} />
-        <Route path="/vision" element={<Vision />} />
-        <Route path="/redshadow" element={<RedShadow />} />
-        <Route path="/cryptonite" element={<Cryptonite />} />
-        <Route path="/terms" element={<Terms />} />
         <Route
           path="/profile"
           element={

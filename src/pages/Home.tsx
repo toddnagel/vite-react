@@ -1,6 +1,10 @@
 import { useEffect, useRef, useState } from "react";
 import TabbedContent from "../components/TabbedContent";
 import PageTitle from "../components/PageTitle";
+import RotatingGlobe from "../components/RotatingGlobe";
+import RotatingGlobe3D from "../components/3DRotatingGlobe";
+import DraggableMarker from "../components/DraggableMarker";
+import DraggablePin from "../components/DraggablePin";
 
 function Home() {
   const parallaxRef = useRef<HTMLDivElement>(null);
@@ -102,8 +106,8 @@ function Home() {
           <div className="flex flex-col items-center gap-6 mt-8">
             <div className="w-full max-w-4xl mx-auto opacity-0 animate-[fadeInUp_0.6s_ease-out_0.2s_forwards]">
               <div className="service-box-items flex flex-col md:flex-row items-center md:items-start justify-center gap-4 md:gap-6">
-                <div className="service-image flex-shrink-0 max-w-[300px]">
-                  <img src="/xolo-art.png" alt="Xolo NFT Art" className="min-w-[100px] w-[260px] md:w-[320px] lg:w-[380px]" />
+                <div className="service-image shrink-0 max-w-75">
+                  <img src="/xolo-art.png" alt="Xolo NFT Art" className="min-w-25 w-65 md:w-[320px] lg:w-95" />
                 </div>
                 <div className="service-content text-center md:text-left">
                   <h3 className="h3-default">10,001 Unique NFT Masterpieces</h3>
@@ -117,8 +121,8 @@ function Home() {
             </div>
             <div className="w-full max-w-4xl mx-auto opacity-0 animate-[fadeInUp_0.6s_ease-out_0.4s_forwards]">
               <div className="service-box-items flex flex-col md:flex-row items-center md:items-start justify-center gap-4 md:gap-6">
-                <div className="service-image flex-shrink-0 max-w-[300px]">
-                  <img src="/xrpl-blockchain.png" alt="XRPL Blockchain" className="min-w-[100px] w-[260px] md:w-[320px] lg:w-[380px]" />
+                <div className="service-image shrink-0 max-w-75">
+                  <img src="/xrpl-blockchain.png" alt="XRPL Blockchain" className="min-w-25 w-65 md:w-[320px] lg:w-95" />
                 </div>
                 <div className="service-content text-center md:text-left">
                   <h3 className="h3-default">Built on the XRP Ledger (XRPL)</h3>
@@ -132,8 +136,8 @@ function Home() {
             </div>
             <div className="w-full max-w-4xl mx-auto opacity-0 animate-[fadeInUp_0.6s_ease-out_0.6s_forwards]">
               <div className="service-box-items flex flex-col md:flex-row items-center md:items-start justify-center gap-4 md:gap-6">
-                <div className="service-image flex-shrink-0 max-w-[300px]">
-                  <img src="/xolo-travel.png" alt="Xolo Travel Vision" className="min-w-[100px] w-[260px] md:w-[320px] lg:w-[380px]" />
+                <div className="service-image shrink-0 max-w-75">
+                  <img src="/xolo-travel.png" alt="Xolo Travel Vision" className="min-w-25 w-65 md:w-[320px] lg:w-95" />
                 </div>
                 <div className="service-content text-center md:text-left">
                   <h3 className="h3-default">Decentralized Travel Vision</h3>
@@ -147,8 +151,8 @@ function Home() {
             </div>
             <div className="w-full max-w-4xl mx-auto opacity-0 animate-[fadeInUp_0.6s_ease-out_0.8s_forwards]">
               <div className="service-box-items flex flex-col md:flex-row items-center md:items-start justify-center gap-4 md:gap-6 mb-0">
-                <div className="service-image flex-shrink-0 max-w-[300px]">
-                  <img src="/xrp-cafe-mint.png" alt="XRP Cafe Mint" className="min-w-[100px] w-[260px] md:w-[320px] lg:w-[380px]" />
+                <div className="service-image shrink-0 max-w-75">
+                  <img src="/xrp-cafe-mint.png" alt="XRP Cafe Mint" className="min-w-25 w-65 md:w-[320px] lg:w-95" />
                 </div>
                 <div className="service-content text-center md:text-left">
                   <h3 className="h3-default">
@@ -288,13 +292,37 @@ function Home() {
         </div>
       </div>
 
-      {/* MAPBOX */}
-      <div className="w-[80%] h-[640px] rounded-none overflow-visible my-5 mx-auto">
+      {/* MAPBOX
+      <div className="w-[80%] h-160 rounded-none overflow-visible my-5 mx-auto">
         <iframe
           className="w-full h-full border-none"
           src={`https://api.mapbox.com/styles/v1/${import.meta.env.VITE_MAPBOX_USERNAME}/${import.meta.env.VITE_MAPBOX_STYLE_ID}.html?title=false&access_token=${import.meta.env.VITE_MAPBOX_ACCESS_TOKEN}&zoomwheel=true#2/38/-34`}
           title="Untitled"
         ></iframe>
+      </div> */}
+
+      {/* ROTATING GLOBE - Interactive version for testing */}
+      <div className="w-[80%] mx-auto my-12">
+        <h3 className="text-2xl font-bold text-white mb-4 text-center">Rotating Globe (Interactive)</h3>
+        <RotatingGlobe />
+      </div>
+
+      {/* 3D ROTATING GLOBE - 3D version with terrain and buildings */}
+      <div className="w-[80%] mx-auto my-12">
+        <h3 className="text-2xl font-bold text-white mb-4 text-center">Rotating Globe 3D (Terrain & Buildings)</h3>
+        <RotatingGlobe3D />
+      </div>
+
+      {/* Draggable Marker (circle source) */}
+      <div className="w-[80%] mx-auto my-12">
+        <h3 className="text-2xl font-bold text-white mb-4 text-center">Draggable Marker (Circle Layer)</h3>
+        <DraggableMarker />
+      </div>
+
+      {/* Draggable Pin (native Mapbox Marker) */}
+      <div className="w-[80%] mx-auto my-12">
+        <h3 className="text-2xl font-bold text-white mb-4 text-center">Draggable Pin (Mapbox Marker)</h3>
+        <DraggablePin />
       </div>
     </>
   );

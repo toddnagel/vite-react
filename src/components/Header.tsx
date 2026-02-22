@@ -21,7 +21,7 @@ function Header() {
 
   return (
     <>
-      <div
+      {/* <div
         id="preloader"
         className="preloader loaded hidden"
       >
@@ -86,7 +86,7 @@ function Header() {
             </div>
           </div>
         </div>
-      </div>
+      </div> */}
 
       <button id="back-top" className="back-to-top">
         <FontAwesomeIcon icon={faArrowUp} />
