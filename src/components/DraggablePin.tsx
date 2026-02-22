@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import mapboxgl from 'mapbox-gl';
-import type { Map, LngLatLike, MapMouseEvent, MapTouchEvent } from 'mapbox-gl';
+import type { Map, LngLatLike } from 'mapbox-gl';
 import { useAuth0 } from '@auth0/auth0-react';
 import MapControls from './MapControls';
 

@@ -61,11 +61,10 @@ export default function MapControls({ mapRef, isSpinning = false, onToggleSpin }
                     <button
                         key={preset.value}
                         onClick={() => handleLightPreset(preset.value)}
-                        className={`px-2 py-1 text-xs font-medium rounded transition-all ${
-                            currentPreset === preset.value
+                        className={`px-2 py-1 text-xs font-medium rounded transition-all ${currentPreset === preset.value
                                 ? 'bg-blue-600 text-white shadow-md'
                                 : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                        }`}
+                            }`}
                         title={preset.label}
                     >
                         {preset.label}
@@ -77,11 +76,10 @@ export default function MapControls({ mapRef, isSpinning = false, onToggleSpin }
             {onToggleSpin && (
                 <button
                     onClick={onToggleSpin}
-                    className={`px-2 py-1 text-xs font-medium rounded transition-all border-r border-gray-300 pr-3 ${
-                        isSpinning
+                    className={`px-2 py-1 text-xs font-medium rounded transition-all border-r border-gray-300 pr-3 ${isSpinning
                             ? 'bg-green-600 text-white hover:bg-green-700'
                             : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                    }`}
+                        }`}
                     title={isSpinning ? 'Pause rotation' : 'Start rotation'}
                 >
                     {isSpinning ? '⏸ Pause' : '▶ Spin'}
