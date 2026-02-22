@@ -60,9 +60,6 @@ export default function DraggablePin({
 
         const map = mapRef.current;
 
-        function toFourDecimalPlaces(num: number) {
-            return parseFloat(num.toFixed(4));
-        }
 
         // Add bounce animation keyframes to document head if not already present
         if (!document.getElementById('bounce-animation')) {
