@@ -2,19 +2,25 @@ import PageTitle from "../components/PageTitle";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faDiscord,
-  faReddit,
   faXTwitter,
+  faTiktok,
+  faInstagram,
+  faTelegram,
 } from "@fortawesome/free-brands-svg-icons";
+import { faEnvelope } from "@fortawesome/free-solid-svg-icons";
 
 interface Owner {
   id: number;
   name: string;
   title: string;
   image: string;
+  email: string;
   socials: {
     twitter: string;
     discord: string;
-    reddit: string;
+    tiktok: string;
+    instagram: string;
+    telegram: string;
   };
 }
 
@@ -24,10 +30,13 @@ const owners: Owner[] = [
     name: "Cryptonite",
     title: "Founder & Visionary Explorer",
     image: "/01.jpg",
+    email: "cryptonite@xolodojo.com",
     socials: {
       twitter: "#",
       discord: "#",
-      reddit: "#",
+      tiktok: "#",
+      instagram: "#",
+      telegram: "#",
     },
   },
   {
@@ -35,10 +44,13 @@ const owners: Owner[] = [
     name: "RedShadow",
     title: "Visionary Artist & Cultural Alchemist",
     image: "/02.jpg",
+    email: "redshadow@xolodojo.com",
     socials: {
       twitter: "#",
       discord: "#",
-      reddit: "#",
+      tiktok: "#",
+      instagram: "#",
+      telegram: "#",
     },
   },
   {
@@ -46,10 +58,13 @@ const owners: Owner[] = [
     name: "Code",
     title: "Lead Builder & Degen Architect",
     image: "/03.jpg",
+    email: "code@xolodojo.com",
     socials: {
       twitter: "#",
       discord: "#",
-      reddit: "#",
+      tiktok: "#",
+      instagram: "#",
+      telegram: "#",
     },
   },
 ];
@@ -72,22 +87,46 @@ function OwnerCard({ owner }: { owner: Owner }) {
       </p>
       <div className="flex items-center gap-2">
         <a
+          href={`mailto:${owner.email}`}
+          title={owner.title}
+          className="inline-flex items-center justify-center w-10 h-10 rounded-full border border-[#b7e9f7] text-[#cdcdcd] hover:text-white hover:bg-[#b7e9f7]/80 transition-all duration-300 ease-in-out"
+        >
+          <FontAwesomeIcon icon={faEnvelope} size="sm" />
+        </a>
+        <a
           href={owner.socials.twitter}
+          title={owner.title}
           className="inline-flex items-center justify-center w-10 h-10 rounded-full border border-[#b7e9f7] text-[#cdcdcd] hover:text-white hover:bg-[#b7e9f7]/80 transition-all duration-300 ease-in-out"
         >
           <FontAwesomeIcon icon={faXTwitter} size="sm" />
         </a>
         <a
           href={owner.socials.discord}
+          title={owner.title}
           className="inline-flex items-center justify-center w-10 h-10 rounded-full border border-[#b7e9f7] text-[#cdcdcd] hover:text-white hover:bg-[#b7e9f7]/80 transition-all duration-300 ease-in-out"
         >
           <FontAwesomeIcon icon={faDiscord} size="sm" />
         </a>
         <a
-          href={owner.socials.reddit}
+          href={owner.socials.tiktok}
+          title={owner.title}
           className="inline-flex items-center justify-center w-10 h-10 rounded-full border border-[#b7e9f7] text-[#cdcdcd] hover:text-white hover:bg-[#b7e9f7]/80 transition-all duration-300 ease-in-out"
         >
-          <FontAwesomeIcon icon={faReddit} size="sm" />
+          <FontAwesomeIcon icon={faTiktok} size="sm" />
+        </a>
+        <a
+          href={owner.socials.instagram}
+          title={owner.title}
+          className="inline-flex items-center justify-center w-10 h-10 rounded-full border border-[#b7e9f7] text-[#cdcdcd] hover:text-white hover:bg-[#b7e9f7]/80 transition-all duration-300 ease-in-out"
+        >
+          <FontAwesomeIcon icon={faInstagram} size="sm" />
+        </a>
+        <a
+          href={owner.socials.telegram}
+          title={owner.title}
+          className="inline-flex items-center justify-center w-10 h-10 rounded-full border border-[#b7e9f7] text-[#cdcdcd] hover:text-white hover:bg-[#b7e9f7]/80 transition-all duration-300 ease-in-out"
+        >
+          <FontAwesomeIcon icon={faTelegram} size="sm" />
         </a>
       </div>
     </div>
