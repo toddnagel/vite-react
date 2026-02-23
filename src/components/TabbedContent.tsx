@@ -467,27 +467,12 @@ function TabbedContent() {
               id="TheMint"
               className={`tab-pane ${activeTab === "TheMint" ? "block" : "hidden"}`}
               role="tabpanel"
-            >
-              <h2 className="text-3xl md:text-4xl font-bold mb-3 text-[#28aae4]">
-                Mythic Journey of the Xolo: Gods, Guardians, and Eternal Bonds.
-              </h2>
-              <p className="opacity-0 animate-[fadeInUp_0.6s_ease-out_0.3s_forwards] mb-4">
-                Picture this: the Aztec cosmos is basically a chaotic family reunion that never ends. At the center? The ultimate twin duo—Quetzalcoatl, the chill, feathered-serpent genius of wind, wisdom, creation, and "let's make everything better," and his rowdy, dog-headed brother Xolotl, the lightning-fast trickster god of fire, transformation, deformities, and "hold my conch shell while I pull off the impossible."
-              </p>
-              <p className="opacity-0 animate-[fadeInUp_0.6s_ease-out_0.4s_forwards] mb-4">
-                These two aren't just siblings; they're the original dynamic duo who literally rebuilt humanity after the world got wrecked four times (because ancient gods apparently loved a good reset button). Quetzalcoatl, ever the visionary, decides it's time for round five: populate the earth with actual people. But plot twist—he needs the sacred bones from the previous eras, stashed deep in Mictlan, the shadowy, nine-level underworld ruled by the skeletal party-pooper Mictlantecuhtli (the Lord of the Dead) and his queen Mictecacihuatl.
-              </p>
+            >              
               <h3 className="text-2xl md:text-3xl font-bold mb-3 text-[#28aae4]">
                 The Xoloitzquintle Mint
               </h3>
-              <h3 className="text-2xl md:text-3xl font-bold mb-3 text-[#28aae4]">
-                Claim Your Sacred Guide
-              </h3>
-              <h4 className="text-xl md:text-2xl font-bold mb-3 text-[#28aae4]">
-                10,001 Unique XRPL NFTs
-              </h4>
               <p className="opacity-0 animate-[fadeInUp_0.6s_ease-out_0.5s_forwards] mb-4">
-                Hand-drawn with deep Mesoamerican roots — 7 distinct traits + 217 sub-traits by RedShadow.
+                Claim Your Sacred Guide from the collection of 10,001 Unique XRPL NFTs hand-drawn with deep Mesoamerican roots, featuring 7 distinct traits + 217 sub-traits by RedShadow.
                 Built on the eco-friendly XRP Ledger: fast transactions, low fees, no gas wars.
               </p>
               <p className="opacity-0 animate-[fadeInUp_0.6s_ease-out_0.4s_forwards] mb-4">
@@ -540,31 +525,40 @@ function TabbedContent() {
                   </li>
                   <li>
                     <span>
-                      Connect to xrp.cafe<br />
-                      Go to https://xrp.cafe  <br />
-                      Click "Connect Wallet" → Choose your XRPL wallet → Sign the secure request.<br />
-                      Once connected, you'll see the official Xoloitzquintle collection when it drops.
+                      Connect to xrp.cafe 
                     </span>
+                    <ul className="list-items opacity-0 animate-[fadeInUp_0.6s_ease-out_0.5s_forwards]">
+                      <li>
+                        Go to https://xrp.cafe
+                      </li>
+                      <li>
+                        Click "Connect Wallet" → Choose your XRPL wallet → Sign the secure request.
+                      </li>
+                      <li>
+                        Once connected, you'll see the official Xoloitzquintle collection when it drops.
+                      </li>
+                    </ul>
                   </li>
                   <li>
                     <span>
-                      Mint Your Xolo When Live<br />
-                      On launch: Navigate to the Xoloitzquintle collection page.<br />
-                      Select your mint quantity (if allowed), confirm the transaction.<br />
-                      Your unique NFT arrives in seconds on the ledger.<br />
-                      Then verify ownership on xolodojo.io to access XoloGlobe perks!
+                      Mint Your Xolo When Live
                     </span>
+                    <ul className="list-items opacity-0 animate-[fadeInUp_0.6s_ease-out_0.5s_forwards]">
+                      <li>
+                        On launch: Navigate to the Xoloitzquintle collection page.
+                      </li>
+                      <li>
+                        Select your mint quantity (if allowed), confirm the transaction.
+                      </li>
+                      <li>
+                        Your unique NFT arrives in seconds on the ledger.
+                      </li>
+                      <li>
+                        Then verify ownership on xolodojo.io to access XoloGlobe perks!
+                      </li>
+                    </ul>
                   </li>
                 </ul>
-              </p>
-              <h3 className="text-2xl md:text-3xl font-bold mb-3 text-[#28aae4]">
-                Why Mint a Xolo?
-              </h3>
-              <p className="opacity-0 animate-[fadeInUp_0.6s_ease-out_0.4s_forwards] mb-4">
-                Cultural Depth — Honor the sacred Xoloitzquintle, ancient spiritual guide and symbol of loyalty.
-                XRPL Benefits — Eco-friendly, pennies-per-transaction, lightning-fast, no Ethereum-style bidding wars.
-                Long-Term Utility — Token-gate the XoloGlobe: pin your location, connect with fellow holders worldwide, share travel stories, skills, and culture.
-                Community First — Join a decentralized network fostering global connections on the XRPL.
               </p>
             </div>
           </div>
