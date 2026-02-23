@@ -3,25 +3,17 @@ import { useAuth0 } from '@auth0/auth0-react';
 import PageTitle from '../components/PageTitle';
 import Button from '../components/Button';
 import { getUserProfile, updateUserProfile } from '../services/profileService';
+import type { UserProfile } from '../services/profileService';
 
 function Profile() {
     const { user, isAuthenticated, isLoading, getAccessTokenSilently } = useAuth0();
-    const [dbUser, setDbUser] = useState<any>(null);
+    const [dbUser, setDbUser] = useState<UserProfile | null>(null);
     const [bio, setBio] = useState('');
     const [isEditing, setIsEditing] = useState(false);
     const [isSaving, setIsSaving] = useState(false);
     const [isLoadingProfile, setIsLoadingProfile] = useState(true);
     const [saveMessage, setSaveMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
 
-    if (isLoading) {
-        return (
-            <div className="flex justify-center items-center min-h-[50vh] text-white">
-                Loading...
-            </div>
-        );
-    }
-
-    // Load user profile from database
     useEffect(() => {
         const loadProfile = async () => {
             if (!isAuthenticated || !user || !user.sub) {
@@ -52,23 +44,24 @@ function Profile() {
                     console.log('Profile: User not found in DB yet, will be created by sync');
                     setBio('');
                 }
-            } catch (error: any) {
-                console.error('Profile: Failed to load profile:', error);
+            } catch (error) {
+                const err = error instanceof Error ? error : new Error(String(error));
+                console.error('Profile: Failed to load profile:', err);
                 console.error('Profile: Error details:', {
-                    message: error.message,
-                    stack: error.stack,
-                    response: error.response
+                    message: err.message,
+                    stack: err.stack,
+                    response: undefined
                 });
 
                 // Don't show error if it's just that user doesn't exist yet
-                if (error.message?.includes('404') || error.message?.includes('not found')) {
+                if (err.message?.includes('404') || err.message?.includes('not found')) {
                     // User not in database yet - will be created by useUserSync
                     console.log('Profile: User not found (404) - will be created by sync');
                     setBio('');
                 } else {
                     setSaveMessage({
                         type: 'error',
-                        text: `Failed to load profile: ${error.message || 'Unknown error'}. Check console for details.`
+                        text: `Failed to load profile: ${err.message || 'Unknown error'}. Check console for details.`
                     });
                 }
             } finally {
@@ -78,6 +71,14 @@ function Profile() {
 
         loadProfile();
     }, [isAuthenticated, user, getAccessTokenSilently]);
+
+    if (isLoading) {
+        return (
+            <div className="flex justify-center items-center min-h-[50vh] text-white">
+                Loading...
+            </div>
+        );
+    }
 
     const handleSave = async () => {
         if (!user || !user.sub) return;
@@ -94,7 +95,8 @@ function Profile() {
             // Clear message after 3 seconds
             setTimeout(() => setSaveMessage(null), 3000);
         } catch (error) {
-            console.error('Failed to save profile:', error);
+            const err = error instanceof Error ? error : new Error(String(error));
+            console.error('Failed to save profile:', err);
             setSaveMessage({ type: 'error', text: 'Failed to save profile. Please try again.' });
         } finally {
             setIsSaving(false);
@@ -135,7 +137,7 @@ function Profile() {
                                     <img
                                         src={user.picture}
                                         alt={user.name || 'User'}
-                                        className="w-[120px] h-[120px] rounded-full border-4 border-white/20"
+                                        className="w-30 h-30 rounded-full border-4 border-white/20"
                                     />
                                 )}
 
@@ -148,15 +150,6 @@ function Profile() {
                                             {user.email}
                                         </p>
                                     )}
-                                </div>
-
-                                <div className="w-full p-6 bg-black/30 rounded-lg">
-                                    <h4 className="text-white mb-4 text-lg">
-                                        User Information
-                                    </h4>
-                                    <pre className="text-white/80 text-sm overflow-auto m-0">
-                                        {JSON.stringify(user, null, 2)}
-                                    </pre>
                                 </div>
 
                                 {/* Test Field: Bio */}
