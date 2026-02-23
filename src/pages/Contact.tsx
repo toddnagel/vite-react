@@ -14,13 +14,13 @@ interface Owner {
   name: string;
   title: string;
   image: string;
-  email: string;
-  socials: {
-    twitter: string;
-    discord: string;
-    tiktok: string;
-    instagram: string;
-    telegram: string;
+  email?: string;
+  socials?: {
+    twitter?: string;
+    discord?: string;
+    tiktok?: string;
+    instagram?: string;
+    telegram?: string;
   };
 }
 
@@ -30,9 +30,9 @@ const owners: Owner[] = [
     name: "Cryptonite",
     title: "Founder & Visionary Explorer",
     image: "/01.jpg",
-    email: "cryptonite@xolodojo.com",
+    email: "xrparmyis@gmail.com",
     socials: {
-      twitter: "#",
+      twitter: "https://x.com/XoloDojo",
       discord: "#",
       tiktok: "#",
       instagram: "#",
@@ -70,6 +70,7 @@ const owners: Owner[] = [
 ];
 
 function OwnerCard({ owner }: { owner: Owner }) {
+  const isValidLink = (s?: string) => !!s && s !== "#" && s.trim() !== "";
   return (
     <div className="flex flex-col items-center text-center">
       <div className="mb-4 overflow-hidden rounded-lg w-full max-w-xs">
@@ -86,48 +87,72 @@ function OwnerCard({ owner }: { owner: Owner }) {
         {owner.title}
       </p>
       <div className="flex items-center gap-2">
-        <a
-          href={`mailto:${owner.email}`}
-          title={owner.title}
-          className="inline-flex items-center justify-center w-10 h-10 rounded-full border border-[#b7e9f7] text-[#cdcdcd] hover:text-white hover:bg-[#b7e9f7]/80 transition-all duration-300 ease-in-out"
-        >
-          <FontAwesomeIcon icon={faEnvelope} size="sm" />
-        </a>
-        <a
-          href={owner.socials.twitter}
-          title={owner.title}
-          className="inline-flex items-center justify-center w-10 h-10 rounded-full border border-[#b7e9f7] text-[#cdcdcd] hover:text-white hover:bg-[#b7e9f7]/80 transition-all duration-300 ease-in-out"
-        >
-          <FontAwesomeIcon icon={faXTwitter} size="sm" />
-        </a>
-        <a
-          href={owner.socials.discord}
-          title={owner.title}
-          className="inline-flex items-center justify-center w-10 h-10 rounded-full border border-[#b7e9f7] text-[#cdcdcd] hover:text-white hover:bg-[#b7e9f7]/80 transition-all duration-300 ease-in-out"
-        >
-          <FontAwesomeIcon icon={faDiscord} size="sm" />
-        </a>
-        <a
-          href={owner.socials.tiktok}
-          title={owner.title}
-          className="inline-flex items-center justify-center w-10 h-10 rounded-full border border-[#b7e9f7] text-[#cdcdcd] hover:text-white hover:bg-[#b7e9f7]/80 transition-all duration-300 ease-in-out"
-        >
-          <FontAwesomeIcon icon={faTiktok} size="sm" />
-        </a>
-        <a
-          href={owner.socials.instagram}
-          title={owner.title}
-          className="inline-flex items-center justify-center w-10 h-10 rounded-full border border-[#b7e9f7] text-[#cdcdcd] hover:text-white hover:bg-[#b7e9f7]/80 transition-all duration-300 ease-in-out"
-        >
-          <FontAwesomeIcon icon={faInstagram} size="sm" />
-        </a>
-        <a
-          href={owner.socials.telegram}
-          title={owner.title}
-          className="inline-flex items-center justify-center w-10 h-10 rounded-full border border-[#b7e9f7] text-[#cdcdcd] hover:text-white hover:bg-[#b7e9f7]/80 transition-all duration-300 ease-in-out"
-        >
-          <FontAwesomeIcon icon={faTelegram} size="sm" />
-        </a>
+        {isValidLink(owner.email) && (
+          <a
+            href={`mailto:${owner.email}`}
+            title={owner.title}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center justify-center w-10 h-10 rounded-full border border-[#b7e9f7] text-[#cdcdcd] hover:text-white hover:bg-[#b7e9f7]/80 transition-all duration-300 ease-in-out"
+          >
+            <FontAwesomeIcon icon={faEnvelope} size="sm" />
+          </a>
+        )}
+        {isValidLink(owner.socials?.twitter) && (
+          <a
+            href={owner.socials!.twitter}
+            title={owner.title}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center justify-center w-10 h-10 rounded-full border border-[#b7e9f7] text-[#cdcdcd] hover:text-white hover:bg-[#b7e9f7]/80 transition-all duration-300 ease-in-out"
+          >
+            <FontAwesomeIcon icon={faXTwitter} size="sm" />
+          </a>
+        )}
+        {isValidLink(owner.socials?.discord) && (
+          <a
+            href={owner.socials!.discord}
+            title={owner.title}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center justify-center w-10 h-10 rounded-full border border-[#b7e9f7] text-[#cdcdcd] hover:text-white hover:bg-[#b7e9f7]/80 transition-all duration-300 ease-in-out"
+          >
+            <FontAwesomeIcon icon={faDiscord} size="sm" />
+          </a>
+        )}
+        {isValidLink(owner.socials?.tiktok) && (
+          <a
+            href={owner.socials!.tiktok}
+            title={owner.title}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center justify-center w-10 h-10 rounded-full border border-[#b7e9f7] text-[#cdcdcd] hover:text-white hover:bg-[#b7e9f7]/80 transition-all duration-300 ease-in-out"
+          >
+            <FontAwesomeIcon icon={faTiktok} size="sm" />
+          </a>
+        )}
+        {isValidLink(owner.socials?.instagram) && (
+          <a
+            href={owner.socials!.instagram}
+            title={owner.title}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center justify-center w-10 h-10 rounded-full border border-[#b7e9f7] text-[#cdcdcd] hover:text-white hover:bg-[#b7e9f7]/80 transition-all duration-300 ease-in-out"
+          >
+            <FontAwesomeIcon icon={faInstagram} size="sm" />
+          </a>
+        )}
+        {isValidLink(owner.socials?.telegram) && (
+          <a
+            href={owner.socials!.telegram}
+            title={owner.title}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center justify-center w-10 h-10 rounded-full border border-[#b7e9f7] text-[#cdcdcd] hover:text-white hover:bg-[#b7e9f7]/80 transition-all duration-300 ease-in-out"
+          >
+            <FontAwesomeIcon icon={faTelegram} size="sm" />
+          </a>
+        )}
       </div>
     </div>
   );

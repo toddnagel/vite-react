@@ -220,7 +220,7 @@ function TabbedContent() {
                 Why the quirky spelling "Xoloitzquintle" (with that "qu" instead of "cu")? It's a loving nod to old-school Nahuatl orthography and how Spanish chroniclers/translators rendered the original xōlōitzcuintli (pronounced roughly "show-low-eats-QUEENT-lee"). The "qu" captures the guttural, ancient Aztec sound more faithfully in some traditional texts and codex styles—think of it as the mythic equivalent of using "ye olde" English for flair. We chose it to honor the deep cultural roots, keep the lore authentic, and give our guardians that extra layer of timeless mystery. (Plus, it looks cooler than plain "cu"—admit it.)
               </p>
               <p className="opacity-0 animate-[fadeInUp_0.6s_ease-out_1.2s_forwards] mb-4">
-                Own your Xolo. Guide the journey. Join the pack.
+                Own your Xolo. Own your journey. Own your destination.
               </p>
             </div>
             <div
@@ -354,7 +354,7 @@ function TabbedContent() {
                 <h3 className="text-2xl md:text-3xl font-bold mb-4 text-[#28aae4]">
                   The living map of our global community
                 </h3>
-                <p>
+                <p className="mb-7 text-justify text-[#8d6ca3]">
                   Inside the Xolo Dojo, the XoloGlobe comes alive on
                   an interactive, Mapbox-powered world map. Verified
                   Xolo NFT holders pin their locations, showcase their
@@ -366,16 +366,7 @@ function TabbedContent() {
                   turns into real human connection. Find a host for an
                   authentic stay, arrange a home swap, share a meal,
                   join a day adventure, or exchange skills with someone
-                  whose pin catches your eye.
-                </p>
-              </div>
-
-              <div className="opacity-0 animate-[fadeInUp_0.6s_ease-out_0.5s_forwards] mt-4">
-                <h4 className="text-lg md:text-xl font-semibold text-[#891387] mb-3">
-                  Exclusive, token-gated, and built on trust
-                </h4>
-                <p>
-                  Only holders of a Xolo NFT can pin and fully
+                  whose pin catches your eye. Exclusive, token-gated, and built on trust, only holders of a Xolo NFT can pin and fully
                   interact. Access is simple and secure — just connect
                   your wallet. No personal data required, just proof
                   of community membership.
@@ -383,8 +374,6 @@ function TabbedContent() {
               </div>
               <div className="about-items">
                 <div className="about-content">
-
-
                   <div className="opacity-0 animate-[fadeInUp_0.6s_ease-out_0.6s_forwards] mt-4">
                     <h4 className="text-lg md:text-xl font-semibold text-[#891387] mb-3">
                       How It Works
@@ -402,13 +391,6 @@ function TabbedContent() {
                       </li>
                       <li>
                         <span><strong className="text-[#f7eab7]">Discover &amp; Connect</strong> — Explore pins worldwide. Click any to view their Xolo, profile, and current offerings. Reach out directly to:</span>
-                        <ul className="sublist mt-3">
-                          <li>Stay in a fellow Xolo's dwelling for deep cultural immersion</li>
-                          <li>Arrange house or dwelling swaps for cost-free travel</li>
-                          <li>Enjoy peer-to-peer bed-and-breakfast with home-cooked meals and local wisdom</li>
-                          <li>Meet up for coffee, lunch, dinner, or a guided adventure</li>
-                          <li>Offer or access skills, services, handmade goods, or work trades</li>
-                        </ul>
                       </li>
                     </ul>
                   </div>
@@ -442,14 +424,7 @@ function TabbedContent() {
                     <p>
                       Just as our Mission states: we're cultivating a
                       global dojo where shared experiences weave a
-                      stronger, more connected world.
-                    </p>
-                  </div>
-
-                  <div className="opacity-0 animate-[fadeInUp_0.6s_ease-out_1.2s_forwards] mt-4">
-                    <h3 className="text-2xl md:text-3xl font-bold mb-4 text-[#28aae4]">Ready to add your pin and light up the map?</h3>
-                    <p>
-                      Connect your wallet and join the XoloGlobe today!
+                      stronger, more connected world. Connect your wallet and join the XoloGlobe today!
                     </p>
                   </div>
                 </div>
