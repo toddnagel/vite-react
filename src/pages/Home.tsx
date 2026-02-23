@@ -1,9 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import TabbedContent from "../components/TabbedContent";
 import PageTitle from "../components/PageTitle";
-import RotatingGlobe from "../components/RotatingGlobe";
 import RotatingGlobe3D from "../components/3DRotatingGlobe";
-import DraggableMarker from "../components/DraggableMarker";
 import DraggablePin from "../components/DraggablePin";
 
 function Home() {
@@ -301,12 +299,6 @@ function Home() {
         ></iframe>
       </div> */}
 
-      {/* ROTATING GLOBE - Interactive version for testing */}
-      <div className="w-[80%] mx-auto my-12">
-        <h3 className="text-2xl font-bold text-white mb-4 text-center">Rotating Globe (Interactive)</h3>
-        <RotatingGlobe />
-      </div>
-
       {/* 3D ROTATING GLOBE - 3D version with terrain and buildings */}
       <div className="w-[80%] mx-auto my-12">
         <h3 className="text-2xl font-bold text-white mb-4 text-center">Rotating Globe 3D (Terrain & Buildings)</h3>
@@ -314,10 +306,10 @@ function Home() {
       </div>
 
       {/* Draggable Marker (circle source) */}
-      <div className="w-[80%] mx-auto my-12">
+      {/* <div className="w-[80%] mx-auto my-12">
         <h3 className="text-2xl font-bold text-white mb-4 text-center">Draggable Marker (Circle Layer)</h3>
         <DraggableMarker />
-      </div>
+      </div> */}
 
       {/* Draggable Pin (native Mapbox Marker) */}
       <div className="w-[80%] mx-auto my-12">
