@@ -9,15 +9,24 @@ import UserMenu from "./UserMenu";
 function Header() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isSticky, setIsSticky] = useState(false);
+  const [showBackTop, setShowBackTop] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
       setIsSticky(window.scrollY > 250);
+      setShowBackTop(window.scrollY > 250);
     };
 
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
+
+  const handleBackToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    });
+  };
 
   return (
     <>
@@ -88,7 +97,11 @@ function Header() {
         </div>
       </div> */}
 
-      <button id="back-top" className="back-to-top">
+      <button 
+        id="back-top" 
+        className={`back-to-top ${showBackTop ? 'show' : ''}`}
+        onClick={handleBackToTop}
+      >
         <FontAwesomeIcon icon={faArrowUp} />
       </button>
 
