@@ -59,7 +59,6 @@ function Menu({
         { path: '/xologlobe', label: 'XoloGlobe' },
         { path: '/mint', label: 'Mint' },
         { path: '/faq', label: 'FAQ' },
-        { path: '/contact', label: 'Contact' },
     ];
 
     if (variant === 'mobile-toggle') {
