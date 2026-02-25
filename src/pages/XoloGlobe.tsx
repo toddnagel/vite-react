@@ -1,5 +1,4 @@
 import { useEffect, useRef, useState } from "react";
-import PageTitle from "../components/PageTitle";
 import DraggablePin from "../components/DraggablePin";
 
 function XoloGlobe() {
