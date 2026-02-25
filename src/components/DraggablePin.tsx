@@ -290,7 +290,7 @@ export default function DraggablePin({
 
     return (
         <div className={className}>
-            <div ref={containerRef} className="w-full h-full relative">
+            <div ref={containerRef} className="w-full h-full relative b-10">
                 <MapControls mapRef={mapRef} isSpinning={spinEnabled} onToggleSpin={handleToggleSpin} />
             </div>
             {showCoordinates && coordsText && (
