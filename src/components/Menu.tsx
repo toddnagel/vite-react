@@ -53,11 +53,11 @@ function Menu({
     };
 
     const menuItems = [
-        { path: '/about', label: 'Xoloitzquintle' },
-        { path: '/about', label: 'Vision' },
-        { path: '/about', label: 'Team' },
-        { path: '/about', label: 'XoloGlobe' },
-        { path: '/about', label: 'Mint' },
+        { path: '/xoloitzquintle', label: 'Xoloitzquintle' },
+        { path: '/vision', label: 'Vision' },
+        { path: '/team', label: 'Team' },
+        { path: '/xologlobe', label: 'XoloGlobe' },
+        { path: '/mint', label: 'Mint' },
         { path: '/faq', label: 'FAQ' },
         { path: '/contact', label: 'Contact' },
     ];

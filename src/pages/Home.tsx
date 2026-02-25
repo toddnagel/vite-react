@@ -1,5 +1,4 @@
 import { useEffect, useRef, useState } from "react";
-import TabbedContent from "../components/TabbedContent";
 import PageTitle from "../components/PageTitle";
 import RotatingGlobe3D from "../components/3DRotatingGlobe";
 import DraggablePin from "../components/DraggablePin";
@@ -89,8 +88,6 @@ function Home() {
           style={{ backgroundImage: "url('/hero-1.png')" }}
         ></div>
       </section>
-
-      <TabbedContent />
 
       <section className="service-section fix py-8 lg:py-12">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
