@@ -12,6 +12,11 @@ import FAQ from "./pages/FAQ";
 import Contact from "./pages/Contact";
 import Profile from "./pages/Profile";
 import NotFound from "./pages/404";
+import Xoloitzquintle from "./pages/Xoloitzquintle";
+import Vision from "./pages/Vision";
+import Team from "./pages/Team";
+import XoloGlobe from "./pages/XoloGlobe";
+import Mint from "./pages/Mint";
 
 function AppContent() {
   const { isAuthenticated, isLoading } = useAuth0();
@@ -64,6 +69,11 @@ function AppContent() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/about" element={<About />} />
+        <Route path="/xoloitzquintle" element={<Xoloitzquintle />} />
+        <Route path="/vision" element={<Vision />} />
+        <Route path="/team" element={<Team />} />
+        <Route path="/xologlobe" element={<XoloGlobe />} />
+        <Route path="/mint" element={<Mint />} />
         <Route path="/faq" element={<FAQ />} />
         <Route path="/contact" element={<Contact />} />
         <Route
