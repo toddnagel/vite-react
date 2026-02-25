@@ -1,5 +1,4 @@
 import { useEffect, useRef, useState } from "react";
-import PageTitle from "../components/PageTitle";
 
 function Home() {
   const parallaxRef = useRef<HTMLDivElement>(null);
