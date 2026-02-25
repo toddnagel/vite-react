@@ -1,7 +1,5 @@
 import { useEffect, useRef, useState } from "react";
 import PageTitle from "../components/PageTitle";
-import RotatingGlobe3D from "../components/3DRotatingGlobe";
-import DraggablePin from "../components/DraggablePin";
 
 function Home() {
   const parallaxRef = useRef<HTMLDivElement>(null);
