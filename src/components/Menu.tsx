@@ -53,8 +53,11 @@ function Menu({
     };
 
     const menuItems = [
-        { path: '/', label: 'Home' },
-        { path: '/about', label: 'About Us' },
+        { path: '/about', label: 'Xoloitzquintle' },
+        { path: '/about', label: 'Vision' },
+        { path: '/about', label: 'Team' },
+        { path: '/about', label: 'XoloGlobe' },
+        { path: '/about', label: 'Mint' },
         { path: '/faq', label: 'FAQ' },
         { path: '/contact', label: 'Contact' },
     ];
