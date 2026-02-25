@@ -297,10 +297,10 @@ function Home() {
       </div> */}
 
       {/* 3D ROTATING GLOBE - 3D version with terrain and buildings */}
-      <div className="w-[80%] mx-auto my-12">
+      {/* <div className="w-[80%] mx-auto my-12">
         <h3 className="text-2xl font-bold text-white mb-4 text-center">Rotating Globe 3D (Terrain & Buildings)</h3>
         <RotatingGlobe3D />
-      </div>
+      </div> */}
 
       {/* Draggable Marker (circle source) */}
       {/* <div className="w-[80%] mx-auto my-12">
@@ -309,10 +309,10 @@ function Home() {
       </div> */}
 
       {/* Draggable Pin (native Mapbox Marker) */}
-      <div className="w-[80%] mx-auto my-12">
+      {/* <div className="w-[80%] mx-auto my-12">
         <h3 className="text-2xl font-bold text-white mb-4 text-center">Draggable Pin (Mapbox Marker)</h3>
         <DraggablePin />
-      </div>
+      </div> */}
     </>
   );
 }

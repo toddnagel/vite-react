@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import PageTitle from "../components/PageTitle";
+import DraggablePin from "../components/DraggablePin";
 
 function XoloGlobe() {
     const sectionRef = useRef<HTMLElement>(null);
@@ -46,17 +47,12 @@ function XoloGlobe() {
     return (
         <>
             <section
-                className="relative bg-cover bg-center bg-no-repeat py-16 md:py-24"
+                className="relative bg-cover bg-center bg-no-repeat pt-16 md:pt-24 pb-4"
                 style={{ backgroundImage: "url('/Pattern.png')" }}
             >
-                <div className="container mx-auto max-w-7xl px-4">
-                    <div className="flex flex-col items-center text-center">
-                        <div className="mb-8">
-                            <PageTitle title="The XoloGlobe" />
-                        </div>
-                        <div className="mb-10">
-                            <img src="/04a.png" alt="" className="max-h-56 w-auto object-contain md:max-h-80" />
-                        </div>
+                <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+                    <div className="w-[80%] mx-auto my-12">
+                        <DraggablePin />
                     </div>
                 </div>
             </section>
