@@ -58,7 +58,7 @@ const owners: Owner[] = [
         id: 3,
         name: "Code",
         title: "Lead Builder & Degen Architect",
-        image: "/team/Code.jpg",
+        image: "/team/Code2.jpg",
         email: "code@xolodojo.com",
         socials: {
             twitter: "#",
