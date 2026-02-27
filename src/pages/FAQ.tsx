@@ -24,7 +24,7 @@ const faqItems = [
     id: 'faq-project-5',
     question: 'What Wallet And Funds Do I Need To Prepare?',
     answer:
-      'You will need an XRPL-compatible wallet like **Joey Wallet**. Ensure your wallet is funded with a minimum of **20 XRP** to cover the XRPL\'s wallet reserve and transaction fees.',
+      'You will need an XRPL-compatible wallet like MadLab Pro. Ensure your wallet is funded with XRP, 20 XRP is recommended to cover the XRPL\'s wallet reserve and minimal transaction fees.',
   },
   {
     id: 'faq-project-4',
@@ -35,7 +35,7 @@ const faqItems = [
 ];
 
 function FAQ() {
-  const [openId, setOpenId] = useState<string | null>('faq-project-2');
+  const [openId, setOpenId] = useState<string | null>('');
 
   return (
     <>
