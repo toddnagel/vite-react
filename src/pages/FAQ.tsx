@@ -35,7 +35,7 @@ const faqItems = [
 ];
 
 function FAQ() {
-  const [openId, setOpenId] = useState<string | null>('faq-project-2');
+  const [openId, setOpenId] = useState<string | null>('');
 
   return (
     <>
