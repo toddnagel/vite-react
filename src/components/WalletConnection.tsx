@@ -1,6 +1,9 @@
 import { useState, useEffect, useRef, useMemo } from 'react';
 import { MetaMaskProvider, useSDK } from '@metamask/sdk-react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faLink, faLinkSlash, faXmark } from '@fortawesome/free-solid-svg-icons';
 import Button from './Button';
+import ConfirmModal from './ConfirmModal';
 import type { Wallet } from '../services/walletService';
 import {
     addWallet,
@@ -28,6 +31,8 @@ function WalletConnectionContent({ auth0Id, accessToken, onWalletsUpdated }: Wal
     const [message, setMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
     // When user clicks Disconnect, we must not let sync re-connect until provider has no account or after a cooldown
     const userDisconnectCooldownRef = useRef(false);
+    const [pendingDeleteId, setPendingDeleteId] = useState<number | null>(null);
+    const [showDeleteModal, setShowDeleteModal] = useState(false);
 
     // Load wallets on mount
     useEffect(() => {
@@ -228,8 +233,6 @@ function WalletConnectionContent({ auth0Id, accessToken, onWalletsUpdated }: Wal
     };
 
     const handleDelete = async (walletId: number) => {
-        if (!confirm('Are you sure you want to delete this wallet?')) return;
-
         try {
             setMessage(null);
             setIsLoading(true);
@@ -259,6 +262,13 @@ function WalletConnectionContent({ auth0Id, accessToken, onWalletsUpdated }: Wal
         }
     };
 
+    const handleConfirmDelete = async () => {
+        if (pendingDeleteId == null) return;
+        await handleDelete(pendingDeleteId);
+        setShowDeleteModal(false);
+        setPendingDeleteId(null);
+    };
+
     const connectedWallet = wallets.find(w => w.is_connected);
     const isAnyWalletConnected = !!connectedWallet;
 
@@ -283,59 +293,67 @@ function WalletConnectionContent({ auth0Id, accessToken, onWalletsUpdated }: Wal
                         <div
                             key={wallet.id}
                             className={`p-4 rounded-lg border ${wallet.is_connected
-                                ? 'bg-green-900/20 border-green-500/50'
+                                ? 'bg-green-900/30 border-green-500/60'
                                 : 'bg-white/5 border-white/10'
                                 }`}
                         >
-                            <div className="flex items-start justify-between mb-3">
-                                <div className="flex-1">
-                                    <p className="text-white font-mono text-sm break-all mb-2">
+                            <div className="flex flex-wrap items-center justify-between gap-2">
+                                <div className="flex-1 min-w-0">
+                                    <p className="text-white font-mono text-sm break-all">
                                         {wallet.wallet_address.slice(0, 6)}...{wallet.wallet_address.slice(-4)}
                                     </p>
-                                    <p className="text-white/50 text-xs mb-2">Type: {wallet.wallet_type}</p>
-                                    {wallet.is_connected && (
-                                        <span className="inline-block text-green-400 text-xs px-2 py-1 bg-green-900/50 rounded">
-                                            Connected
-                                        </span>
+                                </div>
+                                <div className="flex items-center gap-2">
+                                    {wallet.is_connected ? (
+                                        <>
+                                            <Button
+                                                onClick={() => handleDisconnect()}
+                                                disabled={isLoading}
+                                                title="Disconnect wallet"
+                                                className="w-9 h-9 p-0 bg-yellow-600 hover:bg-yellow-700 active:bg-yellow-800 text-xs"
+                                            >
+                                                <FontAwesomeIcon icon={faLinkSlash} />
+                                                <span className="sr-only">Disconnect wallet</span>
+                                            </Button>
+                                            <Button
+                                                onClick={() => {
+                                                    setPendingDeleteId(wallet.id);
+                                                    setShowDeleteModal(true);
+                                                }}
+                                                title="Remove wallet from profile"
+                                                disabled={isLoading}
+                                                className="w-9 h-9 p-0 bg-red-600 hover:bg-red-700 active:bg-red-800 text-xs"
+                                            >
+                                                <FontAwesomeIcon icon={faXmark} />
+                                                <span className="sr-only">Remove wallet</span>
+                                            </Button>
+                                        </>
+                                    ) : (
+                                        <>
+                                            <Button
+                                                onClick={() => handleConnectExisting(wallet.id)}
+                                                disabled={isLoading || isAnyWalletConnected}
+                                                title="Connect wallet"
+                                                className="w-9 h-9 p-0 bg-green-600 hover:bg-green-700 active:bg-green-800 disabled:opacity-50 disabled:cursor-not-allowed text-xs"
+                                            >
+                                                <FontAwesomeIcon icon={faLink} />
+                                                <span className="sr-only">Connect wallet</span>
+                                            </Button>
+                                            <Button
+                                                onClick={() => {
+                                                    setPendingDeleteId(wallet.id);
+                                                    setShowDeleteModal(true);
+                                                }}
+                                                title="Remove wallet from profile"
+                                                disabled={isLoading}
+                                                className="w-9 h-9 p-0 bg-red-600 hover:bg-red-700 active:bg-red-800 text-xs"
+                                            >
+                                                <FontAwesomeIcon icon={faXmark} />
+                                                <span className="sr-only">Remove wallet</span>
+                                            </Button>
+                                        </>
                                     )}
                                 </div>
-                            </div>
-                            <div className="flex gap-2">
-                                {wallet.is_connected ? (
-                                    <>
-                                        <Button
-                                            onClick={() => handleDisconnect()}
-                                            disabled={isLoading}
-                                            className="flex-1 bg-yellow-600 hover:bg-yellow-700 active:bg-yellow-800 text-sm"
-                                        >
-                                            Disconnect
-                                        </Button>
-                                        <Button
-                                            onClick={() => handleDelete(wallet.id)}
-                                            disabled={isLoading}
-                                            className="flex-1 bg-red-600 hover:bg-red-700 active:bg-red-800 text-sm"
-                                        >
-                                            Delete
-                                        </Button>
-                                    </>
-                                ) : (
-                                    <>
-                                        <Button
-                                            onClick={() => handleConnectExisting(wallet.id)}
-                                            disabled={isLoading || isAnyWalletConnected}
-                                            className="flex-1 bg-green-600 hover:bg-green-700 active:bg-green-800 disabled:opacity-50 disabled:cursor-not-allowed text-sm"
-                                        >
-                                            Connect
-                                        </Button>
-                                        <Button
-                                            onClick={() => handleDelete(wallet.id)}
-                                            disabled={isLoading}
-                                            className="flex-1 bg-red-600 hover:bg-red-700 active:bg-red-800 text-sm"
-                                        >
-                                            Delete
-                                        </Button>
-                                    </>
-                                )}
                             </div>
                         </div>
                     ))}
@@ -354,6 +372,19 @@ function WalletConnectionContent({ auth0Id, accessToken, onWalletsUpdated }: Wal
                     {message.text}
                 </div>
             )}
+
+            <ConfirmModal
+                isOpen={showDeleteModal}
+                title="Remove wallet?"
+                message="This will remove the wallet from your profile. You can always re-add it later by connecting again."
+                confirmLabel="Remove"
+                loading={isLoading}
+                onCancel={() => {
+                    setShowDeleteModal(false);
+                    setPendingDeleteId(null);
+                }}
+                onConfirm={handleConfirmDelete}
+            />
 
             {/* Add/Connect Wallet Button */}
             <Button
