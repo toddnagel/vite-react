@@ -15,7 +15,6 @@ function Profile() {
     const [isSaving, setIsSaving] = useState(false);
     const [isLoadingProfile, setIsLoadingProfile] = useState(true);
     const [saveMessage, setSaveMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
-    const [userWallets, setUserWallets] = useState<Wallet[]>([]);
 
     useEffect(() => {
         const loadProfile = async () => {
@@ -228,7 +227,6 @@ function Profile() {
                                     <WalletConnection
                                         auth0Id={user.sub}
                                         accessToken={undefined}
-                                        onWalletsUpdated={(wallets) => setUserWallets(wallets)}
                                     />
                                 )}
                             </div>

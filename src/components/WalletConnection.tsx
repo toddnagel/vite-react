@@ -174,7 +174,7 @@ function WalletConnectionContent({ auth0Id, accessToken, onWalletsUpdated }: Wal
         }
     };
 
-    const handleDisconnect = async (walletId?: number) => {
+    const handleDisconnect = async () => {
         try {
             setMessage(null);
             setIsLoading(true);
@@ -304,7 +304,7 @@ function WalletConnectionContent({ auth0Id, accessToken, onWalletsUpdated }: Wal
                                 {wallet.is_connected ? (
                                     <>
                                         <Button
-                                            onClick={() => handleDisconnect(wallet.id)}
+                                            onClick={() => handleDisconnect()}
                                             disabled={isLoading}
                                             className="flex-1 bg-yellow-600 hover:bg-yellow-700 active:bg-yellow-800 text-sm"
                                         >
@@ -384,7 +384,6 @@ export function WalletConnection({ auth0Id, accessToken, onWalletsUpdated }: Wal
             sdkOptions={{
                 logging: {
                     sdk: true,
-                    provider: true,
                 },
                 extensionOnly: true,
                 dappMetadata: {
