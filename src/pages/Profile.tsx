@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { useAuth0 } from '@auth0/auth0-react';
 import PageTitle from '../components/PageTitle';
 import Button from '../components/Button';
+import { WalletConnection } from '../components/WalletConnection';
 import { getUserProfile, updateUserProfile } from '../services/profileService';
 import type { UserProfile } from '../services/profileService';
 
@@ -219,6 +220,14 @@ function Profile() {
                                         )}
                                     </div>
                                 </div>
+
+                                {/* Wallet Connection Section */}
+                                {user && user.sub && (
+                                    <WalletConnection
+                                        auth0Id={user.sub}
+                                        accessToken={undefined}
+                                    />
+                                )}
                             </div>
                         </div>
                     </div>

@@ -21,11 +21,28 @@ CREATE TABLE IF NOT EXISTS user_profiles (
   bio TEXT,
   wallet_address VARCHAR(255),
   wallet_type VARCHAR(50),  -- 'metamask', 'coinbase', 'walletconnect', etc.
+  connected_wallet_id INT,  -- Foreign key to currently connected wallet
   preferences JSON DEFAULT ('{}'),  -- Store flexible preferences
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   UNIQUE KEY unique_user_id (user_id),
   INDEX idx_user_id (user_id),
   INDEX idx_wallet_address (wallet_address),
+  FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- User Wallets table (stores all wallets for a user)
+CREATE TABLE IF NOT EXISTS user_wallets (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  user_id INT NOT NULL,
+  wallet_address VARCHAR(255) NOT NULL,
+  wallet_type VARCHAR(50) NOT NULL,  -- 'metamask', 'xrpl', 'coinbase', etc.
+  is_connected BOOLEAN DEFAULT FALSE,  -- Whether this wallet is currently connected
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  UNIQUE KEY unique_user_wallet (user_id, wallet_address),
+  INDEX idx_user_id (user_id),
+  INDEX idx_wallet_address (wallet_address),
+  INDEX idx_is_connected (is_connected),
   FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
