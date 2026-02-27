@@ -1,6 +1,7 @@
 import { ReactNode } from 'react';
 
 interface ButtonProps {
+    title?: string;
     children: ReactNode;
     onClick?: () => void;
     disabled?: boolean;
@@ -10,6 +11,7 @@ interface ButtonProps {
 }
 
 export default function Button({
+    title = '',
     children,
     onClick,
     disabled = false,
@@ -35,6 +37,7 @@ export default function Button({
 
     return (
         <button
+            title={title}
             type={type}
             onClick={onClick}
             disabled={disabled}

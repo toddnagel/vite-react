@@ -10,12 +10,22 @@ Follow these steps to get the project running locally.
 
 ## Quick Start
 
+### Wallet Routine Update (new)
+
+If you're pulling the wallet connection changes, follow `WALLET_SETUP.md` after install.
+
 ### 1. Clone and Install Dependencies
 
 ```bash
 git clone <your-repo-url>
 cd react
 npm install
+```
+
+If you only need wallet table updates on an existing setup, use:
+
+```bash
+docker exec -i donovan-db mysql -udonovan_user -pdonovan_password donovan_db < database/migrations/wallet_routines_local.sql
 ```
 
 ### 2. Set Up Environment Variables

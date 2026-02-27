@@ -1,5 +1,12 @@
 # Database Setup
 
+## Wallet Migration Files
+
+- Local Docker/MySQL: `database/migrations/wallet_routines_local.sql`
+- Hostinger/live (optional): `database/migrations/wallet_routines_hostinger.sql`
+
+Companion handoff doc: `WALLET_SETUP.md`
+
 ## Quick Start
 
 ### 1. Start Local Database (Docker)
