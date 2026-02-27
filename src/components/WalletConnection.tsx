@@ -448,7 +448,7 @@ function WalletConnectionContent({ auth0Id, accessToken, onWalletsUpdated }: Wal
             />
 
             {showAddWalletModal && (
-                <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70">
+                <div className="fixed inset-0 z-50 flex justify-center overflow-y-auto bg-black/70 pt-20 pb-6">
                     <div className="mx-4 w-full max-w-sm rounded-xl bg-neutral-900 p-6 shadow-xl border border-white/10">
                         <h3 className="text-white text-lg font-semibold mb-2">Add New Wallet</h3>
                         <p className="text-sm text-white/70 mb-4">Select the wallet type you want to add.</p>
@@ -482,7 +482,7 @@ function WalletConnectionContent({ auth0Id, accessToken, onWalletsUpdated }: Wal
             )}
 
             {showJoeyModal && (
-                <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70">
+                <div className="fixed inset-0 z-50 flex justify-center overflow-y-auto bg-black/70 pt-20 pb-6">
                     <div className="mx-4 w-full max-w-md rounded-xl bg-neutral-900 p-6 shadow-xl border border-white/10">
                         <h3 className="text-white text-lg font-semibold mb-2">Add Joey Wallet</h3>
                         <p className="text-sm text-white/70 mb-4">

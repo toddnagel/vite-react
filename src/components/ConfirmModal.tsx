@@ -1,3 +1,4 @@
+import { createPortal } from 'react-dom';
 import Button from './Button';
 
 interface ConfirmModalProps {
@@ -23,8 +24,8 @@ export default function ConfirmModal({
 }: ConfirmModalProps) {
     if (!isOpen) return null;
 
-    return (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70">
+    const modal = (
+        <div className="fixed inset-0 z-50 flex items-center justify-center overflow-y-auto bg-black/75 p-4 sm:p-6">
             <div className="mx-4 w-full max-w-sm rounded-xl bg-neutral-900 p-6 shadow-xl border border-white/10">
                 <h3 className="text-white text-lg font-semibold mb-2">{title}</h3>
                 <p className="text-sm text-white/70 mb-4">
@@ -49,5 +50,11 @@ export default function ConfirmModal({
             </div>
         </div>
     );
+
+    if (typeof document === 'undefined') {
+        return modal;
+    }
+
+    return createPortal(modal, document.body);
 }
 
