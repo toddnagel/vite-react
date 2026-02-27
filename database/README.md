@@ -40,6 +40,7 @@ exit
 ## Database Connection
 
 **Local Development:**
+
 - Host: `localhost`
 - Port: `3308` (MySQL)
 - Database: `donovan_db`
@@ -47,6 +48,7 @@ exit
 - Password: `donovan_password`
 
 **Production (Hostinger):**
+
 - Update environment variables in Vercel with Hostinger credentials
 - Use backend API to connect (never connect directly from frontend)
 

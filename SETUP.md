@@ -37,6 +37,7 @@ cp .env.example .env.local
 ```
 
 The `.env.local` file should already have the correct local database credentials:
+
 ```
 DB_HOST=localhost
 DB_PORT=3308
@@ -65,11 +66,13 @@ docker exec -i donovan-db mysql -udonovan_user -pdonovan_password donovan_db < d
 ### 5. Start the Development Servers
 
 **Option A: Run both servers together (recommended)**
+
 ```bash
 npm run dev:full
 ```
 
 **Option B: Run servers separately**
+
 ```bash
 # Terminal 1: API Server
 npm run dev:api
@@ -139,16 +142,19 @@ docker exec -i donovan-db mysql -udonovan_user -pdonovan_password donovan_db < d
 ## Environment Variables
 
 **Local Development (.env.local):**
+
 - Uses Docker MySQL database (localhost:3308)
 - Auth0 credentials needed from Auth0 dashboard
 
 **Production (Vercel):**
+
 - Uses Hostinger MySQL database
 - Set environment variables in Vercel dashboard
 
 ## Need Help?
 
 If you run into issues:
+
 1. Check that Docker is running: `docker ps`
 2. Check that ports 3000 and 5173 are available
 3. Verify `.env.local` exists and has correct values

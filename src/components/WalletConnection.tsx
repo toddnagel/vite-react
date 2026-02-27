@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef, useMemo } from 'react';
+import { createPortal } from 'react-dom';
 import { MetaMaskProvider, useSDK } from '@metamask/sdk-react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faLink, faLinkSlash, faXmark } from '@fortawesome/free-solid-svg-icons';
@@ -36,9 +37,16 @@ function WalletConnectionContent({ auth0Id, accessToken, onWalletsUpdated }: Wal
     const [showAddWalletModal, setShowAddWalletModal] = useState(false);
     const [showJoeyModal, setShowJoeyModal] = useState(false);
     const [joeyWalletAddress, setJoeyWalletAddress] = useState('');
+    const [showWalletConnectModal, setShowWalletConnectModal] = useState(false);
+    const [walletConnectAddress, setWalletConnectAddress] = useState('');
 
     const joeyQrUrl = useMemo(() => {
         const qrPayload = typeof window !== 'undefined' ? window.location.href : 'https://donovan';
+        return `https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=${encodeURIComponent(qrPayload)}`;
+    }, []);
+
+    const walletConnectQrUrl = useMemo(() => {
+        const qrPayload = 'https://walletconnect.network/wallet-sdk';
         return `https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=${encodeURIComponent(qrPayload)}`;
     }, []);
 
@@ -213,12 +221,44 @@ function WalletConnectionContent({ auth0Id, accessToken, onWalletsUpdated }: Wal
         }
     };
 
-    const handleSelectWalletType = (walletType: 'metamask' | 'joey') => {
+    const handleAddWalletConnectWallet = async () => {
+        const trimmedAddress = walletConnectAddress.trim();
+        if (!trimmedAddress) {
+            setMessage({ type: 'error', text: 'Enter a WalletConnect wallet address to continue' });
+            return;
+        }
+
+        try {
+            setMessage(null);
+            setIsLoading(true);
+
+            await addWallet(auth0Id, trimmedAddress, 'walletconnect', accessToken);
+            await loadWallets();
+            setShowWalletConnectModal(false);
+            setWalletConnectAddress('');
+            setMessage({ type: 'success', text: 'WalletConnect wallet added' });
+            setTimeout(() => setMessage(null), 3000);
+        } catch (error) {
+            const err = error instanceof Error ? error : new Error(String(error));
+            console.error('Failed to add WalletConnect wallet:', err);
+            setMessage({ type: 'error', text: `Failed to add WalletConnect wallet: ${err.message}` });
+        } finally {
+            setIsLoading(false);
+        }
+    };
+
+    const handleSelectWalletType = (walletType: 'metamask' | 'joey' | 'walletconnect') => {
         setShowAddWalletModal(false);
         if (walletType === 'metamask') {
             void handleConnectMetaMask();
             return;
         }
+
+        if (walletType === 'walletconnect') {
+            setShowWalletConnectModal(true);
+            return;
+        }
+
         setShowJoeyModal(true);
     };
 
@@ -357,10 +397,16 @@ function WalletConnectionContent({ auth0Id, accessToken, onWalletsUpdated }: Wal
                                         <span
                                             className={`inline-flex items-center rounded-full px-2 py-0.5 text-xs font-medium ${wallet.wallet_type === 'joey'
                                                 ? 'bg-purple-900/60 text-purple-200 border border-purple-500/40'
+                                                : wallet.wallet_type === 'walletconnect'
+                                                    ? 'bg-emerald-900/60 text-emerald-200 border border-emerald-500/40'
                                                 : 'bg-blue-900/60 text-blue-200 border border-blue-500/40'
                                                 }`}
                                         >
-                                            {wallet.wallet_type === 'joey' ? 'Joey Wallet' : 'MetaMask'}
+                                            {wallet.wallet_type === 'joey'
+                                                ? 'Joey Wallet'
+                                                : wallet.wallet_type === 'walletconnect'
+                                                    ? 'WalletConnect'
+                                                    : 'MetaMask'}
                                         </span>
                                     </div>
                                 </div>
@@ -447,9 +493,9 @@ function WalletConnectionContent({ auth0Id, accessToken, onWalletsUpdated }: Wal
                 onConfirm={handleConfirmDelete}
             />
 
-            {showAddWalletModal && (
-                <div className="fixed inset-0 z-50 flex justify-center overflow-y-auto bg-black/70 pt-20 pb-6">
-                    <div className="mx-4 w-full max-w-sm rounded-xl bg-neutral-900 p-6 shadow-xl border border-white/10">
+            {showAddWalletModal && typeof document !== 'undefined' && createPortal(
+                <div className="fixed inset-0 z-50 flex items-center justify-center overflow-y-auto bg-black/75 p-4 sm:p-6">
+                    <div className="w-full max-w-sm rounded-xl bg-neutral-900 p-6 shadow-xl border border-white/10">
                         <h3 className="text-white text-lg font-semibold mb-2">Add New Wallet</h3>
                         <p className="text-sm text-white/70 mb-4">Select the wallet type you want to add.</p>
                         <div className="grid grid-cols-1 gap-3">
@@ -467,6 +513,13 @@ function WalletConnectionContent({ auth0Id, accessToken, onWalletsUpdated }: Wal
                             >
                                 Joey Wallet
                             </Button>
+                            <Button
+                                onClick={() => handleSelectWalletType('walletconnect')}
+                                disabled={isLoading || isAnyWalletConnected}
+                                className="w-full bg-emerald-600 hover:bg-emerald-700 active:bg-emerald-800"
+                            >
+                                WalletConnect
+                            </Button>
                         </div>
                         <div className="flex justify-end mt-4">
                             <Button
@@ -478,12 +531,68 @@ function WalletConnectionContent({ auth0Id, accessToken, onWalletsUpdated }: Wal
                             </Button>
                         </div>
                     </div>
-                </div>
+                </div>,
+                document.body
             )}
 
-            {showJoeyModal && (
-                <div className="fixed inset-0 z-50 flex justify-center overflow-y-auto bg-black/70 pt-20 pb-6">
-                    <div className="mx-4 w-full max-w-md rounded-xl bg-neutral-900 p-6 shadow-xl border border-white/10">
+            {showWalletConnectModal && typeof document !== 'undefined' && createPortal(
+                <div className="fixed inset-0 z-50 flex items-center justify-center overflow-y-auto bg-black/75 p-4 sm:p-6">
+                    <div className="w-full max-w-md rounded-xl bg-neutral-900 p-6 shadow-xl border border-white/10">
+                        <h3 className="text-white text-lg font-semibold mb-2">Add WalletConnect Wallet</h3>
+                        <p className="text-sm text-white/70 mb-4">
+                            WalletConnect supports many mobile wallets. Scan the QR, choose your wallet app, then paste the connected wallet address below.
+                        </p>
+                        <div className="flex justify-center mb-4">
+                            <img
+                                src={walletConnectQrUrl}
+                                alt="WalletConnect QR code"
+                                className="w-55 h-55 rounded-lg border border-white/20 bg-white p-2"
+                            />
+                        </div>
+                        <div className="mb-4 flex justify-center">
+                            <a
+                                href="https://walletconnect.com/wallets"
+                                target="_blank"
+                                rel="noreferrer"
+                                className="text-sm text-emerald-300 hover:text-emerald-200 underline"
+                            >
+                                View WalletConnect supported wallets
+                            </a>
+                        </div>
+                        <input
+                            type="text"
+                            value={walletConnectAddress}
+                            onChange={(event) => setWalletConnectAddress(event.target.value)}
+                            placeholder="Paste WalletConnect wallet address"
+                            className="w-full p-3 bg-black/40 text-white/90 rounded-lg border border-white/20 focus:border-blue-500 focus:outline-none"
+                        />
+                        <div className="flex justify-end gap-3 mt-4">
+                            <Button
+                                onClick={() => {
+                                    setShowWalletConnectModal(false);
+                                    setWalletConnectAddress('');
+                                }}
+                                disabled={isLoading}
+                                className="bg-gray-600 hover:bg-gray-700 active:bg-gray-800 text-sm"
+                            >
+                                Cancel
+                            </Button>
+                            <Button
+                                onClick={handleAddWalletConnectWallet}
+                                disabled={isLoading || !walletConnectAddress.trim()}
+                                className="bg-green-600 hover:bg-green-700 active:bg-green-800 text-sm disabled:opacity-50 disabled:cursor-not-allowed"
+                            >
+                                {isLoading ? 'Adding...' : 'Add Wallet'}
+                            </Button>
+                        </div>
+                    </div>
+                </div>,
+                document.body
+            )}
+
+            {showJoeyModal && typeof document !== 'undefined' && createPortal(
+                <div className="fixed inset-0 z-50 flex items-center justify-center overflow-y-auto bg-black/75 p-4 sm:p-6">
+                    <div className="w-full max-w-md rounded-xl bg-neutral-900 p-6 shadow-xl border border-white/10">
                         <h3 className="text-white text-lg font-semibold mb-2">Add Joey Wallet</h3>
                         <p className="text-sm text-white/70 mb-4">
                             Joey Wallet is mobile-first. Scan this QR from the Joey app, then paste your wallet address below to save it.
@@ -522,7 +631,8 @@ function WalletConnectionContent({ auth0Id, accessToken, onWalletsUpdated }: Wal
                             </Button>
                         </div>
                     </div>
-                </div>
+                </div>,
+                document.body
             )}
 
             {/* Add/Connect Wallet Button */}
