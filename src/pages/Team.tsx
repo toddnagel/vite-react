@@ -30,7 +30,7 @@ const owners: Owner[] = [
         id: 1,
         name: "Cryptonite",
         title: "Founder & Visionary Explorer",
-        image: "/01.jpg",
+        image: "/team/Cryptonite.jpg",
         email: "xrparmyis@gmail.com",
         socials: {
             twitter: "https://x.com/XoloDojo",
@@ -44,7 +44,7 @@ const owners: Owner[] = [
         id: 2,
         name: "RedShadow",
         title: "Visionary Artist & Cultural Alchemist",
-        image: "/01.jpg",
+        image: "/team/RedShadow.jpg",
         email: "redshadow@xolodojo.com",
         socials: {
             twitter: "#",
@@ -58,7 +58,7 @@ const owners: Owner[] = [
         id: 3,
         name: "Code",
         title: "Lead Builder & Degen Architect",
-        image: "/03.jpg",
+        image: "/team/Code.jpg",
         email: "code@xolodojo.com",
         socials: {
             twitter: "#",
