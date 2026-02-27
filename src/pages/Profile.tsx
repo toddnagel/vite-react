@@ -5,7 +5,6 @@ import Button from '../components/Button';
 import { WalletConnection } from '../components/WalletConnection';
 import { getUserProfile, updateUserProfile } from '../services/profileService';
 import type { UserProfile } from '../services/profileService';
-import type { Wallet } from '../services/walletService';
 
 function Profile() {
     const { user, isAuthenticated, isLoading, getAccessTokenSilently } = useAuth0();
