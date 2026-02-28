@@ -60,6 +60,11 @@ function WalletConnectionContent({ auth0Id, accessToken, onWalletsUpdated }: Wal
         }
     }, [accessToken, auth0Id, onWalletsUpdated]);
 
+    const walletConnectQrUrl = useMemo(() => {
+        const qrPayload = 'https://walletconnect.network/wallet-sdk';
+        return `https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=${encodeURIComponent(qrPayload)}`;
+    }, []);
+
     // Load wallets on mount
     useEffect(() => {
         void loadWallets();
@@ -569,6 +574,13 @@ function WalletConnectionContent({ auth0Id, accessToken, onWalletsUpdated }: Wal
                             </Button>
                             <Button
                                 onClick={() => void handleSelectWalletType('walletconnect')}
+                                disabled={isLoading || isAnyWalletConnected}
+                                className="w-full bg-emerald-600 hover:bg-emerald-700 active:bg-emerald-800"
+                            >
+                                WalletConnect
+                            </Button>
+                            <Button
+                                onClick={() => handleSelectWalletType('walletconnect')}
                                 disabled={isLoading || isAnyWalletConnected}
                                 className="w-full bg-emerald-600 hover:bg-emerald-700 active:bg-emerald-800"
                             >
