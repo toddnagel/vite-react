@@ -60,11 +60,6 @@ function WalletConnectionContent({ auth0Id, accessToken, onWalletsUpdated }: Wal
         }
     }, [accessToken, auth0Id, onWalletsUpdated]);
 
-    const walletConnectQrUrl = useMemo(() => {
-        const qrPayload = 'https://walletconnect.network/wallet-sdk';
-        return `https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=${encodeURIComponent(qrPayload)}`;
-    }, []);
-
     // Load wallets on mount
     useEffect(() => {
         void loadWallets();
