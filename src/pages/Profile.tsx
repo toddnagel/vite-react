@@ -32,7 +32,7 @@ function Profile() {
                     return undefined;
                 });
 
-                console.log('Profile: Calling getUserProfile API...');
+                // console.log('Profile: Calling getUserProfile API...');
                 const result = await getUserProfile(user.sub, accessToken);
                 console.log('Profile: API response:', result);
 
