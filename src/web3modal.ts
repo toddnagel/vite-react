@@ -1,5 +1,5 @@
 import { createWeb3Modal, defaultWagmiConfig } from '@web3modal/wagmi/react';
-import { mainnet } from 'wagmi/chains';
+import { mainnet, polygon, arbitrum, optimism, base } from 'wagmi/chains';
 
 export const walletConnectProjectId =
   import.meta.env.VITE_WALLETCONNECT_PROJECT_ID ||
@@ -24,19 +24,18 @@ const excludeWalletIds = parseWalletIds(
 );
 const showAllWallets = import.meta.env.VITE_WC_SHOW_ALL_WALLETS !== 'false';
 
+const appUrl =
+  import.meta.env.VITE_APP_URL ||
+  (typeof window !== 'undefined' ? window.location.origin : 'http://localhost:5173');
+
 const metadata = {
   name: 'Donovan',
   description: 'Donovan wallet connection',
-  url:
-    typeof window !== 'undefined'
-      ? window.location.origin
-      : 'http://localhost:5173',
-  icons: [
-    `${typeof window !== 'undefined' ? window.location.origin : ''}/favicon.ico`,
-  ],
+  url: appUrl,
+  icons: [`${appUrl}/favicon.ico`],
 };
 
-const chains = [mainnet] as const;
+const chains = [mainnet, polygon, arbitrum, optimism, base] as const;
 
 export const wagmiConfig = defaultWagmiConfig({
   chains,

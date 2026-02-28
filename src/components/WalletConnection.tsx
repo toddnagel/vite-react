@@ -574,13 +574,6 @@ function WalletConnectionContent({ auth0Id, accessToken, onWalletsUpdated }: Wal
                             >
                                 WalletConnect
                             </Button>
-                            <Button
-                                onClick={() => handleSelectWalletType('walletconnect')}
-                                disabled={isLoading || isAnyWalletConnected}
-                                className="w-full bg-emerald-600 hover:bg-emerald-700 active:bg-emerald-800"
-                            >
-                                WalletConnect
-                            </Button>
                         </div>
                         <div className="flex justify-end mt-4">
                             <Button
