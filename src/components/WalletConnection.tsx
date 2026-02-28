@@ -1,10 +1,13 @@
-import { useState, useEffect, useRef, useMemo } from 'react';
+import { useState, useEffect, useRef, useMemo, useCallback } from 'react';
 import { createPortal } from 'react-dom';
 import { MetaMaskProvider, useSDK } from '@metamask/sdk-react';
+import { useAccount, useDisconnect as useWagmiDisconnect } from 'wagmi';
+import { useWeb3Modal } from '@web3modal/wagmi/react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faLink, faLinkSlash, faXmark } from '@fortawesome/free-solid-svg-icons';
 import Button from './Button';
 import ConfirmModal from './ConfirmModal';
+import { walletConnectProjectId } from '../web3modal';
 import type { Wallet } from '../services/walletService';
 import {
     addWallet,
@@ -27,6 +30,9 @@ function WalletConnectionContent({ auth0Id, accessToken, onWalletsUpdated }: Wal
     const sdkState = useSDK() as SDKWithDisconnect;
     const { account, connecting, connected, provider, sdk } = sdkState;
     const disconnect = sdkState.disconnect;
+    const { open } = useWeb3Modal();
+    const { address: wagmiAddress, isConnected: isWagmiConnected } = useAccount();
+    const { disconnect: wagmiDisconnect } = useWagmiDisconnect();
     const [wallets, setWallets] = useState<Wallet[]>([]);
     const [isLoading, setIsLoading] = useState(false);
     const [message, setMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
@@ -35,25 +41,29 @@ function WalletConnectionContent({ auth0Id, accessToken, onWalletsUpdated }: Wal
     const [pendingDeleteId, setPendingDeleteId] = useState<number | null>(null);
     const [showDeleteModal, setShowDeleteModal] = useState(false);
     const [showAddWalletModal, setShowAddWalletModal] = useState(false);
-    const [showJoeyModal, setShowJoeyModal] = useState(false);
-    const [joeyWalletAddress, setJoeyWalletAddress] = useState('');
-    const [showWalletConnectModal, setShowWalletConnectModal] = useState(false);
-    const [walletConnectAddress, setWalletConnectAddress] = useState('');
+    const [isWalletConnectPending, setIsWalletConnectPending] = useState(false);
+    const [pendingWalletConnectId, setPendingWalletConnectId] = useState<number | null>(null);
 
-    const joeyQrUrl = useMemo(() => {
-        const qrPayload = typeof window !== 'undefined' ? window.location.href : 'https://donovan';
-        return `https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=${encodeURIComponent(qrPayload)}`;
-    }, []);
-
-    const walletConnectQrUrl = useMemo(() => {
-        const qrPayload = 'https://walletconnect.network/wallet-sdk';
-        return `https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=${encodeURIComponent(qrPayload)}`;
-    }, []);
+    const loadWallets = useCallback(async () => {
+        try {
+            setIsLoading(true);
+            const result = await getUserWallets(auth0Id, accessToken);
+            if (result.success) {
+                setWallets(result.wallets || []);
+                onWalletsUpdated?.(result.wallets || []);
+            }
+        } catch (error) {
+            console.error('Failed to load wallets:', error);
+            setMessage({ type: 'error', text: 'Failed to load wallets' });
+        } finally {
+            setIsLoading(false);
+        }
+    }, [accessToken, auth0Id, onWalletsUpdated]);
 
     // Load wallets on mount
     useEffect(() => {
-        loadWallets();
-    }, []);
+        void loadWallets();
+    }, [loadWallets]);
 
     // Sync DB with MetaMask: when user switches/connects an account in MetaMask we add/connect it in DB.
     useEffect(() => {
@@ -137,23 +147,96 @@ function WalletConnectionContent({ auth0Id, accessToken, onWalletsUpdated }: Wal
         };
 
         syncConnectionState();
-    }, [account, wallets, auth0Id, accessToken, connecting, connected, provider]);
+    }, [account, wallets, auth0Id, accessToken, connecting, connected, provider, loadWallets]);
 
-    const loadWallets = async () => {
-        try {
-            setIsLoading(true);
-            const result = await getUserWallets(auth0Id, accessToken);
-            if (result.success) {
-                setWallets(result.wallets || []);
-                onWalletsUpdated?.(result.wallets || []);
+    useEffect(() => {
+        const syncWalletConnectSession = async () => {
+            if (!isWalletConnectPending || !isWagmiConnected || !wagmiAddress) {
+                return;
             }
-        } catch (error) {
-            console.error('Failed to load wallets:', error);
-            setMessage({ type: 'error', text: 'Failed to load wallets' });
-        } finally {
-            setIsLoading(false);
+
+            try {
+                setMessage(null);
+                setIsLoading(true);
+
+                const normalizedAddress = wagmiAddress.toLowerCase();
+
+                if (pendingWalletConnectId != null) {
+                    const existingWallet = wallets.find((wallet) => wallet.id === pendingWalletConnectId);
+                    if (!existingWallet) {
+                        setMessage({ type: 'error', text: 'Wallet not found' });
+                        return;
+                    }
+
+                    if (existingWallet.wallet_address.toLowerCase() !== normalizedAddress) {
+                        setMessage({
+                            type: 'error',
+                            text: 'Connected wallet does not match the selected wallet. Please connect the matching address.',
+                        });
+                        return;
+                    }
+
+                    await connectWallet(auth0Id, existingWallet.id, accessToken);
+                    await loadWallets();
+                    setMessage({ type: 'success', text: 'Wallet connected' });
+                    setTimeout(() => setMessage(null), 3000);
+                    return;
+                }
+
+                const existingWallet = wallets.find(
+                    (wallet) => wallet.wallet_address.toLowerCase() === normalizedAddress
+                );
+
+                if (existingWallet) {
+                    await connectWallet(auth0Id, existingWallet.id, accessToken);
+                    await loadWallets();
+                    setMessage({ type: 'success', text: 'Wallet connected' });
+                    setTimeout(() => setMessage(null), 3000);
+                    return;
+                }
+
+                const result = await addWallet(auth0Id, normalizedAddress, 'walletconnect', accessToken);
+                if (result.success && result.wallet) {
+                    await connectWallet(auth0Id, result.wallet.id, accessToken);
+                }
+                await loadWallets();
+                setMessage({ type: 'success', text: 'WalletConnect wallet added and connected!' });
+                setTimeout(() => setMessage(null), 3000);
+            } catch (error) {
+                const err = error instanceof Error ? error : new Error(String(error));
+                console.error('Failed to sync WalletConnect session:', err);
+                setMessage({ type: 'error', text: `Failed to connect wallet: ${err.message}` });
+            } finally {
+                setPendingWalletConnectId(null);
+                setIsWalletConnectPending(false);
+                setIsLoading(false);
+            }
+        };
+
+        void syncWalletConnectSession();
+    }, [
+        accessToken,
+        auth0Id,
+        isWalletConnectPending,
+        isWagmiConnected,
+        pendingWalletConnectId,
+        wagmiAddress,
+        wallets,
+        loadWallets,
+    ]);
+
+    useEffect(() => {
+        if (!isWalletConnectPending || isWagmiConnected) {
+            return;
         }
-    };
+
+        const timeout = setTimeout(() => {
+            setPendingWalletConnectId(null);
+            setIsWalletConnectPending(false);
+        }, 15000);
+
+        return () => clearTimeout(timeout);
+    }, [isWalletConnectPending, isWagmiConnected]);
 
     // Connect a brand-new wallet by invoking the SDK connect helper
     const handleConnectMetaMask = async () => {
@@ -195,71 +278,31 @@ function WalletConnectionContent({ auth0Id, accessToken, onWalletsUpdated }: Wal
         }
     };
 
-    const handleAddJoeyWallet = async () => {
-        const trimmedAddress = joeyWalletAddress.trim();
-        if (!trimmedAddress) {
-            setMessage({ type: 'error', text: 'Enter a Joey wallet address to continue' });
-            return;
-        }
-
-        try {
-            setMessage(null);
-            setIsLoading(true);
-
-            await addWallet(auth0Id, trimmedAddress, 'joey', accessToken);
-            await loadWallets();
-            setShowJoeyModal(false);
-            setJoeyWalletAddress('');
-            setMessage({ type: 'success', text: 'Joey Wallet added' });
-            setTimeout(() => setMessage(null), 3000);
-        } catch (error) {
-            const err = error instanceof Error ? error : new Error(String(error));
-            console.error('Failed to add Joey wallet:', err);
-            setMessage({ type: 'error', text: `Failed to add Joey wallet: ${err.message}` });
-        } finally {
-            setIsLoading(false);
-        }
-    };
-
-    const handleAddWalletConnectWallet = async () => {
-        const trimmedAddress = walletConnectAddress.trim();
-        if (!trimmedAddress) {
-            setMessage({ type: 'error', text: 'Enter a WalletConnect wallet address to continue' });
-            return;
-        }
-
-        try {
-            setMessage(null);
-            setIsLoading(true);
-
-            await addWallet(auth0Id, trimmedAddress, 'walletconnect', accessToken);
-            await loadWallets();
-            setShowWalletConnectModal(false);
-            setWalletConnectAddress('');
-            setMessage({ type: 'success', text: 'WalletConnect wallet added' });
-            setTimeout(() => setMessage(null), 3000);
-        } catch (error) {
-            const err = error instanceof Error ? error : new Error(String(error));
-            console.error('Failed to add WalletConnect wallet:', err);
-            setMessage({ type: 'error', text: `Failed to add WalletConnect wallet: ${err.message}` });
-        } finally {
-            setIsLoading(false);
-        }
-    };
-
-    const handleSelectWalletType = (walletType: 'metamask' | 'joey' | 'walletconnect') => {
+    const handleSelectWalletType = async (walletType: 'metamask' | 'walletconnect') => {
         setShowAddWalletModal(false);
         if (walletType === 'metamask') {
             void handleConnectMetaMask();
             return;
         }
 
-        if (walletType === 'walletconnect') {
-            setShowWalletConnectModal(true);
+        if (!walletConnectProjectId) {
+            setMessage({
+                type: 'error',
+                text: 'WalletConnect is not configured. Set VITE_WALLETCONNECT_PROJECT_ID and restart the app.',
+            });
             return;
         }
-
-        setShowJoeyModal(true);
+        try {
+            setMessage(null);
+            setPendingWalletConnectId(null);
+            setIsWalletConnectPending(true);
+            await open({ view: 'Connect' });
+        } catch (error) {
+            const err = error instanceof Error ? error : new Error(String(error));
+            console.error('Failed to open WalletConnect modal:', err);
+            setMessage({ type: 'error', text: `Failed to open WalletConnect: ${err.message}` });
+            setIsWalletConnectPending(false);
+        }
     };
 
     const handleDisconnect = async () => {
@@ -271,8 +314,10 @@ function WalletConnectionContent({ auth0Id, accessToken, onWalletsUpdated }: Wal
             setTimeout(() => {
                 userDisconnectCooldownRef.current = false;
             }, 5000);
-            // Disconnect from MetaMask at the provider level (clears SDK state; extension may still list us)
-            if (disconnect) {
+            if (connectedWallet?.wallet_type === 'walletconnect') {
+                await wagmiDisconnect();
+            } else if (disconnect) {
+                // Disconnect from MetaMask at the provider level (clears SDK state; extension may still list us)
                 await disconnect();
             }
             // Then disconnect at the database level
@@ -310,6 +355,20 @@ function WalletConnectionContent({ auth0Id, accessToken, onWalletsUpdated }: Wal
                 console.log('connectExisting sdk.connect returned', accounts);
             }
 
+            if (wallet.wallet_type === 'walletconnect') {
+                if (!walletConnectProjectId) {
+                    setMessage({
+                        type: 'error',
+                        text: 'WalletConnect is not configured. Set VITE_WALLETCONNECT_PROJECT_ID and restart the app.',
+                    });
+                    return;
+                }
+                setPendingWalletConnectId(wallet.id);
+                setIsWalletConnectPending(true);
+                await open({ view: 'Connect' });
+                return;
+            }
+
             await connectWallet(auth0Id, walletId, accessToken);
             await loadWallets();
             setMessage({ type: 'success', text: 'Wallet connected' });
@@ -331,8 +390,10 @@ function WalletConnectionContent({ auth0Id, accessToken, onWalletsUpdated }: Wal
             // Check if this is the connected wallet
             const walletToDelete = wallets.find(w => w.id === walletId);
             if (walletToDelete?.is_connected) {
-                // Disconnect from MetaMask at the provider level
-                if (disconnect) {
+                if (walletToDelete.wallet_type === 'walletconnect') {
+                    await wagmiDisconnect();
+                } else if (disconnect) {
+                    // Disconnect from MetaMask at the provider level
                     await disconnect();
                 }
                 // Then disconnect at the database level
@@ -399,7 +460,7 @@ function WalletConnectionContent({ auth0Id, accessToken, onWalletsUpdated }: Wal
                                                 ? 'bg-purple-900/60 text-purple-200 border border-purple-500/40'
                                                 : wallet.wallet_type === 'walletconnect'
                                                     ? 'bg-emerald-900/60 text-emerald-200 border border-emerald-500/40'
-                                                : 'bg-blue-900/60 text-blue-200 border border-blue-500/40'
+                                                    : 'bg-blue-900/60 text-blue-200 border border-blue-500/40'
                                                 }`}
                                         >
                                             {wallet.wallet_type === 'joey'
@@ -500,21 +561,14 @@ function WalletConnectionContent({ auth0Id, accessToken, onWalletsUpdated }: Wal
                         <p className="text-sm text-white/70 mb-4">Select the wallet type you want to add.</p>
                         <div className="grid grid-cols-1 gap-3">
                             <Button
-                                onClick={() => handleSelectWalletType('metamask')}
+                                onClick={() => void handleSelectWalletType('metamask')}
                                 disabled={isLoading || connecting || isAnyWalletConnected}
                                 className="w-full bg-blue-600 hover:bg-blue-700 active:bg-blue-800"
                             >
                                 MetaMask
                             </Button>
                             <Button
-                                onClick={() => handleSelectWalletType('joey')}
-                                disabled={isLoading || isAnyWalletConnected}
-                                className="w-full bg-purple-600 hover:bg-purple-700 active:bg-purple-800"
-                            >
-                                Joey Wallet
-                            </Button>
-                            <Button
-                                onClick={() => handleSelectWalletType('walletconnect')}
+                                onClick={() => void handleSelectWalletType('walletconnect')}
                                 disabled={isLoading || isAnyWalletConnected}
                                 className="w-full bg-emerald-600 hover:bg-emerald-700 active:bg-emerald-800"
                             >
@@ -535,119 +589,19 @@ function WalletConnectionContent({ auth0Id, accessToken, onWalletsUpdated }: Wal
                 document.body
             )}
 
-            {showWalletConnectModal && typeof document !== 'undefined' && createPortal(
-                <div className="fixed inset-0 z-50 flex items-center justify-center overflow-y-auto bg-black/75 p-4 sm:p-6">
-                    <div className="w-full max-w-md rounded-xl bg-neutral-900 p-6 shadow-xl border border-white/10">
-                        <h3 className="text-white text-lg font-semibold mb-2">Add WalletConnect Wallet</h3>
-                        <p className="text-sm text-white/70 mb-4">
-                            WalletConnect supports many mobile wallets. Scan the QR, choose your wallet app, then paste the connected wallet address below.
-                        </p>
-                        <div className="flex justify-center mb-4">
-                            <img
-                                src={walletConnectQrUrl}
-                                alt="WalletConnect QR code"
-                                className="w-55 h-55 rounded-lg border border-white/20 bg-white p-2"
-                            />
-                        </div>
-                        <div className="mb-4 flex justify-center">
-                            <a
-                                href="https://walletconnect.com/wallets"
-                                target="_blank"
-                                rel="noreferrer"
-                                className="text-sm text-emerald-300 hover:text-emerald-200 underline"
-                            >
-                                View WalletConnect supported wallets
-                            </a>
-                        </div>
-                        <input
-                            type="text"
-                            value={walletConnectAddress}
-                            onChange={(event) => setWalletConnectAddress(event.target.value)}
-                            placeholder="Paste WalletConnect wallet address"
-                            className="w-full p-3 bg-black/40 text-white/90 rounded-lg border border-white/20 focus:border-blue-500 focus:outline-none"
-                        />
-                        <div className="flex justify-end gap-3 mt-4">
-                            <Button
-                                onClick={() => {
-                                    setShowWalletConnectModal(false);
-                                    setWalletConnectAddress('');
-                                }}
-                                disabled={isLoading}
-                                className="bg-gray-600 hover:bg-gray-700 active:bg-gray-800 text-sm"
-                            >
-                                Cancel
-                            </Button>
-                            <Button
-                                onClick={handleAddWalletConnectWallet}
-                                disabled={isLoading || !walletConnectAddress.trim()}
-                                className="bg-green-600 hover:bg-green-700 active:bg-green-800 text-sm disabled:opacity-50 disabled:cursor-not-allowed"
-                            >
-                                {isLoading ? 'Adding...' : 'Add Wallet'}
-                            </Button>
-                        </div>
-                    </div>
-                </div>,
-                document.body
-            )}
-
-            {showJoeyModal && typeof document !== 'undefined' && createPortal(
-                <div className="fixed inset-0 z-50 flex items-center justify-center overflow-y-auto bg-black/75 p-4 sm:p-6">
-                    <div className="w-full max-w-md rounded-xl bg-neutral-900 p-6 shadow-xl border border-white/10">
-                        <h3 className="text-white text-lg font-semibold mb-2">Add Joey Wallet</h3>
-                        <p className="text-sm text-white/70 mb-4">
-                            Joey Wallet is mobile-first. Scan this QR from the Joey app, then paste your wallet address below to save it.
-                        </p>
-                        <div className="flex justify-center mb-4">
-                            <img
-                                src={joeyQrUrl}
-                                alt="Joey Wallet QR code"
-                                className="w-55 h-55 rounded-lg border border-white/20 bg-white p-2"
-                            />
-                        </div>
-                        <input
-                            type="text"
-                            value={joeyWalletAddress}
-                            onChange={(event) => setJoeyWalletAddress(event.target.value)}
-                            placeholder="Paste Joey wallet address"
-                            className="w-full p-3 bg-black/40 text-white/90 rounded-lg border border-white/20 focus:border-blue-500 focus:outline-none"
-                        />
-                        <div className="flex justify-end gap-3 mt-4">
-                            <Button
-                                onClick={() => {
-                                    setShowJoeyModal(false);
-                                    setJoeyWalletAddress('');
-                                }}
-                                disabled={isLoading}
-                                className="bg-gray-600 hover:bg-gray-700 active:bg-gray-800 text-sm"
-                            >
-                                Cancel
-                            </Button>
-                            <Button
-                                onClick={handleAddJoeyWallet}
-                                disabled={isLoading || !joeyWalletAddress.trim()}
-                                className="bg-green-600 hover:bg-green-700 active:bg-green-800 text-sm disabled:opacity-50 disabled:cursor-not-allowed"
-                            >
-                                {isLoading ? 'Adding...' : 'Add Wallet'}
-                            </Button>
-                        </div>
-                    </div>
-                </div>,
-                document.body
-            )}
-
             {/* Add/Connect Wallet Button */}
             <Button
                 onClick={() => {
                     setMessage(null);
                     setShowAddWalletModal(true);
                 }}
-                disabled={isLoading || connecting || isAnyWalletConnected}
+                disabled={isLoading || connecting || isWalletConnectPending || isAnyWalletConnected}
                 className={`w-full text-center ${isAnyWalletConnected
                     ? 'bg-gray-600 hover:bg-gray-600 cursor-not-allowed opacity-50'
                     : 'bg-blue-600 hover:bg-blue-700 active:bg-blue-800'
                     }`}
             >
-                {connecting ? (
+                {connecting || isWalletConnectPending ? (
                     'Connecting...'
                 ) : isAnyWalletConnected ? (
                     'Disconnect wallet to add another'
