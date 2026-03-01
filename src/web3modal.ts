@@ -26,7 +26,9 @@ const showAllWallets = import.meta.env.VITE_WC_SHOW_ALL_WALLETS !== 'false';
 
 const appUrl =
   import.meta.env.VITE_APP_URL ||
-  (typeof window !== 'undefined' ? window.location.origin : 'http://localhost:5173');
+  (typeof window !== 'undefined'
+    ? window.location.origin
+    : 'http://localhost:5173');
 
 const metadata = {
   name: 'Donovan',

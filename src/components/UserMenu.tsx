@@ -77,7 +77,7 @@ function UserMenu({ isSticky = false }: UserMenuProps) {
         <div ref={dropdownRef} className="relative">
             <button
                 onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-                className={`user-menu-avatar transition-all duration-300 flex items-center justify-center rounded-full overflow-hidden ${isSticky ? 'h-12 w-12 text-sm' : 'h-12 w-12 text-base md:text-xl'}`}
+                className={`user-menu-avatar transition-all duration-300 flex items-center justify-center rounded-full overflow-hidden ${isSticky ? 'h-10 w-10 text-sm' : 'h-12 w-12 text-base md:text-xl'}`}
                 aria-label="User menu"
             >
                 {user?.picture ? (

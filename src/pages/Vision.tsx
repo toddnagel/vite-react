@@ -1,53 +1,14 @@
-import { useEffect, useRef, useState } from "react";
 import PageTitle from "../components/PageTitle";
+import SectionParallaxBlobs from "../components/SectionParallaxBlobs";
+import { useSectionParallaxOffsets } from "../hooks/useSectionParallaxOffsets";
 
 function Vision() {
-    const sectionRef = useRef<HTMLElement>(null);
-    const bgShapeRef = useRef<HTMLDivElement>(null);
-    const colorBgRef = useRef<HTMLDivElement>(null);
-    const colorBg2Ref = useRef<HTMLDivElement>(null);
-    const [bgShapeOffset, setBgShapeOffset] = useState(0);
-    const [colorBgOffset, setColorBgOffset] = useState(0);
-    const [colorBg2Offset, setColorBg2Offset] = useState(0);
-
-    useEffect(() => {
-        const handleScroll = () => {
-            if (!sectionRef.current) return;
-
-            const rect = sectionRef.current.getBoundingClientRect();
-            const windowHeight = window.innerHeight;
-
-            if (rect.top <= windowHeight && rect.bottom >= 0) {
-                const sectionTop = rect.top;
-                const sectionHeight = rect.height;
-
-                const scrollProgress = Math.max(0, (windowHeight - sectionTop) / (windowHeight + sectionHeight));
-
-                const bgShape = scrollProgress * sectionHeight * 0.2;
-                const colorBg = scrollProgress * sectionHeight * 0.3;
-                const colorBg2 = scrollProgress * sectionHeight * 0.4;
-
-                setBgShapeOffset(bgShape);
-                setColorBgOffset(colorBg);
-                setColorBg2Offset(colorBg2);
-            } else {
-                setBgShapeOffset(0);
-                setColorBgOffset(0);
-                setColorBg2Offset(0);
-            }
-        };
-
-        window.addEventListener('scroll', handleScroll, { passive: true });
-        handleScroll();
-
-        return () => window.removeEventListener('scroll', handleScroll);
-    }, []);
+    const { sectionRef, bgShapeOffset, colorBgOffset, colorBg2Offset } = useSectionParallaxOffsets();
 
     return (
         <>
             <section
-                className="relative bg-cover bg-center bg-no-repeat py-16 md:py-24"
-                style={{ backgroundImage: "url('/Pattern.png')" }}
+                className="relative bg-[url('/Pattern.png')] bg-cover bg-center bg-no-repeat pt-16 pb-4 md:pt-30 border-b border-[#36e9e424]"
             >
                 <div className="container mx-auto max-w-7xl px-4">
                     <div className="flex flex-col items-center text-center">
@@ -55,63 +16,22 @@ function Vision() {
                             <PageTitle title="The Vision" />
                         </div>
                         <div className="mb-10">
-                            <img src="/04a.png" alt="" className="max-h-56 w-auto object-contain md:max-h-80" />
+                            <img src="/04a.png" alt="" className="max-h-56 w-auto rounded-md object-contain md:max-h-80" />
                         </div>
                     </div>
                 </div>
             </section>
 
-            <section ref={sectionRef} className="about-section py-8 lg:py-12 section-bg fix relative overflow-hidden">
-                <div
-                    ref={bgShapeRef}
-                    className="bg-shape absolute pointer-events-none"
-                    style={{
-                        top: 0,
-                        bottom: 0,
-                        left: '50%',
-                        transform: `translateX(-50%) translateY(${bgShapeOffset}px)`,
-                        willChange: 'transform',
-                        transition: 'transform 0.1s ease-out',
-                        zIndex: -1,
-                        filter: 'brightness(1.2)',
-                    }}
-                >
-                    <img src="/bg-shape.png" alt="shape-img" />
-                </div>
-                <div
-                    ref={colorBgRef}
-                    className="color-bg absolute pointer-events-none"
-                    style={{
-                        left: 0,
-                        bottom: '25%',
-                        transform: `translateY(${colorBgOffset}px)`,
-                        willChange: 'transform',
-                        transition: 'transform 0.1s ease-out',
-                        zIndex: -1,
-                        filter: 'brightness(1.2)',
-                    }}
-                >
-                    <img src="/color-bg-shape.png" alt="img" />
-                </div>
-                <div
-                    ref={colorBg2Ref}
-                    className="color-bg-2 absolute pointer-events-none"
-                    style={{
-                        top: '-12%',
-                        right: '-100px',
-                        transform: `translateY(${colorBg2Offset}px)`,
-                        willChange: 'transform',
-                        transition: 'transform 0.1s ease-out',
-                        zIndex: -1,
-                        filter: 'brightness(1.2)',
-                    }}
-                >
-                    <img src="/color-bg-shape-2.png" alt="img" />
-                </div>
+            <section ref={sectionRef} className="relative overflow-hidden py-8 lg:py-12 bg-[var(--bg)]">
+                <SectionParallaxBlobs
+                    bgShapeOffset={bgShapeOffset}
+                    colorBgOffset={colorBgOffset}
+                    colorBg2Offset={colorBg2Offset}
+                />
 
                 <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-                    <div className="max-w-4xl mx-auto">
-                        <p className="opacity-0 animate-[fadeInUp_0.6s_ease-out_0.3s_forwards] mb-6 text-white/90">
+                    <div className="max-w-4xl mx-auto [&_p]:text-[#decee9] [&_ul]:text-[#decee9] [&_li]:text-[#decee9] [&_li>span]:text-[#decee9]">
+                        <p className="opacity-0 animate-[fadeInUp_0.6s_ease-out_0.3s_forwards] mb-6">
                             Our vision is to build a vibrant, global network of Xolo NFT holders united through digital
                             innovation and real-world networking. Central to this is XoloGlobe, our token-gated interactive
                             world map that lets collectors pin their locations, showcase their NFTs, and build lasting
@@ -122,10 +42,10 @@ function Vision() {
                             ecosystem for future generations.
                         </p>
 
-                        <div className="about-items">
-                            <div className="about-content">
-                                <h3 className="text-2xl md:text-3xl font-bold mb-4 text-[#28aae4]">Global Connection Opportunities</h3>
-                                <ul className="list-items opacity-0 animate-[fadeInUp_0.6s_ease-out_0.5s_forwards]">
+                        <div className="flex flex-col">
+                            <div>
+                                <h3 className="mb-4 text-2xl font-bold text-[#28aae4] md:text-3xl">Global Connection Opportunities</h3>
+                                <ul className="list-disc space-y-3 pl-6 opacity-0 animate-[fadeInUp_0.6s_ease-out_0.5s_forwards] marker:text-[#28aae4]">
                                     <li>
                                         Staying in a Xolo Host's Dwelling — Immerse yourself in local life with overnight stays in the homes of Xolo hosts around the XoloGlobe, building deep cultural connections.
                                     </li>
@@ -143,10 +63,8 @@ function Vision() {
                                     </li>
                                 </ul>
                             </div>
-                            <div
-                                className="about-image opacity-0 animate-[fadeInUp_0.6s_ease-out_0.3s_forwards]"
-                            >
-                                <img src="/01a.png" alt="img" />
+                            <div className="mt-10 flex justify-center opacity-0 animate-[fadeInUp_0.6s_ease-out_0.3s_forwards]">
+                                <img src="/01a.png" alt="img" className="w-full max-w-md rounded-md" />
                             </div>
                         </div>
                     </div>

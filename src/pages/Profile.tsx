@@ -26,7 +26,7 @@ function Profile() {
                 setIsLoadingProfile(true);
                 setSaveMessage(null); // Clear any previous errors
 
-                console.log('Profile: Starting to load profile for user:', user.sub);
+                //console.log('Profile: Starting to load profile for user:', user.sub);
                 const accessToken = await getAccessTokenSilently().catch((err) => {
                     console.warn('Profile: Could not get access token:', err);
                     return undefined;
@@ -39,7 +39,7 @@ function Profile() {
                 if (result.success && result.user) {
                     setDbUser(result.user);
                     setBio(result.user.bio || '');
-                    console.log('Profile: Loaded successfully');
+                    // console.log('Profile: Loaded successfully');
                 } else {
                     // User doesn't exist in DB yet - that's okay, they'll be created on sync
                     console.log('Profile: User not found in DB yet, will be created by sync');
