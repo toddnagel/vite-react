@@ -182,7 +182,7 @@ function Team() {
 
             <section
                 ref={sectionRef}
-                className="relative overflow-hidden py-8 lg:py-12 bg-[var(--bg)]"
+                className="relative overflow-hidden py-8 lg:py-12 bg-(--bg)"
             >
                 <SectionParallaxBlobs
                     bgShapeOffset={bgShapeOffset}
@@ -210,7 +210,7 @@ function Team() {
                             </h4>
                             <div className="grid grid-cols-1 md:grid-cols-[226px_1fr] gap-6 pt-4">
                                 <div className="shrink-0">
-                                    <img src="/xolo-nft-showcase-01.png" alt="Cryptonite" className="w-full max-w-[226px] rounded-sm" />
+                                    <img src="/xolo-nft-showcase-01.png" alt="Cryptonite" className="w-full max-w-56.5 rounded-sm" />
                                 </div>
                                 <div className="flex flex-col justify-start">
                                     <p className="text-justify">
@@ -235,7 +235,7 @@ function Team() {
                             </h4>
                             <div className="grid grid-cols-1 md:grid-cols-[226px_1fr] gap-6 pt-4">
                                 <div className="shrink-0">
-                                    <img src="/xolo-nft-showcase-01.png" alt="RedShadow" className="w-full max-w-[226px] rounded-sm" />
+                                    <img src="/xolo-nft-showcase-01.png" alt="RedShadow" className="w-full max-w-56.5 rounded-sm" />
                                 </div>
                                 <div className="flex flex-col justify-start">
                                     <p className="text-justify">
@@ -259,7 +259,7 @@ function Team() {
                             </h4>
                             <div className="grid grid-cols-1 md:grid-cols-[226px_1fr] gap-6 pt-4">
                                 <div className="shrink-0">
-                                    <img src="/xolo-nft-showcase-01.png" alt="Code" className="w-full max-w-[226px] rounded-sm" />
+                                    <img src="/xolo-nft-showcase-01.png" alt="Code" className="w-full max-w-56.5 rounded-sm" />
                                 </div>
                                 <div className="flex flex-col justify-start">
                                     <p className="text-justify">

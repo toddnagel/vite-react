@@ -57,10 +57,7 @@ function Mint() {
                                     </span>
                                     <ul className="mt-2 ml-4 list-disc space-y-2 marker:text-[#28aae4]">
                                         <li>
-                                            Joey Wallet (recommended for ease)
-                                        </li>
-                                        <li>
-                                            Xaman (formerly Xumm – strong security focus)
+                                            Xaman (recommended for ease)
                                         </li>
                                         <li>
                                             MadLabs / Xoge (advanced features)

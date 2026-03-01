@@ -110,8 +110,8 @@ function Footer() {
               <a href="https://xrp.cafe/" className="text-white whitespace-nowrap transition-all duration-300 ease-in-out no-underline hover:no-underline">
                 Xrp.cafe Marketplace
               </a>
-              <a href="https://joeywallet.app/" className="text-white whitespace-nowrap transition-all duration-300 ease-in-out no-underline hover:no-underline">
-                Joey Wallet
+              <a href="https://xaman.app/" className="text-white whitespace-nowrap transition-all duration-300 ease-in-out no-underline hover:no-underline">
+                Xaman Wallet
               </a>
               <a href="https://xrpscan.com/" className="text-white whitespace-nowrap transition-all duration-300 ease-in-out no-underline hover:no-underline">
                 XRPSCAN Explorer

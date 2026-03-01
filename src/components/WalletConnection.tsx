@@ -1,7 +1,4 @@
 import { useState, useEffect, useMemo, useCallback } from 'react';
-import { createPortal } from 'react-dom';
-import { useAccount, useDisconnect as useWagmiDisconnect } from 'wagmi';
-import { useWeb3Modal } from '@web3modal/wagmi/react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
     faArrowsRotate,
@@ -13,7 +10,6 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import Button from './Button';
 import ConfirmModal from './ConfirmModal';
-import { walletConnectProjectId } from '../web3modal';
 import {
     authorizeXamanAccount,
     clearXamanSession,
@@ -41,17 +37,11 @@ interface WalletConnectionProps {
 
 function WalletConnectionContent({ auth0Id, accessToken, onWalletsUpdated }: WalletConnectionProps) {
     const NFTS_PER_PAGE = 6;
-    const { open } = useWeb3Modal();
-    const { address: wagmiAddress, isConnected: isWagmiConnected } = useAccount();
-    const { mutateAsync: wagmiDisconnectAsync } = useWagmiDisconnect();
     const [wallets, setWallets] = useState<Wallet[]>([]);
     const [isLoading, setIsLoading] = useState(false);
     const [message, setMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
     const [pendingDeleteId, setPendingDeleteId] = useState<number | null>(null);
     const [showDeleteModal, setShowDeleteModal] = useState(false);
-    const [showAddWalletModal, setShowAddWalletModal] = useState(false);
-    const [isWalletConnectPending, setIsWalletConnectPending] = useState(false);
-    const [pendingWalletConnectId, setPendingWalletConnectId] = useState<number | null>(null);
     const [connectedWalletAssets, setConnectedWalletAssets] = useState<WalletAssetSummary | null>(null);
     const [isAssetsLoading, setIsAssetsLoading] = useState(false);
     const [assetsError, setAssetsError] = useState<string | null>(null);
@@ -94,110 +84,6 @@ function WalletConnectionContent({ auth0Id, accessToken, onWalletsUpdated }: Wal
     useEffect(() => {
         void loadWallets();
     }, [loadWallets]);
-
-    useEffect(() => {
-        const syncWalletConnectSession = async () => {
-            if (!isWalletConnectPending || !isWagmiConnected || !wagmiAddress) {
-                return;
-            }
-
-            try {
-                setMessage(null);
-                setIsLoading(true);
-
-                const normalizedAddress = wagmiAddress.toLowerCase();
-                const currentConnectedWallet = wallets.find((wallet) => wallet.is_connected);
-
-                if (pendingWalletConnectId != null) {
-                    const existingWallet = wallets.find((wallet) => wallet.id === pendingWalletConnectId);
-                    if (!existingWallet) {
-                        setMessage({ type: 'error', text: 'Wallet not found' });
-                        return;
-                    }
-
-                    if (existingWallet.wallet_address.toLowerCase() !== normalizedAddress) {
-                        setMessage({
-                            type: 'error',
-                            text: 'Connected wallet does not match the selected wallet. Please connect the matching address.',
-                        });
-                        return;
-                    }
-
-                    if (currentConnectedWallet && currentConnectedWallet.id !== existingWallet.id) {
-                        await tryDisconnectCurrentWallet(currentConnectedWallet);
-                    }
-                    await connectWallet(auth0Id, existingWallet.id, accessToken);
-                    await loadWallets();
-                    setMessage({ type: 'success', text: 'Wallet connected' });
-                    setTimeout(() => setMessage(null), 3000);
-                    return;
-                }
-
-                const existingWallet = wallets.find(
-                    (wallet) => wallet.wallet_address.toLowerCase() === normalizedAddress
-                );
-
-                if (existingWallet) {
-                    if (currentConnectedWallet && currentConnectedWallet.id !== existingWallet.id) {
-                        await tryDisconnectCurrentWallet(currentConnectedWallet);
-                    }
-                    await connectWallet(auth0Id, existingWallet.id, accessToken);
-                    await loadWallets();
-                    setMessage({ type: 'success', text: 'Wallet connected' });
-                    setTimeout(() => setMessage(null), 3000);
-                    return;
-                }
-
-                const result = await addWallet(auth0Id, normalizedAddress, 'walletconnect', accessToken);
-                if (result.success && result.wallet) {
-                    if (currentConnectedWallet) {
-                        await tryDisconnectCurrentWallet(currentConnectedWallet);
-                    }
-                    await connectWallet(auth0Id, result.wallet.id, accessToken);
-                }
-                await loadWallets();
-                setMessage({ type: 'success', text: 'WalletConnect wallet added and connected!' });
-                setTimeout(() => setMessage(null), 3000);
-            } catch (error) {
-                const err = error instanceof Error ? error : new Error(String(error));
-                console.error('Failed to sync WalletConnect session:', err);
-                setMessage({ type: 'error', text: `Failed to connect wallet: ${err.message}` });
-            } finally {
-                setPendingWalletConnectId(null);
-                setIsWalletConnectPending(false);
-                setIsLoading(false);
-            }
-        };
-
-        void syncWalletConnectSession();
-    }, [
-        accessToken,
-        auth0Id,
-        isWalletConnectPending,
-        isWagmiConnected,
-        pendingWalletConnectId,
-        tryDisconnectCurrentWallet,
-        wagmiAddress,
-        wallets,
-        loadWallets,
-    ]);
-
-    useEffect(() => {
-        if (!isWalletConnectPending || isWagmiConnected) {
-            return;
-        }
-
-        const timeout = setTimeout(() => {
-            setPendingWalletConnectId(null);
-            setIsWalletConnectPending(false);
-            setMessage({
-                type: 'error',
-                text: 'WalletConnect request timed out. Please try again.',
-            });
-        }, 15000);
-
-        return () => clearTimeout(timeout);
-    }, [isWalletConnectPending, isWagmiConnected]);
 
     const handleConnectXaman = async (walletIdToConnect?: number) => {
         try {
@@ -287,40 +173,11 @@ function WalletConnectionContent({ auth0Id, accessToken, onWalletsUpdated }: Wal
         }
     };
 
-    const handleSelectWalletType = async (walletType: 'walletconnect' | 'xaman') => {
-        setShowAddWalletModal(false);
-        if (walletType === 'xaman') {
-            void handleConnectXaman();
-            return;
-        }
-
-        if (!walletConnectProjectId) {
-            setMessage({
-                type: 'error',
-                text: 'WalletConnect is not configured. Set VITE_WALLETCONNECT_PROJECT_ID and restart the app.',
-            });
-            return;
-        }
-        try {
-            setMessage(null);
-            setPendingWalletConnectId(null);
-            setIsWalletConnectPending(true);
-            await open({ view: 'Connect' });
-        } catch (error) {
-            const err = error instanceof Error ? error : new Error(String(error));
-            console.error('Failed to open WalletConnect modal:', err);
-            setMessage({ type: 'error', text: `Failed to open WalletConnect: ${err.message}` });
-            setIsWalletConnectPending(false);
-        }
-    };
-
     const handleDisconnect = async () => {
         try {
             setMessage(null);
             setIsLoading(true);
-            if (connectedWallet?.wallet_type === 'walletconnect') {
-                await wagmiDisconnectAsync();
-            } else if (connectedWallet?.wallet_type === 'xaman') {
+            if (connectedWallet?.wallet_type === 'xaman') {
                 await clearXamanSession();
             }
             // Then disconnect at the database level
@@ -353,24 +210,10 @@ function WalletConnectionContent({ auth0Id, accessToken, onWalletsUpdated }: Wal
                 return;
             }
 
-            if (wallet.wallet_type === 'walletconnect') {
-                if (!walletConnectProjectId) {
-                    setMessage({
-                        type: 'error',
-                        text: 'WalletConnect is not configured. Set VITE_WALLETCONNECT_PROJECT_ID and restart the app.',
-                    });
-                    return;
-                }
-                setPendingWalletConnectId(wallet.id);
-                setIsWalletConnectPending(true);
-                await open({ view: 'Connect' });
-                return;
-            }
-
-            await connectWallet(auth0Id, walletId, accessToken);
-            await loadWallets();
-            setMessage({ type: 'success', text: 'Wallet connected' });
-            setTimeout(() => setMessage(null), 3000);
+            setMessage({
+                type: 'error',
+                text: 'Only Xaman wallets can be connected. Re-add this wallet with Xaman.',
+            });
         } catch (error) {
             const err = error instanceof Error ? error : new Error(String(error));
             console.error('Failed to connect existing wallet:', err);
@@ -388,9 +231,7 @@ function WalletConnectionContent({ auth0Id, accessToken, onWalletsUpdated }: Wal
             // Check if this is the connected wallet
             const walletToDelete = wallets.find(w => w.id === walletId);
             if (walletToDelete?.is_connected) {
-                if (walletToDelete.wallet_type === 'walletconnect') {
-                    await wagmiDisconnectAsync();
-                } else if (walletToDelete.wallet_type === 'xaman') {
+                if (walletToDelete.wallet_type === 'xaman') {
                     await clearXamanSession();
                 }
                 // Then disconnect at the database level
@@ -471,7 +312,7 @@ function WalletConnectionContent({ auth0Id, accessToken, onWalletsUpdated }: Wal
     }, [connectedWallet?.id, connectedWalletAssets?.wallet_address]);
 
     const getConnectionChannel = (walletType: string) => {
-        if (walletType === 'xaman' || walletType === 'joey') {
+        if (walletType === 'xaman') {
             return 'Mobile';
         }
         return 'Web';
@@ -545,20 +386,14 @@ function WalletConnectionContent({ auth0Id, accessToken, onWalletsUpdated }: Wal
                                     <div className="mt-2">
                                         <div className="flex flex-wrap items-center gap-2">
                                             <span
-                                                className={`inline-flex items-center rounded-full px-2 py-0.5 text-xs font-medium ${wallet.wallet_type === 'xaman' || wallet.wallet_type === 'joey'
+                                                className={`inline-flex items-center rounded-full px-2 py-0.5 text-xs font-medium ${wallet.wallet_type === 'xaman'
                                                     ? 'bg-purple-900/60 text-purple-200 border border-purple-500/40'
-                                                    : wallet.wallet_type === 'walletconnect'
-                                                        ? 'bg-emerald-900/60 text-emerald-200 border border-emerald-500/40'
-                                                        : 'bg-blue-900/60 text-blue-200 border border-blue-500/40'
+                                                    : 'bg-blue-900/60 text-blue-200 border border-blue-500/40'
                                                     }`}
                                             >
                                                 {wallet.wallet_type === 'xaman'
                                                     ? 'Xaman (XUMM)'
-                                                    : wallet.wallet_type === 'joey'
-                                                        ? 'Joey Wallet'
-                                                        : wallet.wallet_type === 'walletconnect'
-                                                            ? 'WalletConnect'
-                                                            : 'MetaMask'}
+                                                    : wallet.wallet_type}
                                             </span>
                                             <span className="inline-flex items-center rounded-full px-2 py-0.5 text-xs font-medium bg-white/10 text-white/80 border border-white/20">
                                                 {getConnectionChannel(wallet.wallet_type)}
@@ -649,53 +484,16 @@ function WalletConnectionContent({ auth0Id, accessToken, onWalletsUpdated }: Wal
                 onConfirm={handleConfirmDelete}
             />
 
-            {showAddWalletModal && typeof document !== 'undefined' && createPortal(
-                <div className="fixed inset-0 z-50 flex items-center justify-center overflow-y-auto bg-black/75 p-4 sm:p-6">
-                    <div className="w-full max-w-sm rounded-xl bg-neutral-900 p-6 shadow-xl border border-white/10">
-                        <h3 className="text-white text-lg font-semibold mb-2">Add New Wallet</h3>
-                        <p className="text-sm text-white/70 mb-4">Select the wallet type you want to add.</p>
-                        <div className="grid grid-cols-1 gap-3">
-                            <Button
-                                onClick={() => void handleSelectWalletType('walletconnect')}
-                                disabled={isLoading}
-                                className="w-full bg-emerald-600 hover:bg-emerald-700 active:bg-emerald-800"
-                            >
-                                WalletConnect
-                            </Button>
-                            <Button
-                                onClick={() => void handleSelectWalletType('xaman')}
-                                disabled={isLoading}
-                                className="w-full bg-purple-600 hover:bg-purple-700 active:bg-purple-800"
-                            >
-                                Xaman (XUMM)
-                            </Button>
-                        </div>
-                        <div className="flex justify-end mt-4">
-                            <Button
-                                onClick={() => setShowAddWalletModal(false)}
-                                disabled={isLoading}
-                                className="bg-gray-600 hover:bg-gray-700 active:bg-gray-800 text-sm"
-                            >
-                                Cancel
-                            </Button>
-                        </div>
-                    </div>
-                </div>,
-                document.body
-            )}
-
             {/* Add/Connect Wallet Button */}
             <Button
                 onClick={() => {
                     setMessage(null);
-                    setShowAddWalletModal(true);
+                    void handleConnectXaman();
                 }}
-                disabled={isLoading || isWalletConnectPending}
+                disabled={isLoading}
                 className="w-full text-center bg-blue-600 hover:bg-blue-700 active:bg-blue-800"
             >
-                {isWalletConnectPending ? (
-                    'Connecting...'
-                ) : wallets.length > 0 ? (
+                {wallets.length > 0 ? (
                     'Add Another Wallet'
                 ) : (
                     'Add New Wallet'

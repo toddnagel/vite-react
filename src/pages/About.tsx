@@ -38,8 +38,7 @@ function About() {
               <div className="content">
                 <h3>Set Up XRPL Wallet</h3>
                 <p>
-                  Start by downloading a compatible wallet like **Joey Wallet**
-                  or Xumm.
+                  Start by downloading a compatible wallet like Xaman.
                 </p>
               </div>
             </FadeInUp>
