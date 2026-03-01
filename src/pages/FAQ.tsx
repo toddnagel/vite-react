@@ -30,7 +30,7 @@ const faqItems = [
     id: 'faq-project-4',
     question: 'When And Where And Where Can I Mint A Xolo NFT?',
     answer:
-      "The mint for The Xoloitzcuintle Collection (10,001 unique XoloNFTs) is coming soon on xrp.cafe, the premier marketplace for XRPL-based NFTs. Built on the eco-friendly XRP Ledger (XRPL), the mint will feature low-cost, fast transactions with no gas wars. Prepare now: set up an XRPL-compatible wallet (like Joey Wallet, Xaman, or Mad Lab), fund it with at least 20 XRP, and stay tuned to xolodojo.io or @XoloDojo for the exact launch announcement and any allowlist details. Get ready to own your sacred Xolo guardian and unlock the XoloGlobe!",
+      "The mint for The Xoloitzcuintle Collection (10,001 unique XoloNFTs) is coming soon on xrp.cafe, the premier marketplace for XRPL-based NFTs. Built on the eco-friendly XRP Ledger (XRPL), the mint will feature low-cost, fast transactions with no gas wars. Prepare now: set up an XRPL-compatible wallet (like Xaman or Mad Lab), fund it with at least 20 XRP, and stay tuned to xolodojo.io or @XoloDojo for the exact launch announcement and any allowlist details. Get ready to own your sacred Xolo guardian and unlock the XoloGlobe!",
   },
 ];
 
@@ -40,7 +40,7 @@ function FAQ() {
   return (
     <>
       <section
-        className="relative bg-cover bg-center bg-no-repeat py-16 md:py-24"
+        className="relative bg-cover bg-center bg-no-repeat pt-16 pb-4 md:pt-30 border-b border-[#36e9e424]"
         style={{ backgroundImage: "url('/Pattern.png')" }}
       >
         <div className="container mx-auto max-w-7xl px-4">
@@ -49,23 +49,23 @@ function FAQ() {
               <PageTitle title="FAQ" />
             </div>
             <div className="mb-10">
-              <img src="/04a.png" alt="" className="max-h-56 w-auto object-contain md:max-h-80" />
+              <img src="/04a.png" alt="" className="max-h-56 w-auto rounded-md object-contain md:max-h-80" />
             </div>
           </div>
-          <div className="mx-auto max-w-4xl">
-            <h2 className="mb-6 text-2xl font-bold text-white md:text-3xl">
-              Project & Collection Questions
+          <div className="mx-auto max-w-4xl [&_p]:text-[#decee9]">
+            <h2 className="mb-6 text-2xl font-bold text-[#28aae4] md:text-3xl">
+              Frequently Asked Questions
             </h2>
-            <div className="divide-y divide-white/20 overflow-hidden rounded-xl border border-white/20 bg-white/5">
+            <div className="divide-y divide-white/20 overflow-hidden rounded-xl border border-[#decee9]/20 bg-black/70 mb-4">
               {faqItems.map((item) => {
                 const isOpen = openId === item.id;
                 return (
-                  <div key={item.id} className="bg-white/5 first:rounded-t-xl last:rounded-b-xl overflow-hidden">
+                  <div key={item.id} className="bg-black/20 first:rounded-t-xl last:rounded-b-xl overflow-hidden">
                     <h3>
                       <button
                         type="button"
                         onClick={() => setOpenId(isOpen ? null : item.id)}
-                        className="flex w-full items-center justify-between gap-4 py-4 px-5 text-left text-base font-medium text-white transition-colors hover:bg-white/10 md:text-lg"
+                        className="cursor-pointer flex w-full items-center justify-between gap-4 py-4 px-5 text-left text-base font-medium text-[#61f7fe] transition-colors hover:bg-black/50 md:text-lg"
                         aria-expanded={isOpen}
                         aria-controls={`${item.id}-body`}
                         id={`${item.id}-head`}

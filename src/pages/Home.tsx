@@ -152,7 +152,7 @@ function Home() {
                     Upcoming Mint on xrp.cafe
                   </h3>
                   <p>
-                    Prepare your Joey Wallet and 20 XRP minimum reserve
+                    Prepare your Xaman wallet and 20 XRP minimum reserve
                     for the meaningful minting experience on the premier XRPL
                     NFT marketplace.
                   </p>

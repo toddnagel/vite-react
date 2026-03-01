@@ -86,6 +86,7 @@ async function setupRoutes() {
     const profileModule = await import('./api/user/profile.ts');
     const syncModule = await import('./api/user/sync.ts');
     const walletsModule = await import('./api/user/wallets.ts');
+    const walletAssetsModule = await import('./api/user/wallet-assets.ts');
     const walletsIdModule = await import('./api/user/wallets/[walletId].ts');
     const walletsDisconnectModule =
       await import('./api/user/wallets/disconnect.ts');
@@ -93,6 +94,10 @@ async function setupRoutes() {
     console.log('Profile handler loaded:', typeof profileModule.default);
     console.log('Sync handler loaded:', typeof syncModule.default);
     console.log('Wallets handler loaded:', typeof walletsModule.default);
+    console.log(
+      'WalletAssets handler loaded:',
+      typeof walletAssetsModule.default
+    );
     console.log('WalletsId handler loaded:', typeof walletsIdModule.default);
     console.log(
       'WalletsDisconnect handler loaded:',
@@ -103,6 +108,10 @@ async function setupRoutes() {
     app.all('/api/user/profile', vercelToExpress(profileModule.default));
     app.all('/api/user/sync', vercelToExpress(syncModule.default));
     app.all('/api/user/wallets', vercelToExpress(walletsModule.default));
+    app.all(
+      '/api/user/wallet-assets',
+      vercelToExpress(walletAssetsModule.default)
+    );
     // PUT /api/user/wallets/disconnect - must come BEFORE :walletId pattern
     app.all(
       '/api/user/wallets/disconnect',
@@ -135,6 +144,7 @@ setupRoutes()
       console.log(`   - GET/PUT http://localhost:${PORT}/api/user/profile`);
       console.log(`   - POST http://localhost:${PORT}/api/user/sync`);
       console.log(`   - GET/POST http://localhost:${PORT}/api/user/wallets`);
+      console.log(`   - GET http://localhost:${PORT}/api/user/wallet-assets`);
       console.log(
         `   - PUT/DELETE http://localhost:${PORT}/api/user/wallets/:walletId`
       );

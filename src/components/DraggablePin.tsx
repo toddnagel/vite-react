@@ -296,7 +296,7 @@ export default function DraggablePin({
             {showCoordinates && coordsText && (
                 <div
                     ref={labelRef}
-                    className="pin-label absolute bottom-10 left-4 bg-black/60 backdrop-blur-sm text-white px-3 py-2 text-xs rounded-md border border-white/10 shadow-lg font-mono whitespace-pre-line transition-all duration-200"
+                    className="pin-label absolute top-4 right-4 bg-black/60 backdrop-blur-sm text-white px-3 py-2 text-xs rounded-md border border-white/10 shadow-lg font-mono whitespace-pre-line transition-all duration-200"
                     style={{
                         opacity: isDragging ? 0.95 : 0.85,
                         transform: isDragging ? 'scale(1.05)' : 'scale(1)',

@@ -1,7 +1,8 @@
 import { Routes, Route, useNavigate, useLocation } from "react-router-dom";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
 import "./App.css";
+import AppLoadingOverlay from "./components/AppLoadingOverlay";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 import ProtectedRoute from "./components/ProtectedRoute";
@@ -9,7 +10,6 @@ import { useUserSync } from "./hooks/useUserSync";
 import Home from "./pages/Home";
 import About from "./pages/About";
 import FAQ from "./pages/FAQ";
-import Contact from "./pages/Contact";
 import Profile from "./pages/Profile";
 import NotFound from "./pages/404";
 import Xoloitzquintle from "./pages/Xoloitzquintle";
@@ -22,6 +22,7 @@ function AppContent() {
   const { isAuthenticated, isLoading } = useAuth0();
   const navigate = useNavigate();
   const location = useLocation();
+  const [isInitialLoading, setIsInitialLoading] = useState(import.meta.env.DEV);
 
   useUserSync();
 
@@ -32,6 +33,16 @@ function AppContent() {
       behavior: 'smooth',
     });
   }, [location.pathname]);
+
+  useEffect(() => {
+    if (!import.meta.env.DEV) return;
+
+    const timeoutId = window.setTimeout(() => {
+      setIsInitialLoading(false);
+    }, 1800);
+
+    return () => window.clearTimeout(timeoutId);
+  }, []);
 
   // Redirect to profile ONLY after successful login (Auth0 callback)
   useEffect(() => {
@@ -65,6 +76,7 @@ function AppContent() {
 
   return (
     <>
+      <AppLoadingOverlay isVisible={isInitialLoading} />
       <Header />
       <Routes>
         <Route path="/" element={<Home />} />
@@ -75,7 +87,6 @@ function AppContent() {
         <Route path="/xologlobe" element={<XoloGlobe />} />
         <Route path="/mint" element={<Mint />} />
         <Route path="/faq" element={<FAQ />} />
-        <Route path="/contact" element={<Contact />} />
         <Route
           path="/profile"
           element={
