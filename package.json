@@ -26,6 +26,7 @@
     "@walletconnect/universal-provider": "^2.23.7",
     "@web3modal/wagmi": "^5.1.11",
     "cors": "^2.8.6",
+    "cross-fetch": "^4.1.0",
     "express": "^4.22.1",
     "framer-motion": "^12.34.3",
     "mapbox-gl": "^3.18.1",
