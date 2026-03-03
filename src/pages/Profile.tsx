@@ -131,7 +131,7 @@ function Profile() {
                 </div>
 
                 <div className="flex flex-wrap -mx-4 justify-center">
-                    <div className="w-full lg:w-2/3 px-4">
+                    <div className="w-full lg:w-5/6 xl:w-4/5 px-4">
                         <div className="bg-white/5 rounded-xl p-8 mt-8 opacity-0 animate-[fadeInUp_0.6s_ease-out_0.2s_forwards]">
                             <div className="flex flex-col items-center gap-6">
                                 {user.picture && (
