@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo, useCallback } from 'react';
+import { useState, useEffect, useMemo, useCallback, useRef } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
     faArrowsRotate,
@@ -36,7 +36,7 @@ interface WalletConnectionProps {
 }
 
 function WalletConnectionContent({ auth0Id, accessToken, onWalletsUpdated }: WalletConnectionProps) {
-    const NFTS_PER_PAGE = 24;
+    const NFTS_PER_PAGE = 12;
     const [wallets, setWallets] = useState<Wallet[]>([]);
     const [isLoading, setIsLoading] = useState(false);
     const [message, setMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
@@ -49,6 +49,9 @@ function WalletConnectionContent({ auth0Id, accessToken, onWalletsUpdated }: Wal
     const [copiedWalletId, setCopiedWalletId] = useState<number | null>(null);
     const [failedNftThumbnails, setFailedNftThumbnails] = useState<Record<string, boolean>>({});
     const [resolvedNftThumbnails, setResolvedNftThumbnails] = useState<Record<string, string | null>>({});
+    const [collectionFallbackTokens, setCollectionFallbackTokens] = useState<Record<string, boolean>>({});
+    const metadataResultCacheRef = useRef<Partial<Record<string, { url: string; isCollectionFallback: boolean } | null>>>({});
+    const metadataRequestCacheRef = useRef<Partial<Record<string, Promise<{ url: string; isCollectionFallback: boolean } | null>>>>({});
 
     const ipfsGateways = useMemo(
         () => [
@@ -64,7 +67,7 @@ function WalletConnectionContent({ auth0Id, accessToken, onWalletsUpdated }: Wal
             return false;
         }
         const query = new URLSearchParams(window.location.search);
-        return import.meta.env.DEV || query.get('nftDebug') === '1';
+        return query.get('nftDebug') === '1';
     }, []);
 
     const debugNft = useCallback((message: string, payload?: unknown) => {
@@ -201,13 +204,24 @@ function WalletConnectionContent({ auth0Id, accessToken, onWalletsUpdated }: Wal
         return Array.from(new Set(candidates));
     };
 
-    const pickImageFromMetadata = (metadata: unknown): string | null => {
+    const resolveImageCandidate = (value: unknown): string | null => {
+        if (typeof value !== 'string' || !value.trim()) {
+            return null;
+        }
+
+        const candidates = getStorageUrlCandidates(value.trim());
+        return candidates.find((candidate) =>
+            candidate.startsWith('data:image/') || (isHttpUrl(candidate) && !isJsonUrl(candidate))
+        ) || null;
+    };
+
+    const pickImageFromMetadata = (metadata: unknown): { url: string; isCollectionFallback: boolean } | null => {
         if (!metadata || typeof metadata !== 'object') {
             return null;
         }
 
         const metadataRecord = metadata as Record<string, unknown>;
-        const possibleImageValues = [
+        const directImageValues = [
             metadataRecord.image,
             metadataRecord.image_url,
             metadataRecord.thumbnail,
@@ -217,25 +231,58 @@ function WalletConnectionContent({ auth0Id, accessToken, onWalletsUpdated }: Wal
             (metadataRecord.properties as Record<string, unknown> | undefined)?.image,
         ];
 
-        for (const value of possibleImageValues) {
-            if (typeof value !== 'string' || !value.trim()) {
-                continue;
-            }
-
-            const candidates = getStorageUrlCandidates(value.trim());
-            const imageCandidate = candidates.find((candidate) =>
-                candidate.startsWith('data:image/') || (isHttpUrl(candidate) && !isJsonUrl(candidate))
-            );
-
+        for (const value of directImageValues) {
+            const imageCandidate = resolveImageCandidate(value);
             if (imageCandidate) {
-                return imageCandidate;
+                return {
+                    url: imageCandidate,
+                    isCollectionFallback: false,
+                };
+            }
+        }
+
+        const collectionRecord = metadataRecord.collection as Record<string, unknown> | undefined;
+        const collectionImageValues = [
+            metadataRecord.collection_image,
+            metadataRecord.collection_thumbnail,
+            collectionRecord?.image,
+            collectionRecord?.image_url,
+            collectionRecord?.thumbnail,
+            collectionRecord?.cover,
+        ];
+
+        for (const value of collectionImageValues) {
+            const imageCandidate = resolveImageCandidate(value);
+            if (imageCandidate) {
+                return {
+                    url: imageCandidate,
+                    isCollectionFallback: true,
+                };
             }
         }
 
         return null;
     };
 
-    const resolveThumbnailFromMetadata = useCallback(async (uri: string | null): Promise<string | null> => {
+    const resolveThumbnailFromMetadata = useCallback(async (uri: string | null): Promise<{ url: string; isCollectionFallback: boolean } | null> => {
+        if (!uri) {
+            return null;
+        }
+
+        const normalizedUri = decodeHexUri(uri);
+        if (!normalizedUri) {
+            return null;
+        }
+
+        if (metadataResultCacheRef.current[normalizedUri] !== undefined) {
+            return metadataResultCacheRef.current[normalizedUri];
+        }
+
+        if (metadataRequestCacheRef.current[normalizedUri]) {
+            return metadataRequestCacheRef.current[normalizedUri];
+        }
+
+        const resolutionPromise = (async () => {
         const metadataUrls = getMetadataUrlCandidates(uri);
         debugNft('Metadata URL candidates', { uri, metadataUrls });
 
@@ -271,6 +318,14 @@ function WalletConnectionContent({ auth0Id, accessToken, onWalletsUpdated }: Wal
 
         debugNft('No image resolved from metadata', { uri });
         return null;
+        })();
+
+        metadataRequestCacheRef.current[normalizedUri] = resolutionPromise;
+        const resolved = await resolutionPromise;
+        metadataResultCacheRef.current[normalizedUri] = resolved;
+        delete metadataRequestCacheRef.current[normalizedUri];
+
+        return resolved;
     }, [debugNft, getProxiedUrl]);
 
     const getNftThumbnailUrl = (tokenId: string, uri: string | null): string | null => {
@@ -539,6 +594,9 @@ function WalletConnectionContent({ auth0Id, accessToken, onWalletsUpdated }: Wal
             setIsAssetsLoading(false);
             setResolvedNftThumbnails({});
             setFailedNftThumbnails({});
+            setCollectionFallbackTokens({});
+            metadataResultCacheRef.current = {};
+            metadataRequestCacheRef.current = {};
             return;
         }
 
@@ -547,6 +605,9 @@ function WalletConnectionContent({ auth0Id, accessToken, onWalletsUpdated }: Wal
             setAssetsError(null);
             setResolvedNftThumbnails({});
             setFailedNftThumbnails({});
+            setCollectionFallbackTokens({});
+            metadataResultCacheRef.current = {};
+            metadataRequestCacheRef.current = {};
             const summary = await getWalletAssetSummary(
                 auth0Id,
                 connectedWallet.wallet_address,
@@ -576,6 +637,10 @@ function WalletConnectionContent({ auth0Id, accessToken, onWalletsUpdated }: Wal
 
     useEffect(() => {
         setResolvedNftThumbnails({});
+    }, [connectedWalletAssets?.wallet_address]);
+
+    useEffect(() => {
+        setCollectionFallbackTokens({});
     }, [connectedWalletAssets?.wallet_address]);
 
     const getConnectionChannel = (walletType: string) => {
@@ -609,7 +674,8 @@ function WalletConnectionContent({ auth0Id, accessToken, onWalletsUpdated }: Wal
         let cancelled = false;
 
         const resolveCurrentPageThumbnails = async () => {
-            const updates: Record<string, string | null> = {};
+            const updates: Record<string, string> = {};
+            const fallbackUpdates: Record<string, boolean> = {};
 
             await Promise.all(
                 paginatedNfts.map(async (nft) => {
@@ -632,6 +698,7 @@ function WalletConnectionContent({ auth0Id, accessToken, onWalletsUpdated }: Wal
 
                     if (directCandidates.length > 0) {
                         updates[nft.token_id] = directCandidates[0];
+                        fallbackUpdates[nft.token_id] = false;
                         debugNft('Using direct thumbnail candidate', {
                             tokenId: nft.token_id,
                             thumbnail: directCandidates[0],
@@ -640,11 +707,15 @@ function WalletConnectionContent({ auth0Id, accessToken, onWalletsUpdated }: Wal
                     }
 
                     const metadataImage = await resolveThumbnailFromMetadata(nft.uri);
-                    updates[nft.token_id] = metadataImage;
                     debugNft('Using metadata-derived thumbnail', {
                         tokenId: nft.token_id,
                         thumbnail: metadataImage,
                     });
+
+                    if (metadataImage) {
+                        updates[nft.token_id] = metadataImage.url;
+                        fallbackUpdates[nft.token_id] = metadataImage.isCollectionFallback;
+                    }
                 })
             );
 
@@ -652,6 +723,13 @@ function WalletConnectionContent({ auth0Id, accessToken, onWalletsUpdated }: Wal
                 setResolvedNftThumbnails((current) => ({
                     ...current,
                     ...updates,
+                }));
+            }
+
+            if (!cancelled && Object.keys(fallbackUpdates).length > 0) {
+                setCollectionFallbackTokens((current) => ({
+                    ...current,
+                    ...fallbackUpdates,
                 }));
             }
         };
@@ -862,13 +940,14 @@ function WalletConnectionContent({ auth0Id, accessToken, onWalletsUpdated }: Wal
 
                         {connectedWalletAssets.nft_count > 0 && (
                             <div className="rounded-md border border-white/10 bg-black/20 p-3">
-                                <div className="flex flex-wrap gap-3">
+                                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 justify-items-center">
                                     {paginatedNfts.map((nft) => (
-                                        <div key={nft.token_id} className="rounded bg-white/[0.03] p-2">
+                                        <div key={nft.token_id} className="w-full max-w-[200px] rounded bg-white/[0.03] p-2">
                                             {(() => {
                                                 const thumbnailUrl = getNftThumbnailUrl(nft.token_id, nft.uri);
                                                 const thumbnailSrc = getNftThumbnailSrc(thumbnailUrl);
                                                 const thumbnailFailed = failedNftThumbnails[nft.token_id];
+                                                const isCollectionFallback = collectionFallbackTokens[nft.token_id] === true;
 
                                                 if (nftDebugEnabled) {
                                                     console.log('[NFT DEBUG] Render thumbnail', {
@@ -882,7 +961,7 @@ function WalletConnectionContent({ auth0Id, accessToken, onWalletsUpdated }: Wal
 
                                                 if (!thumbnailSrc || thumbnailFailed) {
                                                     return (
-                                                        <div className="h-[200px] w-[200px] rounded border border-white/10 bg-white/5" />
+                                                        <div className="h-auto w-full aspect-square max-h-[200px] rounded border border-white/10 bg-white/5" />
                                                     );
                                                 }
 
@@ -890,8 +969,9 @@ function WalletConnectionContent({ auth0Id, accessToken, onWalletsUpdated }: Wal
                                                     <img
                                                         src={thumbnailSrc}
                                                         alt="NFT thumbnail"
-                                                        className="h-[200px] w-[200px] rounded border border-white/10 object-cover"
+                                                        className={`h-auto w-full aspect-square max-h-[200px] rounded border object-cover ${isCollectionFallback ? 'border-amber-300/70' : 'border-white/10'}`}
                                                         loading="lazy"
+                                                        decoding="async"
                                                         onError={(event) => {
                                                             debugNft('Image load error', {
                                                                 tokenId: nft.token_id,
@@ -911,7 +991,10 @@ function WalletConnectionContent({ auth0Id, accessToken, onWalletsUpdated }: Wal
                                 </div>
 
                                 {totalNftPages > 1 && (
-                                    <div className="mt-3 flex justify-end text-xs text-white/70">
+                                    <div className="mt-3 flex items-center justify-between text-xs text-white/70">
+                                        <span>
+                                            Page {currentNftPage} of {totalNftPages}
+                                        </span>
                                         <div className="flex items-center gap-2">
                                             <Button
                                                 onClick={() => setCurrentNftPage((page) => Math.max(1, page - 1))}
