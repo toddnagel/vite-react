@@ -1,19 +1,19 @@
 import { useState, useEffect } from 'react';
 import { useAuth0 } from '@auth0/auth0-react';
 import PageTitle from '../components/PageTitle';
-import Button from '../components/Button';
+//import Button from '../components/Button';
 import { WalletConnection } from '../components/WalletConnection';
 import { getUserProfile, updateUserProfile } from '../services/profileService';
-import type { UserProfile } from '../services/profileService';
+//import type { UserProfile } from '../services/profileService';
 
 function Profile() {
     const { user, isAuthenticated, isLoading, getAccessTokenSilently } = useAuth0();
-    const [dbUser, setDbUser] = useState<UserProfile | null>(null);
+    //const [dbUser, setDbUser] = useState<UserProfile | null>(null);
     const [bio, setBio] = useState('');
-    const [isEditing, setIsEditing] = useState(false);
-    const [isSaving, setIsSaving] = useState(false);
+    //const [isEditing, setIsEditing] = useState(false);
+    //const [isSaving, setIsSaving] = useState(false);
     const [isLoadingProfile, setIsLoadingProfile] = useState(true);
-    const [saveMessage, setSaveMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
+    //const [saveMessage, setSaveMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
 
     useEffect(() => {
         const loadProfile = async () => {
@@ -24,7 +24,7 @@ function Profile() {
 
             try {
                 setIsLoadingProfile(true);
-                setSaveMessage(null); // Clear any previous errors
+                //setSaveMessage(null); // Clear any previous errors
 
                 //console.log('Profile: Starting to load profile for user:', user.sub);
                 const accessToken = await getAccessTokenSilently().catch((err) => {
@@ -37,7 +37,7 @@ function Profile() {
                 console.log('Profile: API response:', result);
 
                 if (result.success && result.user) {
-                    setDbUser(result.user);
+                    //setDbUser(result.user);
                     setBio(result.user.bio || '');
                     // console.log('Profile: Loaded successfully');
                 } else {
@@ -60,10 +60,10 @@ function Profile() {
                     console.log('Profile: User not found (404) - will be created by sync');
                     setBio('');
                 } else {
-                    setSaveMessage({
-                        type: 'error',
-                        text: `Failed to load profile: ${err.message || 'Unknown error'}. Check console for details.`
-                    });
+                    //setSaveMessage({
+                    //    type: 'error',
+                    //    text: `Failed to load profile: ${err.message || 'Unknown error'}. Check console for details.`
+                    //});
                 }
             } finally {
                 setIsLoadingProfile(false);
@@ -81,28 +81,28 @@ function Profile() {
         );
     }
 
-    const handleSave = async () => {
-        if (!user || !user.sub) return;
+    // const handleSave = async () => {
+    //     if (!user || !user.sub) return;
 
-        try {
-            setIsSaving(true);
-            setSaveMessage(null);
-            const accessToken = await getAccessTokenSilently().catch(() => undefined);
-            const result = await updateUserProfile(user.sub, bio, accessToken);
-            setDbUser(result.user);
-            setIsEditing(false);
-            setSaveMessage({ type: 'success', text: 'Profile saved successfully!' });
+    //     try {
+    //         setIsSaving(true);
+    //         setSaveMessage(null);
+    //         const accessToken = await getAccessTokenSilently().catch(() => undefined);
+    //         const result = await updateUserProfile(user.sub, bio, accessToken);
+    //         setDbUser(result.user);
+    //         setIsEditing(false);
+    //         setSaveMessage({ type: 'success', text: 'Profile saved successfully!' });
 
-            // Clear message after 3 seconds
-            setTimeout(() => setSaveMessage(null), 3000);
-        } catch (error) {
-            const err = error instanceof Error ? error : new Error(String(error));
-            console.error('Failed to save profile:', err);
-            setSaveMessage({ type: 'error', text: 'Failed to save profile. Please try again.' });
-        } finally {
-            setIsSaving(false);
-        }
-    };
+    //         // Clear message after 3 seconds
+    //         setTimeout(() => setSaveMessage(null), 3000);
+    //     } catch (error) {
+    //         const err = error instanceof Error ? error : new Error(String(error));
+    //         console.error('Failed to save profile:', err);
+    //         setSaveMessage({ type: 'error', text: 'Failed to save profile. Please try again.' });
+    //     } finally {
+    //         setIsSaving(false);
+    //     }
+    // };
 
     if (!isAuthenticated || !user) {
         return null;
