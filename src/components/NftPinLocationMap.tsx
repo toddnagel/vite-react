@@ -73,7 +73,7 @@ export default function NftPinLocationMap({ onLocationChange, initialLocation = 
             (position) => {
                 const lng = position.coords.longitude;
                 const lat = position.coords.latitude;
-                map.flyTo({ center: [lng, lat], zoom: 10, essential: true });
+                setMarkerAt(lng, lat, true);
             },
             () => {
                 // Best effort only; no-op if user denies permission.
@@ -118,6 +118,7 @@ export default function NftPinLocationMap({ onLocationChange, initialLocation = 
             style: 'mapbox://styles/mapbox/standard-satellite',
             center: startingCenter as LngLatLike,
             zoom: initialLocation ? 10 : 1.9,
+            attributionControl: false,
         });
 
         mapRef.current = map;
