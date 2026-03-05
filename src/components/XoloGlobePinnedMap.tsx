@@ -2,7 +2,7 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import mapboxgl from 'mapbox-gl';
 import type { Map } from 'mapbox-gl';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPause, faPlay, faPlus, faMinus, faSpinner } from '@fortawesome/free-solid-svg-icons';
+import { faPause, faPlay, faPlus, faMinus, faSpinner, faSun, faMoon } from '@fortawesome/free-solid-svg-icons';
 import { getXoloGlobePins, type XoloGlobePin } from '../services/xoloGlobePinService';
 
 mapboxgl.accessToken = import.meta.env.VITE_MAPBOX_ACCESS_TOKEN || '';
@@ -13,15 +13,15 @@ interface XoloGlobePinnedMapProps {
 
 export default function XoloGlobePinnedMap({ className }: XoloGlobePinnedMapProps) {
     const mapContainerRef = useRef<HTMLDivElement | null>(null);
-    const wrapperRef = useRef<HTMLDivElement | null>(null);
     const mapRef = useRef<Map | null>(null);
     const markersRef = useRef<mapboxgl.Marker[]>([]);
     const markerElementsRef = useRef<Array<{ marker: mapboxgl.Marker; visualElement: HTMLDivElement }>>([]);
     const spinningRef = useRef(true);
-    const pausedByHoverRef = useRef(false);
     const userInteractingRef = useRef(false);
     const [pins, setPins] = useState<XoloGlobePin[]>([]);
     const [isSpinning, setIsSpinning] = useState(true);
+    const [lightPreset, setLightPreset] = useState<'day' | 'night'>('night');
+    const [mapStyleMode, setMapStyleMode] = useState<'street' | 'satellite'>('street');
     const [isLoading, setIsLoading] = useState(true);
     const [hasMapToken, setHasMapToken] = useState(true);
     const [loadError, setLoadError] = useState<string | null>(null);
@@ -111,7 +111,6 @@ export default function XoloGlobePinnedMap({ className }: XoloGlobePinnedMapProp
     const handleToggleSpin = () => {
         const next = !spinningRef.current;
         spinningRef.current = next;
-        pausedByHoverRef.current = false;
         setIsSpinning(next);
 
         if (next) {
@@ -133,43 +132,46 @@ export default function XoloGlobePinnedMap({ className }: XoloGlobePinnedMapProp
         map.zoomTo(targetZoom, { duration: 350 });
     };
 
-    useEffect(() => {
-        const wrapper = wrapperRef.current;
-        if (!wrapper) {
+    const applyLightPreset = (preset: 'day' | 'night') => {
+        const map = mapRef.current;
+        if (!map) {
             return;
         }
 
-        const handleMouseEnter = () => {
-            if (!spinningRef.current) {
-                pausedByHoverRef.current = false;
-                return;
+        try {
+            map.setConfigProperty('basemap', 'lightPreset', preset);
+        } catch {
+        }
+        setLightPreset(preset);
+    };
+
+    const handleStyleMode = (mode: 'street' | 'satellite') => {
+        const map = mapRef.current;
+        if (!map || mode === mapStyleMode) {
+            return;
+        }
+
+        const style = mode === 'street'
+            ? 'mapbox://styles/mapbox/standard'
+            : 'mapbox://styles/mapbox/standard-satellite';
+
+        setMapStyleMode(mode);
+        map.setStyle(style);
+
+        map.once('style.load', () => {
+            map.setFog({
+                color: 'rgb(23, 25, 35)',
+                'high-color': 'rgb(50, 56, 74)',
+                'horizon-blend': 0.08,
+                'space-color': 'rgb(6, 8, 16)',
+                'star-intensity': 0.85,
+            });
+            if (mode === 'street') {
+                applyLightPreset(lightPreset);
             }
-
-            pausedByHoverRef.current = true;
-            spinningRef.current = false;
-            setIsSpinning(false);
-            mapRef.current?.stop();
-        };
-
-        const handleMouseLeave = () => {
-            if (!pausedByHoverRef.current) {
-                return;
-            }
-
-            pausedByHoverRef.current = false;
-            spinningRef.current = true;
-            setIsSpinning(true);
-            spinGlobe();
-        };
-
-        wrapper.addEventListener('mouseenter', handleMouseEnter);
-        wrapper.addEventListener('mouseleave', handleMouseLeave);
-
-        return () => {
-            wrapper.removeEventListener('mouseenter', handleMouseEnter);
-            wrapper.removeEventListener('mouseleave', handleMouseLeave);
-        };
-    }, []);
+            updateMarkerScale();
+        });
+    };
 
     useEffect(() => {
         if (!mapContainerRef.current) {
@@ -187,11 +189,6 @@ export default function XoloGlobePinnedMap({ className }: XoloGlobePinnedMapProp
             container: mapContainerRef.current,
             style: 'mapbox://styles/mapbox/standard',
             attributionControl: false,
-            config: {
-                basemap: {
-                    theme: 'monochrome',
-                },
-            },
             center: [130, 35],
             zoom: 0.75,
         });
@@ -199,7 +196,14 @@ export default function XoloGlobePinnedMap({ className }: XoloGlobePinnedMapProp
         mapRef.current = map;
 
         map.on('style.load', () => {
-            map.setFog({});
+            map.setFog({
+                color: 'rgb(23, 25, 35)',
+                'high-color': 'rgb(50, 56, 74)',
+                'horizon-blend': 0.08,
+                'space-color': 'rgb(6, 8, 16)',
+                'star-intensity': 0.85,
+            });
+            applyLightPreset(lightPreset);
         });
 
         map.on('load', () => {
@@ -360,14 +364,14 @@ export default function XoloGlobePinnedMap({ className }: XoloGlobePinnedMapProp
     }
 
     return (
-        <div ref={wrapperRef} className={className || 'relative'}>
-            <div ref={mapContainerRef} className="h-full w-full overflow-hidden rounded-lg border border-white/20" />
+        <div className={className || 'relative'}>
+            <div ref={mapContainerRef} className="h-full w-full overflow-hidden rounded-lg border border-[#36e9e424]" />
 
-            <div className="absolute left-3 top-1/2 z-20 -translate-y-1/2 space-y-2">
+            <div className="absolute left-3 top-1/2 z-20 -translate-y-1/2 overflow-hidden rounded border border-black/40 bg-black/60">
                 <button
                     type="button"
                     onClick={() => handleZoom('in')}
-                    className="flex h-8 w-8 items-center justify-center rounded border border-white/30 bg-black/65 text-white hover:bg-black/80"
+                    className="cursor-pointer flex h-8 w-8 items-center justify-center border-b border-black/35 text-white transition-colors hover:bg-black/70 hover:text-yellow-300"
                     title="Zoom in"
                     aria-label="Zoom in"
                 >
@@ -377,7 +381,7 @@ export default function XoloGlobePinnedMap({ className }: XoloGlobePinnedMapProp
                 <button
                     type="button"
                     onClick={() => handleZoom('out')}
-                    className="flex h-8 w-8 items-center justify-center rounded border border-white/30 bg-black/65 text-white hover:bg-black/80"
+                    className="cursor-pointer flex h-8 w-8 items-center justify-center border-b border-black/35 text-white transition-colors hover:bg-black/70 hover:text-yellow-300"
                     title="Zoom out"
                     aria-label="Zoom out"
                 >
@@ -387,11 +391,52 @@ export default function XoloGlobePinnedMap({ className }: XoloGlobePinnedMapProp
                 <button
                     type="button"
                     onClick={handleToggleSpin}
-                    className="flex h-8 w-8 items-center justify-center rounded border border-white/30 bg-black/65 text-white hover:bg-black/80"
+                    className="cursor-pointer flex h-8 w-8 items-center justify-center border-b border-black/35 text-white transition-colors hover:bg-black/70 hover:text-yellow-300"
                     title={isSpinning ? 'Pause globe rotation' : 'Start globe rotation'}
                     aria-label={isSpinning ? 'Pause globe rotation' : 'Start globe rotation'}
                 >
                     <FontAwesomeIcon icon={isSpinning ? faPause : faPlay} className="text-xs" />
+                </button>
+
+                <button
+                    type="button"
+                    onClick={() => applyLightPreset('day')}
+                    className={`group cursor-pointer flex h-8 w-8 items-center justify-center border-b border-black/35 ${lightPreset === 'day' ? 'bg-black text-yellow-300' : 'bg-transparent text-white ring-1 ring-inset ring-black/45 hover:bg-white/15 hover:text-yellow-300'}`}
+                    title="Day"
+                    aria-label="Day"
+                >
+                    <FontAwesomeIcon icon={faSun} className="text-xs" />
+                </button>
+
+                <button
+                    type="button"
+                    onClick={() => applyLightPreset('night')}
+                    className={`group cursor-pointer flex h-8 w-8 items-center justify-center ${lightPreset === 'night' ? 'bg-black text-yellow-300' : 'bg-transparent text-white ring-1 ring-inset ring-black/45 hover:bg-white/15 hover:text-yellow-300'}`}
+                    title="Night"
+                    aria-label="Night"
+                >
+                    <FontAwesomeIcon icon={faMoon} className="text-xs" />
+                </button>
+            </div>
+
+            <div className="absolute right-3 top-3 z-20 inline-flex overflow-hidden rounded border border-black/40 bg-black/55 text-[10px] leading-none text-white">
+                <button
+                    type="button"
+                    onClick={() => handleStyleMode('street')}
+                    className={`cursor-pointer h-6 px-2 transition-colors ${mapStyleMode === 'street' ? 'bg-black/80 text-white' : 'bg-transparent text-white/85 hover:bg-black/60 hover:text-yellow-300'}`}
+                    title="Street"
+                    aria-label="Street"
+                >
+                    Map
+                </button>
+                <button
+                    type="button"
+                    onClick={() => handleStyleMode('satellite')}
+                    className={`cursor-pointer h-6 border-l border-black/35 px-2 transition-colors ${mapStyleMode === 'satellite' ? 'bg-black/80 text-white' : 'bg-transparent text-white/85 hover:bg-black/60 hover:text-yellow-300'}`}
+                    title="Satellite"
+                    aria-label="Satellite"
+                >
+                    Sat
                 </button>
             </div>
 
