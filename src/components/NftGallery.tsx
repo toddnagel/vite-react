@@ -945,7 +945,7 @@ export default function NftGallery({ nftCount, nfts, walletAddress, isLoading, a
 
             <Modal
                 isOpen={pinTargetNft != null}
-                title="Pin NFT"
+                title="Choose your pin location on the map"
                 onClose={closePinModal}
                 closeOnOverlayClick
                 showCloseButton
@@ -974,21 +974,17 @@ export default function NftGallery({ nftCount, nfts, walletAddress, isLoading, a
                             </>
                         ) : (
                             <>
-                                <p className="text-white/90">Choose your pin location on the map, then submit to save.</p>
                                 <MapBoxPinLocation
                                     onLocationChange={setPinLocation}
                                     className="mt-2"
                                 />
-                                {/* <p className="text-xs text-white/60">
-                                    Current pin: {pinLocation ? `${pinLocation.lat.toFixed(5)}, ${pinLocation.lng.toFixed(5)}` : 'Not set'}
-                                </p> */}
-                                <div className="flex justify-end gap-3 pt-1">
+                                <div className="flex justify-end gap-3">
                                     <Button
                                         onClick={() => void handleSubmitPin()}
                                         disabled={isPinActionLoading || !pinLocation}
                                         className="bg-green-600 hover:bg-green-700 active:bg-green-800"
                                     >
-                                        {isPinActionLoading ? 'Saving pin' : 'Submit Pin'}
+                                        {isPinActionLoading ? 'Submitting' : 'Submit Pin'}
                                     </Button>
                                 </div>
                             </>
