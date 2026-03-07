@@ -3,8 +3,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCheck, faCopy, faSpinner, faThumbtack } from '@fortawesome/free-solid-svg-icons';
 import Button from './Button';
 import Modal from './Modal';
-import ConfirmModal from './ConfirmModal';
-import NftPinLocationMap from './NftPinLocationMap';
+import ModalConfirm from './ModalConfirm';
+import MapBoxPinLocation from './MapBoxPinLocation';
 import { useToast } from './ToastProvider';
 import type { WalletAssetSummary } from '../services/walletAssetService';
 import { getPinnedNfts, pinNft, unpinNft } from '../services/pinnedNftService';
@@ -975,7 +975,7 @@ export default function NftGallery({ nftCount, nfts, walletAddress, isLoading, a
                         ) : (
                             <>
                                 <p className="text-white/90">Choose your pin location on the map, then submit to save.</p>
-                                <NftPinLocationMap
+                                <MapBoxPinLocation
                                     onLocationChange={setPinLocation}
                                     className="mt-2"
                                 />
@@ -997,7 +997,7 @@ export default function NftGallery({ nftCount, nfts, walletAddress, isLoading, a
                 )}
             </Modal>
 
-            <ConfirmModal
+            <ModalConfirm
                 isOpen={pendingUnpinTokenId != null}
                 title="Remove pinned NFT?"
                 message="This will remove this NFT from the XoloGlobe map. You may pin it again later at any time."

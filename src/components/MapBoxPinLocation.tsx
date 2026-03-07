@@ -16,13 +16,13 @@ interface GeocodingResponse {
     features?: SearchFeature[];
 }
 
-interface NftPinLocationMapProps {
+interface MapBoxPinLocationProps {
     onLocationChange: (location: { lng: number; lat: number } | null) => void;
     initialLocation?: { lng: number; lat: number } | null;
     className?: string;
 }
 
-export default function NftPinLocationMap({ onLocationChange, initialLocation = null, className }: NftPinLocationMapProps) {
+export default function MapBoxPinLocation({ onLocationChange, initialLocation = null, className }: MapBoxPinLocationProps) {
     const mapContainerRef = useRef<HTMLDivElement | null>(null);
     const mapRef = useRef<Map | null>(null);
     const markerRef = useRef<mapboxgl.Marker | null>(null);
