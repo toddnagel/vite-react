@@ -1,5 +1,13 @@
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || '/api';
 
+export interface XoloGlobePinSocials {
+  twitter?: string;
+  discord?: string;
+  tiktok?: string;
+  instagram?: string;
+  telegram?: string;
+}
+
 export interface XoloGlobePin {
   token_id: string;
   wallet_address: string;
@@ -10,6 +18,7 @@ export interface XoloGlobePin {
   image_url: string | null;
   title: string | null;
   collection_name: string | null;
+  socials?: XoloGlobePinSocials | null;
   pinned_at: string;
 }
 

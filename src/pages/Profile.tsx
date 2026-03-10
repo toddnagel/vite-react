@@ -8,7 +8,7 @@ import {
     faTiktok,
     faXTwitter,
 } from '@fortawesome/free-brands-svg-icons';
-import { faCheck, faPlus, faXmark } from '@fortawesome/free-solid-svg-icons';
+import { faPlus, faXmark } from '@fortawesome/free-solid-svg-icons';
 import Button from '../components/Button';
 import ModalConfirm from '../components/ModalConfirm';
 import { useToast } from '../components/ToastProvider';
@@ -136,13 +136,7 @@ function Profile() {
                     setDbUser(result.user);
                     const loadedSocials = parseSocialsFromPreferences(result.user.preferences);
                     setSocials(loadedSocials);
-                    setVisibleSocialInputs({
-                        twitter: Boolean(loadedSocials.twitter),
-                        discord: Boolean(loadedSocials.discord),
-                        tiktok: Boolean(loadedSocials.tiktok),
-                        instagram: Boolean(loadedSocials.instagram),
-                        telegram: Boolean(loadedSocials.telegram),
-                    });
+                    setVisibleSocialInputs(createEmptyVisibleInputs());
                 } else {
                     // User doesn't exist in DB yet - that's okay, they'll be created on sync
                     console.log('Profile: User not found in DB yet, will be created by sync');
@@ -178,7 +172,7 @@ function Profile() {
     const handleActivateSocial = (key: SocialPlatformKey) => {
         setVisibleSocialInputs((current) => ({
             ...current,
-            [key]: true,
+            [key]: !current[key],
         }));
     };
 
@@ -281,13 +275,7 @@ function Profile() {
 
             setDbUser(result.user);
             setSocials(normalizedSocials);
-            setVisibleSocialInputs({
-                twitter: Boolean(normalizedSocials.twitter),
-                discord: Boolean(normalizedSocials.discord),
-                tiktok: Boolean(normalizedSocials.tiktok),
-                instagram: Boolean(normalizedSocials.instagram),
-                telegram: Boolean(normalizedSocials.telegram),
-            });
+            setVisibleSocialInputs(createEmptyVisibleInputs());
             showToast('success', 'Social handles saved.');
         } catch (error) {
             const err = error instanceof Error ? error : new Error(String(error));
@@ -297,8 +285,11 @@ function Profile() {
         }
     };
 
-    const activeSocialPlatforms = socialPlatformOrder.filter((platform) => visibleSocialInputs[platform.key]);
-    const hasOpenSocialInput = activeSocialPlatforms.length > 0;
+    const activeSocialPlatforms = socialPlatformOrder.filter((platform) =>
+        Boolean((socials[platform.key] || '').trim()) || visibleSocialInputs[platform.key]
+    );
+    const openSocialPlatforms = socialPlatformOrder.filter((platform) => visibleSocialInputs[platform.key]);
+    const hasOpenSocialInput = openSocialPlatforms.length > 0;
     const hasEnteredSocialHandle = socialPlatformOrder.some((platform) =>
         Boolean((socials[platform.key] || '').trim())
     );
@@ -353,21 +344,21 @@ function Profile() {
                                 <div className="w-full p-6 bg-black/30 rounded-lg mt-4">
                                     <h4 className="text-white text-lg mb-2">Social Handles</h4>
                                     <p className="text-white/60 text-sm mb-4">
-                                        Click an icon to add a handle. Enter usernames only (no full URLs). Save applies all changes at once.
+                                        Click an icon to add or modify your handle.
                                     </p>
 
                                     <div className="flex flex-wrap gap-2 mb-4">
                                         {socialPlatformOrder.map((platform) => {
-                                            const isActive = visibleSocialInputs[platform.key];
+                                            const isActive = activeSocialPlatforms.some((activePlatform) => activePlatform.key === platform.key);
                                             return (
                                                 <button
                                                     key={platform.key}
                                                     type="button"
-                                                    title={isActive ? `${platform.label} enabled` : `Add ${platform.label}`}
+                                                    title={isActive ? `Edit ${platform.label}` : `Add ${platform.label}`}
                                                     onClick={() => handleActivateSocial(platform.key)}
-                                                    className={`relative inline-flex h-10 w-10 items-center justify-center rounded-full border transition-all duration-200 ${isActive
+                                                    className={`cursor-pointer relative inline-flex h-10 w-10 items-center justify-center rounded-full border transition-all duration-200 ${isActive
                                                         ? 'border-emerald-400/60 bg-emerald-700/20 text-emerald-200'
-                                                        : 'cursor-pointer border-white/25 bg-white/5 text-white/70 hover:text-white hover:border-white/40'
+                                                        : 'border-white/25 bg-white/5 text-white/70 hover:text-white hover:border-white/40'
                                                         }`}
                                                 >
                                                     <FontAwesomeIcon icon={platform.icon} />
@@ -381,20 +372,23 @@ function Profile() {
                                         })}
                                     </div>
 
-                                    {activeSocialPlatforms.length > 0 ? (
+                                    {openSocialPlatforms.length > 0 ? (
                                         <div className="space-y-3">
-                                            {activeSocialPlatforms.map((platform) => (
+                                            {openSocialPlatforms.map((platform) => (
                                                 <div key={platform.key} className="flex items-center gap-2">
                                                     <div className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-white/20 bg-white/5 text-white/80">
                                                         <FontAwesomeIcon icon={platform.icon} />
                                                     </div>
                                                     <div className="w-full md:w-1/3 md:min-w-[280px]">
-                                                        <input
-                                                            value={socials[platform.key] || ''}
-                                                            onChange={(e) => handleSocialInputChange(platform.key, e.target.value)}
-                                                            placeholder={`Enter ${platform.label} username`}
-                                                            className="w-full rounded-lg border border-white/20 bg-black/40 px-3 py-2 text-white/90 placeholder:text-white/45 focus:outline-none focus:border-blue-500"
-                                                        />
+                                                        <div className="relative">
+                                                            <span className="pointer-events-none absolute inset-y-0 left-3 flex items-center text-white/45">@</span>
+                                                            <input
+                                                                value={socials[platform.key] || ''}
+                                                                onChange={(e) => handleSocialInputChange(platform.key, e.target.value)}
+                                                                placeholder={`${platform.label} username`}
+                                                                className="w-full rounded-lg border border-white/20 bg-black/40 pl-8 pr-3 py-2 text-white/90 placeholder:text-white/45 focus:outline-none focus:border-blue-500"
+                                                            />
+                                                        </div>
                                                     </div>
                                                     <button
                                                         type="button"
@@ -407,9 +401,9 @@ function Profile() {
                                                 </div>
                                             ))}
                                         </div>
-                                    ) : (
+                                    ) : activeSocialPlatforms.length === 0 ? (
                                         <p className="text-white/50 text-sm">No social handles added yet.</p>
-                                    )}
+                                    ) : null}
 
                                     {shouldShowSaveSocialsButton && (
                                         <div className="mt-4 flex justify-end">
@@ -417,7 +411,6 @@ function Profile() {
                                                 onClick={() => void handleSaveSocials()}
                                                 disabled={isSavingSocials}
                                                 className="bg-green-600 hover:bg-green-700 active:bg-green-800 min-w-[150px]"
-                                                icon={isSavingSocials ? undefined : <FontAwesomeIcon icon={faCheck} />}
                                             >
                                                 {isSavingSocials ? 'Saving...' : 'Save Socials'}
                                             </Button>

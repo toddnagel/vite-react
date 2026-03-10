@@ -33,7 +33,16 @@ interface PinnedNftItem {
   image_url?: string | null;
   title?: string | null;
   collection_name?: string | null;
+  socials?: PinnedNftSocials | null;
   pinned_at: string;
+}
+
+interface PinnedNftSocials {
+  twitter?: string;
+  discord?: string;
+  tiktok?: string;
+  instagram?: string;
+  telegram?: string;
 }
 
 function normalizeWalletAddress(value: string): string {
@@ -78,6 +87,32 @@ function parsePreferences(preferences: unknown): Record<string, unknown> {
   return {};
 }
 
+const allowedSocialKeys = ['twitter', 'discord', 'tiktok', 'instagram', 'telegram'] as const;
+
+function parsePinnedNftSocials(value: unknown): PinnedNftSocials | null {
+  if (!value || typeof value !== 'object') {
+    return null;
+  }
+
+  const source = value as Record<string, unknown>;
+  const socials = allowedSocialKeys.reduce<PinnedNftSocials>((acc, key) => {
+    const nextValue = source[key];
+    if (typeof nextValue !== 'string') {
+      return acc;
+    }
+
+    const normalized = nextValue.trim().replace(/^@+/, '');
+    if (!normalized) {
+      return acc;
+    }
+
+    acc[key] = normalized;
+    return acc;
+  }, {});
+
+  return Object.keys(socials).length > 0 ? socials : null;
+}
+
 function parsePinnedNfts(preferences: Record<string, unknown>): PinnedNftItem[] {
   const value = preferences.pinned_nfts;
   if (!Array.isArray(value)) {
@@ -108,6 +143,7 @@ function parsePinnedNfts(preferences: Record<string, unknown>): PinnedNftItem[] 
           typeof record.collection_name === 'string'
             ? record.collection_name
             : null,
+        socials: parsePinnedNftSocials(record.socials),
         pinned_at:
           typeof record.pinned_at === 'string'
             ? record.pinned_at
@@ -223,6 +259,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
             latitude?: number | null;
             longitude?: number | null;
             image_url?: string | null;
+            socials?: PinnedNftSocials | null;
           }
         | undefined;
 
@@ -250,6 +287,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       const nowIso = new Date().toISOString();
       const latitude = parseOptionalNumber(nft?.latitude);
       const longitude = parseOptionalNumber(nft?.longitude);
+      const socials = parsePinnedNftSocials(nft?.socials);
 
       if (latitude == null || longitude == null) {
         return res.status(400).json({ error: 'Missing valid nft.latitude or nft.longitude' });
@@ -272,6 +310,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
                   image_url: nft?.image_url ?? item.image_url ?? null,
                   title: nft?.title ?? item.title,
                   collection_name: nft?.collection_name ?? item.collection_name,
+                  socials,
                 }
               : item
           )
@@ -287,6 +326,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
               image_url: nft?.image_url ?? null,
               title: nft?.title ?? null,
               collection_name: nft?.collection_name ?? null,
+              socials,
               pinned_at: nowIso,
             },
           ];
