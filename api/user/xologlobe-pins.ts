@@ -33,7 +33,16 @@ interface XoloGlobePin {
   image_url: string | null;
   title: string | null;
   collection_name: string | null;
+  socials?: XoloGlobePinSocials | null;
   pinned_at: string;
+}
+
+interface XoloGlobePinSocials {
+  twitter?: string;
+  discord?: string;
+  tiktok?: string;
+  instagram?: string;
+  telegram?: string;
 }
 
 function normalizeWalletAddress(value: string): string {
@@ -78,6 +87,32 @@ function parsePreferences(preferences: unknown): Record<string, unknown> {
   return {};
 }
 
+const allowedSocialKeys = ['twitter', 'discord', 'tiktok', 'instagram', 'telegram'] as const;
+
+function parsePinSocials(value: unknown): XoloGlobePinSocials | null {
+  if (!value || typeof value !== 'object') {
+    return null;
+  }
+
+  const source = value as Record<string, unknown>;
+  const socials = allowedSocialKeys.reduce<XoloGlobePinSocials>((acc, key) => {
+    const nextValue = source[key];
+    if (typeof nextValue !== 'string') {
+      return acc;
+    }
+
+    const normalized = nextValue.trim().replace(/^@+/, '');
+    if (!normalized) {
+      return acc;
+    }
+
+    acc[key] = normalized;
+    return acc;
+  }, {});
+
+  return Object.keys(socials).length > 0 ? socials : null;
+}
+
 function parsePinnedNfts(preferences: Record<string, unknown>): XoloGlobePin[] {
   const value = preferences.pinned_nfts;
   if (!Array.isArray(value)) {
@@ -106,6 +141,7 @@ function parsePinnedNfts(preferences: Record<string, unknown>): XoloGlobePin[] {
         title: typeof record.title === 'string' ? record.title : null,
         collection_name:
           typeof record.collection_name === 'string' ? record.collection_name : null,
+        socials: parsePinSocials(record.socials),
         pinned_at:
           typeof record.pinned_at === 'string'
             ? record.pinned_at

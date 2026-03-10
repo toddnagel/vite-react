@@ -1,5 +1,13 @@
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || '/api';
 
+export interface PinnedNftSocials {
+  twitter?: string;
+  discord?: string;
+  tiktok?: string;
+  instagram?: string;
+  telegram?: string;
+}
+
 export interface PinnedNftItem {
   token_id: string;
   wallet_address: string;
@@ -10,6 +18,7 @@ export interface PinnedNftItem {
   image_url?: string | null;
   title?: string | null;
   collection_name?: string | null;
+  socials?: PinnedNftSocials | null;
   pinned_at: string;
 }
 
@@ -60,6 +69,7 @@ export async function pinNft(
     image_url?: string | null;
     title?: string | null;
     collection_name?: string | null;
+    socials?: PinnedNftSocials;
   },
   accessToken?: string
 ): Promise<PinnedNftItem[]> {
