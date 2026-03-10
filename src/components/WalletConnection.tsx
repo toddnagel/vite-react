@@ -21,7 +21,9 @@ import {
     authorizeXamanAccount,
     clearXamanSession,
     getXamanRedirectUrl,
+    hasXamanRedirectParams,
     isXamanConfigured,
+    restoreXamanAccountFromRedirect,
 } from '../services/xamanService';
 import type { Wallet } from '../services/walletService';
 import {
@@ -42,6 +44,8 @@ interface WalletConnectionProps {
     onWalletsUpdated?: (wallets: Wallet[]) => void;
 }
 
+const walletConnectTimeoutMs = Number(import.meta.env.VITE_WALLETCONNECT_CONNECT_TIMEOUT_MS || 60000);
+
 function WalletConnectionContent({ auth0Id, accessToken, onWalletsUpdated }: WalletConnectionProps) {
     const { open } = useWeb3Modal();
     const { address: wagmiAddress, isConnected: isWagmiConnected } = useAccount();
@@ -53,6 +57,7 @@ function WalletConnectionContent({ auth0Id, accessToken, onWalletsUpdated }: Wal
     const [showAddWalletModal, setShowAddWalletModal] = useState(false);
     const [isWalletConnectPending, setIsWalletConnectPending] = useState(false);
     const [pendingWalletConnectId, setPendingWalletConnectId] = useState<number | null>(null);
+    const [isXamanRedirectRecoveryDone, setIsXamanRedirectRecoveryDone] = useState(false);
     const [connectedWalletAssets, setConnectedWalletAssets] = useState<WalletAssetSummary | null>(null);
     const [isAssetsLoading, setIsAssetsLoading] = useState(false);
     const [assetsError, setAssetsError] = useState<string | null>(null);
@@ -180,6 +185,73 @@ function WalletConnectionContent({ auth0Id, accessToken, onWalletsUpdated }: Wal
     ]);
 
     useEffect(() => {
+        if (isXamanRedirectRecoveryDone || !isXamanConfigured() || !hasXamanRedirectParams()) {
+            return;
+        }
+
+        let isCancelled = false;
+
+        const recoverXamanRedirectSession = async () => {
+            try {
+                const xrplAddress = await restoreXamanAccountFromRedirect();
+                if (!xrplAddress || isCancelled) {
+                    return;
+                }
+
+                const normalizedXrplAddress = xrplAddress.toLowerCase();
+                const latestWalletsResult = await getUserWallets(auth0Id, accessToken);
+                const latestWallets = latestWalletsResult.success ? latestWalletsResult.wallets || [] : [];
+
+                const currentConnectedWallet = latestWallets.find((wallet) => wallet.is_connected);
+                const existingWallet = latestWallets.find(
+                    (wallet) => wallet.wallet_address.toLowerCase() === normalizedXrplAddress
+                );
+
+                if (existingWallet) {
+                    if (currentConnectedWallet && currentConnectedWallet.id !== existingWallet.id) {
+                        await tryDisconnectCurrentWallet(currentConnectedWallet);
+                    }
+                    await connectWallet(auth0Id, existingWallet.id, accessToken);
+                    await loadWallets();
+                    showToast('success', 'Xaman wallet connected');
+                    return;
+                }
+
+                const result = await addWallet(auth0Id, xrplAddress, 'xaman', accessToken);
+                if (result.success && result.wallet) {
+                    if (currentConnectedWallet) {
+                        await tryDisconnectCurrentWallet(currentConnectedWallet);
+                    }
+                    await connectWallet(auth0Id, result.wallet.id, accessToken);
+                    await loadWallets();
+                    showToast('success', 'Xaman wallet added and connected!');
+                }
+            } catch (error) {
+                const err = error instanceof Error ? error : new Error(String(error));
+                console.error('Failed to recover Xaman redirect session:', err);
+                showToast('error', `Failed to finalize Xaman sign-in: ${err.message}`);
+            } finally {
+                if (!isCancelled) {
+                    setIsXamanRedirectRecoveryDone(true);
+                }
+            }
+        };
+
+        void recoverXamanRedirectSession();
+
+        return () => {
+            isCancelled = true;
+        };
+    }, [
+        accessToken,
+        auth0Id,
+        isXamanRedirectRecoveryDone,
+        loadWallets,
+        showToast,
+        tryDisconnectCurrentWallet,
+    ]);
+
+    useEffect(() => {
         if (!isWalletConnectPending || isWagmiConnected) {
             return;
         }
@@ -188,7 +260,7 @@ function WalletConnectionContent({ auth0Id, accessToken, onWalletsUpdated }: Wal
             setPendingWalletConnectId(null);
             setIsWalletConnectPending(false);
             showToast('error', 'WalletConnect request timed out. Please try again.');
-        }, 15000);
+        }, walletConnectTimeoutMs);
 
         return () => clearTimeout(timeout);
     }, [isWalletConnectPending, isWagmiConnected, showToast]);
@@ -310,9 +382,9 @@ function WalletConnectionContent({ auth0Id, accessToken, onWalletsUpdated }: Wal
                     return;
                 }
 
+                await open({ view: 'Connect' });
                 setPendingWalletConnectId(wallet.id);
                 setIsWalletConnectPending(true);
-                await open({ view: 'Connect' });
                 return;
             }
 
@@ -393,9 +465,9 @@ function WalletConnectionContent({ auth0Id, accessToken, onWalletsUpdated }: Wal
         }
 
         try {
+            await open({ view: 'Connect' });
             setPendingWalletConnectId(null);
             setIsWalletConnectPending(true);
-            await open({ view: 'Connect' });
         } catch (error) {
             const err = error instanceof Error ? error : new Error(String(error));
             console.error('Failed to open WalletConnect modal:', err);
