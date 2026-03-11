@@ -29,6 +29,17 @@ function isLikelyXrplAddress(address: string) {
   return /^r[1-9A-HJ-NP-Za-km-z]{24,34}$/.test(address);
 }
 
+function getSafeXrplFallback(walletAddress: string) {
+  return {
+    success: true,
+    wallet_address: walletAddress,
+    is_xrpl: true,
+    xrp_balance: '0.000000',
+    nft_count: 0,
+    nfts: [],
+  };
+}
+
 function normalizeCollectionAddress(value: string | null | undefined): string | null {
   if (!value) {
     return null;
@@ -165,7 +176,17 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       account: walletAddress,
       ledger_index: 'validated',
       strict: true,
+    }).catch((error: Error) => {
+      console.warn('XRPL account_info failed, returning empty wallet summary:', {
+        walletAddress,
+        message: error.message,
+      });
+      return null;
     });
+
+    if (!accountInfo) {
+      return res.status(200).json(getSafeXrplFallback(walletAddress));
+    }
 
     const accountNfts = await callXrpl<{
       account_nfts?: Array<{

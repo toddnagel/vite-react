@@ -45,9 +45,22 @@ interface WalletConnectionProps {
     onWalletsUpdated?: (wallets: Wallet[]) => void;
 }
 
-const walletConnectTimeoutMs = Number(import.meta.env.VITE_WALLETCONNECT_CONNECT_TIMEOUT_MS || 60000);
-const joeyConnectTimeoutMs = Number(import.meta.env.VITE_JOEY_CONNECT_TIMEOUT_MS || 60000);
 const defaultJoeyChain = 'xrpl:0';
+
+const isXrplWalletType = (walletType: Wallet['wallet_type']) => walletType === 'xaman' || walletType === 'joey';
+
+const addressesMatchForWalletType = (
+    leftAddress: string,
+    rightAddress: string,
+    walletType: Wallet['wallet_type']
+) => {
+    if (isXrplWalletType(walletType)) {
+        // Keep XRPL casing when storing new wallets, but match legacy lowercase records too.
+        return leftAddress === rightAddress || leftAddress.toLowerCase() === rightAddress.toLowerCase();
+    }
+
+    return leftAddress.toLowerCase() === rightAddress.toLowerCase();
+};
 
 function WalletConnectionContent({ auth0Id, accessToken, onWalletsUpdated }: WalletConnectionProps) {
     const { open } = useWeb3Modal();
@@ -71,7 +84,11 @@ function WalletConnectionContent({ auth0Id, accessToken, onWalletsUpdated }: Wal
     const [isAssetsLoading, setIsAssetsLoading] = useState(false);
     const [assetsError, setAssetsError] = useState<string | null>(null);
     const [copiedWalletId, setCopiedWalletId] = useState<number | null>(null);
-    const { showToast } = useToast();
+    const { showToast, clearToasts } = useToast();
+
+    const clearWalletErrorToasts = useCallback(() => {
+        clearToasts('error');
+    }, [clearToasts]);
 
     const tryDisconnectCurrentWallet = useCallback(
         async (currentWallet?: Wallet | null) => {
@@ -282,7 +299,7 @@ function WalletConnectionContent({ auth0Id, accessToken, onWalletsUpdated }: Wal
             try {
                 setIsLoading(true);
 
-                const normalizedAddress = resolvedAddress.toLowerCase();
+                const resolvedJoeyAddress = resolvedAddress;
                 const currentConnectedWallet = wallets.find((wallet) => wallet.is_connected);
 
                 if (pendingJoeyConnectId != null) {
@@ -292,7 +309,7 @@ function WalletConnectionContent({ auth0Id, accessToken, onWalletsUpdated }: Wal
                         return;
                     }
 
-                    if (existingWallet.wallet_address.toLowerCase() !== normalizedAddress) {
+                    if (!addressesMatchForWalletType(existingWallet.wallet_address, resolvedJoeyAddress, 'joey')) {
                         showToast('error', 'Connected Joey account does not match the selected wallet address.');
                         return;
                     }
@@ -308,7 +325,7 @@ function WalletConnectionContent({ auth0Id, accessToken, onWalletsUpdated }: Wal
                 }
 
                 const existingWallet = wallets.find(
-                    (wallet) => wallet.wallet_address.toLowerCase() === normalizedAddress
+                    (wallet) => addressesMatchForWalletType(wallet.wallet_address, resolvedJoeyAddress, 'joey')
                 );
 
                 if (existingWallet) {
@@ -323,7 +340,7 @@ function WalletConnectionContent({ auth0Id, accessToken, onWalletsUpdated }: Wal
 
                 const result = await addWallet(
                     auth0Id,
-                    normalizedAddress,
+                    resolvedJoeyAddress,
                     'joey',
                     'Joey Wallet',
                     accessToken
@@ -379,13 +396,13 @@ function WalletConnectionContent({ auth0Id, accessToken, onWalletsUpdated }: Wal
                     return;
                 }
 
-                const normalizedXrplAddress = xrplAddress.toLowerCase();
+                const resolvedXrplAddress = xrplAddress;
                 const latestWalletsResult = await getUserWallets(auth0Id, accessToken);
                 const latestWallets = latestWalletsResult.success ? latestWalletsResult.wallets || [] : [];
 
                 const currentConnectedWallet = latestWallets.find((wallet) => wallet.is_connected);
                 const existingWallet = latestWallets.find(
-                    (wallet) => wallet.wallet_address.toLowerCase() === normalizedXrplAddress
+                    (wallet) => addressesMatchForWalletType(wallet.wallet_address, resolvedXrplAddress, 'xaman')
                 );
 
                 if (existingWallet) {
@@ -432,40 +449,9 @@ function WalletConnectionContent({ auth0Id, accessToken, onWalletsUpdated }: Wal
         tryDisconnectCurrentWallet,
     ]);
 
-    useEffect(() => {
-        if (!isWalletConnectPending || isWagmiConnected) {
-            return;
-        }
-
-        const timeout = setTimeout(() => {
-            setPendingWalletConnectId(null);
-            setIsWalletConnectPending(false);
-            showToast('error', 'WalletConnect request timed out. Please try again.');
-        }, walletConnectTimeoutMs);
-
-        return () => clearTimeout(timeout);
-    }, [isWalletConnectPending, isWagmiConnected, showToast]);
-
-    useEffect(() => {
-        if (!isJoeyConnectPending || (joeyAccounts && joeyAccounts.length > 0)) {
-            return;
-        }
-
-        const timeout = setTimeout(() => {
-            setPendingJoeyConnectId(null);
-            setIsJoeyConnectPending(false);
-            setShowJoeyQrModal(false);
-            setJoeyConnectUri(null);
-            setJoeyDeepLink(null);
-            setIsLoading(false);
-            showToast('error', 'Joey connection request timed out. Please try again.');
-        }, joeyConnectTimeoutMs);
-
-        return () => clearTimeout(timeout);
-    }, [isJoeyConnectPending, joeyAccounts, showToast]);
-
     const handleConnectXaman = async (walletIdToConnect?: number) => {
         try {
+            clearWalletErrorToasts();
             setIsLoading(true);
 
             if (!isXamanConfigured()) {
@@ -474,7 +460,7 @@ function WalletConnectionContent({ auth0Id, accessToken, onWalletsUpdated }: Wal
             }
 
             const xrplAddress = await authorizeXamanAccount();
-            const normalizedXrplAddress = xrplAddress.toLowerCase();
+            const resolvedXrplAddress = xrplAddress;
 
             if (walletIdToConnect != null) {
                 const targetWallet = wallets.find((wallet) => wallet.id === walletIdToConnect);
@@ -483,7 +469,7 @@ function WalletConnectionContent({ auth0Id, accessToken, onWalletsUpdated }: Wal
                     return;
                 }
 
-                if (targetWallet.wallet_address.toLowerCase() !== normalizedXrplAddress) {
+                if (!addressesMatchForWalletType(targetWallet.wallet_address, resolvedXrplAddress, 'xaman')) {
                     showToast('error', 'Scanned Xaman account does not match the selected wallet address.');
                     return;
                 }
@@ -498,7 +484,7 @@ function WalletConnectionContent({ auth0Id, accessToken, onWalletsUpdated }: Wal
             }
 
             const existingWallet = wallets.find(
-                (wallet) => wallet.wallet_address.toLowerCase() === normalizedXrplAddress
+                (wallet) => addressesMatchForWalletType(wallet.wallet_address, resolvedXrplAddress, 'xaman')
             );
 
             if (existingWallet) {
@@ -541,6 +527,7 @@ function WalletConnectionContent({ auth0Id, accessToken, onWalletsUpdated }: Wal
 
     const handleConnectJoey = async (walletIdToConnect?: number) => {
         try {
+            clearWalletErrorToasts();
             setIsLoading(true);
             setPendingJoeyConnectId(walletIdToConnect ?? null);
             setIsJoeyConnectPending(true);
@@ -601,6 +588,7 @@ function WalletConnectionContent({ auth0Id, accessToken, onWalletsUpdated }: Wal
 
     const handleDisconnect = async () => {
         try {
+            clearWalletErrorToasts();
             setIsLoading(true);
             if (connectedWallet?.wallet_type === 'walletconnect') {
                 await wagmiDisconnectAsync();
@@ -624,6 +612,7 @@ function WalletConnectionContent({ auth0Id, accessToken, onWalletsUpdated }: Wal
 
     const handleConnectExisting = async (walletId: number) => {
         try {
+            clearWalletErrorToasts();
             setIsLoading(true);
 
             const wallet = wallets.find((currentWallet) => currentWallet.id === walletId);
@@ -668,6 +657,7 @@ function WalletConnectionContent({ auth0Id, accessToken, onWalletsUpdated }: Wal
 
     const handleDelete = async (walletId: number) => {
         try {
+            clearWalletErrorToasts();
             setIsLoading(true);
 
             // Check if this is the connected wallet
@@ -706,6 +696,7 @@ function WalletConnectionContent({ auth0Id, accessToken, onWalletsUpdated }: Wal
 
     const handleCopyWalletAddress = async (walletId: number, walletAddress: string) => {
         try {
+            clearWalletErrorToasts();
             await navigator.clipboard.writeText(walletAddress);
             setCopiedWalletId(walletId);
             setTimeout(() => {
@@ -720,6 +711,7 @@ function WalletConnectionContent({ auth0Id, accessToken, onWalletsUpdated }: Wal
     };
 
     const handleSelectWalletType = async (walletType: 'walletconnect' | 'xaman') => {
+        clearWalletErrorToasts();
         setShowAddWalletModal(false);
 
         if (walletType === 'xaman') {

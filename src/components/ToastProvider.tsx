@@ -12,6 +12,7 @@ interface ToastItem {
 
 interface ToastContextValue {
     showToast: (type: ToastType, message: string, durationMs?: number) => void;
+    clearToasts: (type?: ToastType) => void;
 }
 
 const ToastContext = createContext<ToastContextValue | null>(null);
@@ -33,6 +34,24 @@ export function ToastProvider({ children }: { children: ReactNode }) {
                 clearDismissTimeout();
             }
             return current.filter((toast) => toast.id !== id);
+        });
+    }, [clearDismissTimeout]);
+
+    const clearToasts = useCallback((type?: ToastType) => {
+        setToasts((current) => {
+            const hasMatchingToasts = type == null
+                ? current.length > 0
+                : current.some((toast) => toast.type === type);
+
+            if (hasMatchingToasts) {
+                clearDismissTimeout();
+            }
+
+            if (type == null) {
+                return [];
+            }
+
+            return current.filter((toast) => toast.type !== type);
         });
     }, [clearDismissTimeout]);
 
@@ -65,7 +84,7 @@ export function ToastProvider({ children }: { children: ReactNode }) {
         };
     }, [clearDismissTimeout]);
 
-    const value = useMemo(() => ({ showToast }), [showToast]);
+    const value = useMemo(() => ({ showToast, clearToasts }), [clearToasts, showToast]);
 
     return (
         <ToastContext.Provider value={value}>
