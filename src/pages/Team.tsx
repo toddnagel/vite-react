@@ -103,7 +103,7 @@ function OwnerCard({ owner }: { owner: Owner }) {
                 )}
                 {isValidLink(owner.socials?.twitter) && (
                     <a
-                        href={getSocialProfileUrl("twitter", owner.socials!.twitter)}
+                        href={getSocialProfileUrl("twitter", owner.socials?.twitter ?? "")}
                         title={owner.title}
                         target="_blank"
                         rel="noopener noreferrer"
@@ -114,7 +114,7 @@ function OwnerCard({ owner }: { owner: Owner }) {
                 )}
                 {isValidLink(owner.socials?.discord) && (
                     <a
-                        href={getSocialProfileUrl("discord", owner.socials!.discord)}
+                        href={getSocialProfileUrl("discord", owner.socials?.discord ?? "")}
                         title={owner.title}
                         target="_blank"
                         rel="noopener noreferrer"
@@ -125,7 +125,7 @@ function OwnerCard({ owner }: { owner: Owner }) {
                 )}
                 {isValidLink(owner.socials?.tiktok) && (
                     <a
-                        href={getSocialProfileUrl("tiktok", owner.socials!.tiktok)}
+                        href={getSocialProfileUrl("tiktok", owner.socials?.tiktok ?? "")}
                         title={owner.title}
                         target="_blank"
                         rel="noopener noreferrer"
@@ -136,7 +136,7 @@ function OwnerCard({ owner }: { owner: Owner }) {
                 )}
                 {isValidLink(owner.socials?.instagram) && (
                     <a
-                        href={getSocialProfileUrl("instagram", owner.socials!.instagram)}
+                        href={getSocialProfileUrl("instagram", owner.socials?.instagram ?? "")}
                         title={owner.title}
                         target="_blank"
                         rel="noopener noreferrer"
@@ -147,7 +147,7 @@ function OwnerCard({ owner }: { owner: Owner }) {
                 )}
                 {isValidLink(owner.socials?.telegram) && (
                     <a
-                        href={getSocialProfileUrl("telegram", owner.socials!.telegram)}
+                        href={getSocialProfileUrl("telegram", owner.socials?.telegram ?? "")}
                         title={owner.title}
                         target="_blank"
                         rel="noopener noreferrer"
