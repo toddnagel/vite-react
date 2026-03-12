@@ -40,11 +40,30 @@ const socialPlatformOrder: Array<{
     ];
 
 const parseSocialsFromPreferences = (preferences: unknown): PinnedNftSocials => {
-    if (!preferences || typeof preferences !== 'object') {
+    if (!preferences) {
         return {};
     }
 
-    const source = (preferences as { socials?: ProfileSocials }).socials;
+    let parsedPreferences: Record<string, unknown> | null = null;
+
+    if (typeof preferences === 'string') {
+        try {
+            const parsed = JSON.parse(preferences) as unknown;
+            parsedPreferences = parsed && typeof parsed === 'object'
+                ? (parsed as Record<string, unknown>)
+                : null;
+        } catch {
+            return {};
+        }
+    } else if (typeof preferences === 'object') {
+        parsedPreferences = preferences as Record<string, unknown>;
+    }
+
+    if (!parsedPreferences) {
+        return {};
+    }
+
+    const source = parsedPreferences.socials as ProfileSocials | undefined;
     if (!source || typeof source !== 'object') {
         return {};
     }

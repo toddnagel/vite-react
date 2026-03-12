@@ -758,11 +758,13 @@ function WalletConnectionContent({ auth0Id, accessToken, onWalletsUpdated }: Wal
         }
     };
 
-    const handleConfirmDelete = async () => {
+    const handleConfirmDelete = () => {
         if (pendingDeleteId == null) return;
-        await handleDelete(pendingDeleteId);
+
+        const walletIdToDelete = pendingDeleteId;
         setShowDeleteModal(false);
         setPendingDeleteId(null);
+        void handleDelete(walletIdToDelete);
     };
 
     const handleCopyWalletAddress = async (walletId: number, walletAddress: string) => {
