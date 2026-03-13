@@ -666,29 +666,29 @@ function WalletConnectionContent({ auth0Id, accessToken, onWalletsUpdated }: Wal
         }
     };
 
-    const handleDisconnect = async () => {
-        try {
-            clearWalletToasts();
-            setIsLoading(true);
-            if (connectedWallet?.wallet_type === 'walletconnect') {
-                await wagmiDisconnectAsync();
-            } else if (connectedWallet?.wallet_type === 'joey') {
-                await joeyActions.disconnect();
-            } else if (connectedWallet?.wallet_type === 'xaman') {
-                await clearXamanSession();
-            }
-            // Then disconnect at the database level
-            await disconnectWallet(auth0Id, accessToken);
-            showToast('success', 'Wallet disconnected');
-            await loadWallets();
-        } catch (error) {
-            const err = error instanceof Error ? error : new Error(String(error));
-            console.error('Failed to disconnect wallet:', err);
-            showToast('error', `Failed to disconnect: ${err.message}`);
-        } finally {
-            setIsLoading(false);
-        }
-    };
+    // const handleDisconnect = async () => {
+    //     try {
+    //         clearWalletToasts();
+    //         setIsLoading(true);
+    //         if (connectedWallet?.wallet_type === 'walletconnect') {
+    //             await wagmiDisconnectAsync();
+    //         } else if (connectedWallet?.wallet_type === 'joey') {
+    //             await joeyActions.disconnect();
+    //         } else if (connectedWallet?.wallet_type === 'xaman') {
+    //             await clearXamanSession();
+    //         }
+    //         // Then disconnect at the database level
+    //         await disconnectWallet(auth0Id, accessToken);
+    //         showToast('success', 'Wallet disconnected');
+    //         await loadWallets();
+    //     } catch (error) {
+    //         const err = error instanceof Error ? error : new Error(String(error));
+    //         console.error('Failed to disconnect wallet:', err);
+    //         showToast('error', `Failed to disconnect: ${err.message}`);
+    //     } finally {
+    //         setIsLoading(false);
+    //     }
+    // };
 
     const handleConnectExisting = async (walletId: number) => {
         try {
@@ -865,13 +865,6 @@ function WalletConnectionContent({ auth0Id, accessToken, onWalletsUpdated }: Wal
     useEffect(() => {
         void refreshConnectedWalletAssets();
     }, [refreshConnectedWalletAssets]);
-
-    const getConnectionChannel = (walletType: string) => {
-        if (walletType === 'xaman') {
-            return 'Mobile';
-        }
-        return 'Web';
-    };
 
     const sortedWallets = useMemo(
         () => [...wallets].sort((a, b) => new Date(a.created_at).getTime() - new Date(b.created_at).getTime()),
