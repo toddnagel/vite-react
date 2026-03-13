@@ -3,6 +3,10 @@ import { createPortal } from 'react-dom';
 import { useAccount, useDisconnect as useWagmiDisconnect } from 'wagmi';
 import { useWeb3Modal } from '@web3modal/wagmi/react';
 import { standalone as joeyStandalone } from '@joey-wallet/wc-client/react';
+import { walletConnectHandler } from '../walletHandlers/walletConnect';
+import { joeyHandler } from '../walletHandlers/joey';
+import { xamanHandler } from '../walletHandlers/xaman';
+import type { IWalletHandler } from '../walletHandlers/IWalletHandler';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
     faArrowsRotate,
@@ -90,6 +94,15 @@ function WalletConnectionContent({ auth0Id, accessToken, onWalletsUpdated }: Wal
     const [copiedWalletId, setCopiedWalletId] = useState<number | null>(null);
     const [hasAttemptedXamanSessionRepair, setHasAttemptedXamanSessionRepair] = useState(false);
     const { showToast, clearToasts } = useToast();
+
+    // Map wallet types to handlers
+    const walletHandlers: Record<string, IWalletHandler> = {
+        walletconnect: walletConnectHandler,
+        joey: joeyHandler,
+        xaman: xamanHandler,
+    };
+
+    // Example usage: walletHandlers[walletType].connect({...})
 
     const clearWalletToasts = useCallback(() => {
         clearToasts();
