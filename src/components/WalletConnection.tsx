@@ -141,8 +141,12 @@ function WalletConnectionContent({ auth0Id, accessToken, onWalletsUpdated }: Wal
             setIsLoading(true);
             const result = await getUserWallets(auth0Id, accessToken);
             if (result.success) {
-                setWallets(result.wallets || []);
-                onWalletsUpdated?.(result.wallets || []);
+                // Filter out wallets with empty address or invalid type
+                const validWallets = (result.wallets || []).filter(
+                    w => w.wallet_address && typeof w.wallet_address === 'string' && w.wallet_address.trim().length > 0 && w.wallet_type && typeof w.wallet_type === 'string' && w.wallet_type.trim().length > 0
+                );
+                setWallets(validWallets);
+                onWalletsUpdated?.(validWallets);
             }
         } catch (error) {
             console.error('Failed to load wallets:', error);
@@ -822,7 +826,7 @@ function WalletConnectionContent({ auth0Id, accessToken, onWalletsUpdated }: Wal
         }
     };
 
-    const connectedWallet = wallets.find(w => w.is_connected);
+    const connectedWallet = wallets.length > 0 ? wallets.find(w => w.is_connected) : null;
 
     const refreshConnectedWalletAssets = useCallback(async () => {
         if (!connectedWallet) {
@@ -891,138 +895,93 @@ function WalletConnectionContent({ auth0Id, accessToken, onWalletsUpdated }: Wal
     const loadingLabel = isAssetsLoading
         ? 'Loading wallet summary...'
         : isWalletConnectPending || isJoeyConnectPending
-            ? 'Connecting wallet...'
+            ? 'Connecting to wallet...'
             : 'Loading...';
     const shouldUseSummaryMinHeight = isAssetsLoading || ((connectedWalletAssets?.nft_count ?? 0) > 0);
 
     return (
         <div className="relative w-full p-6 bg-black/30 rounded-lg mt-4">
-            <div className="flex justify-between items-center mb-4">
-                <h4 className="text-white text-lg">
-                    My Wallets
-                </h4>
-            </div>
-
-            {wallets.length > 0 ? (
+            {wallets.length > 0 && (
+                <div className="flex justify-between items-center mb-4">
+                    <h4 className="text-white text-lg">
+                        My Wallets
+                    </h4>
+                </div>
+            )}
+            {wallets.length > 0 && (
                 <div className="space-y-3 mb-4">
-                    {sortedWallets.map((wallet) => (
-                        <div
-                            key={wallet.id}
-                            className={`p-4 rounded-lg border ${wallet.is_connected
-                                ? 'bg-green-900/30 border-green-500/60'
-                                : 'bg-white/5 border-white/10'
-                                }`}
-                        >
-                            <div className="flex flex-wrap items-center justify-between gap-2">
-                                <div className="flex-1 min-w-0">
-                                    <div className="flex items-center gap-2">
-                                        <p className="text-white font-mono text-sm break-all">
-                                            {wallet.wallet_address.slice(0, 6)}...{wallet.wallet_address.slice(-4)}
-                                        </p>
+                    {sortedWallets.map((wallet) => {
+                        const truncatedAddress = wallet.wallet_address.length > 12
+                            ? `${wallet.wallet_address.slice(0, 6)}...${wallet.wallet_address.slice(-6)}`
+                            : wallet.wallet_address;
+                        // Custom wallet label logic
+                        let walletLabel = wallet.wallet_label;
+                        if (!walletLabel) {
+                            if (wallet.wallet_type === 'xaman') {
+                                walletLabel = 'Xaman (XUMM)';
+                            } else if (wallet.wallet_type === 'joey') {
+                                walletLabel = 'Joey Wallet';
+                            } else {
+                                walletLabel = wallet.wallet_type.charAt(0).toUpperCase() + wallet.wallet_type.slice(1);
+                            }
+                        }
+                        return (
+                            <div
+                                key={wallet.id}
+                                className={`p-4 rounded-lg border flex items-center justify-between ${wallet.is_connected
+                                    ? 'bg-green-900/30 border-green-500/60'
+                                    : 'bg-white/5 border-white/10'
+                                    }`}
+                            >
+                                <div className="flex flex-col">
+                                    <div className="text-white text-sm font-semibold">
+                                        {walletLabel}
+                                    </div>
+                                    <div className="flex items-center mt-1">
+                                        <span className="text-white/80 text-xs mr-2">
+                                            {truncatedAddress}
+                                        </span>
                                         <button
                                             type="button"
-                                            onClick={() => void handleCopyWalletAddress(wallet.id, wallet.wallet_address)}
-                                            title={copiedWalletId === wallet.id ? 'Copied' : 'Copy wallet address'}
-                                            className="inline-flex h-5 w-5 p-0.5 items-center justify-center rounded border border-blue-600/35 bg-black/35 text-white/85 hover:bg-black/45 hover:text-white"
+                                            title="Copy address"
+                                            className="text-white/60 hover:text-white ml-1 cursor-pointer"
+                                            onClick={() => handleCopyWalletAddress(wallet.id, wallet.wallet_address)}
                                         >
-                                            <FontAwesomeIcon
-                                                icon={copiedWalletId === wallet.id ? faCheck : faCopy}
-                                                className="text-[10px] cursor-pointer"
-                                            />
-                                            <span className="sr-only">
-                                                {copiedWalletId === wallet.id ? '' : 'Copy wallet address'}
-                                            </span>
+                                            <FontAwesomeIcon icon={faCopy} />
                                         </button>
-                                        <span className="text-[10px] h-5 text-green-300 flex items-center">
-                                            {copiedWalletId === wallet.id && (
-                                                <>Copied</>
-                                            )}
-                                        </span>
-                                    </div>
-                                    <div className="mt-2">
-                                        <div className="flex flex-wrap items-center gap-2">
-                                            <span
-                                                className={`inline-flex items-center rounded-full px-2 py-0.5 text-xs font-medium ${wallet.wallet_type === 'xaman'
-                                                    ? 'bg-[#0030cf]/90 text-white/90 border border-white/40'
-                                                    : wallet.wallet_type === 'walletconnect'
-                                                        ? 'bg-emerald-900/60 text-emerald-200 border border-emerald-500/40'
-                                                        : wallet.wallet_type === 'joey'
-                                                            ? 'bg-cyan-900/60 text-cyan-200 border border-cyan-500/40'
-                                                            : 'bg-blue-900/60 text-blue-200 border border-blue-500/40'
-                                                    }`}
-                                            >
-                                                {wallet.wallet_type === 'xaman'
-                                                    ? 'Xaman (XUMM)'
-                                                    : wallet.wallet_type === 'joey'
-                                                        ? 'Joey Wallet'
-                                                        : wallet.wallet_type === 'walletconnect'
-                                                            ? wallet.wallet_label || 'WalletConnect'
-                                                            : wallet.wallet_type}
-                                            </span>
-                                            <span className="inline-flex items-center rounded-full px-2 py-0.5 text-xs font-medium bg-green-600/70 text-white/80 border border-white/40">
-                                                {getConnectionChannel(wallet.wallet_type)}
-                                            </span>
-                                        </div>
+                                        {copiedWalletId === wallet.id && (
+                                            <span className="ml-1 text-green-400 text-xs">Copied!</span>
+                                        )}
                                     </div>
                                 </div>
                                 <div className="flex items-center gap-2">
-                                    {wallet.is_connected ? (
-                                        <>
-                                            <Button
-                                                onClick={() => handleDisconnect()}
-                                                disabled={isLoading}
-                                                title="Disconnect wallet"
-                                                className="w-8 h-8 p-0 bg-orange-600 hover:bg-orange-700 active:bg-orange-800 text-md text-white/85 hover:text-white"
-                                            >
-                                                <FontAwesomeIcon icon={faLinkSlash} className="cursor-pointer" />
-                                                <span className="sr-only">Disconnect wallet</span>
-                                            </Button>
-                                            <Button
-                                                onClick={() => {
-                                                    setPendingDeleteId(wallet.id);
-                                                    setShowDeleteModal(true);
-                                                }}
-                                                title="Remove wallet from profile"
-                                                disabled={isLoading}
-                                                className="cursor-pointer inline-flex h-8 w-8 items-center justify-center rounded-md bg-red-600/60 text-white/85 hover:bg-red-600/40 hover:text-white"
-                                            >
-                                                <FontAwesomeIcon icon={faXmark} className="cursor-pointer" />
-                                                <span className="sr-only">Remove wallet</span>
-                                            </Button>
-                                        </>
-                                    ) : (
-                                        <>
-                                            <Button
-                                                onClick={() => handleConnectExisting(wallet.id)}
-                                                disabled={isLoading}
-                                                title="Connect wallet"
-                                                className="w-8 h-8 p-0 bg-green-600 hover:bg-green-700 active:bg-green-800 disabled:opacity-50 disabled:cursor-not-allowed text-md text-white/85 hover:text-white"
-                                            >
-                                                <FontAwesomeIcon icon={faLink} className="cursor-pointer" />
-                                                <span className="sr-only">Connect wallet</span>
-                                            </Button>
-                                            <Button
-                                                onClick={() => {
-                                                    setPendingDeleteId(wallet.id);
-                                                    setShowDeleteModal(true);
-                                                }}
-                                                title="Remove wallet from profile"
-                                                disabled={isLoading}
-                                                className="cursor-pointer inline-flex h-8 w-8 items-center justify-center rounded-md bg-red-600/60 text-white/85 hover:bg-red-600/40 hover:text-white"
-                                            >
-                                                <FontAwesomeIcon icon={faXmark} className="cursor-pointer" />
-                                                <span className="sr-only">Remove wallet</span>
-                                            </Button>
-                                        </>
+                                    {!wallet.is_connected && (
+                                        <button
+                                            type="button"
+                                            title="Connect wallet"
+                                            className="flex items-center justify-center w-8 h-8 rounded-full bg-green-700 hover:bg-green-800 text-white text-lg cursor-pointer"
+                                            onClick={() => handleConnectExisting(wallet.id)}
+                                        >
+                                            <FontAwesomeIcon icon={faLink} />
+                                        </button>
                                     )}
+                                    <button
+                                        type="button"
+                                        title="Remove wallet"
+                                        className="flex items-center justify-center w-8 h-8 rounded-full bg-red-600 hover:bg-red-700 text-white text-lg cursor-pointer"
+                                        onClick={() => {
+                                            setPendingDeleteId(wallet.id);
+                                            setShowDeleteModal(true);
+                                        }}
+                                    >
+                                        <FontAwesomeIcon icon={faXmark} />
+                                    </button>
                                 </div>
                             </div>
-                        </div>
-                    ))}
+                        );
+                    })}
                 </div>
-            ) : hasAttemptedInitialWalletLoad && !isLoading ? (
-                <p className="text-white/50 text-center py-4 mb-4">No wallets added yet.</p>
-            ) : null}
+            )}
 
             <ModalConfirm
                 isOpen={showDeleteModal}
@@ -1134,56 +1093,56 @@ function WalletConnectionContent({ auth0Id, accessToken, onWalletsUpdated }: Wal
                 ) : wallets.length > 0 ? (
                     'Add Another Wallet'
                 ) : (
-                    'Add New Wallet'
+                    'Connect Wallet'
                 )}
             </Button>
 
-            <div className={`mt-4 rounded-lg border border-white/10 bg-black/20 p-4 ${shouldUseSummaryMinHeight ? 'min-h-[300px]' : ''}`}>
-                {!connectedWallet ? (
-                    <p className="text-white/50 text-sm">No wallet currently connected.</p>
-                ) : isAssetsLoading ? (
-                    <p className="hidden text-white/60 text-sm">Loading wallet summary...</p>
-                ) : assetsError ? (
-                    <p className="text-red-300 text-sm">Wallet summary unavailable: {assetsError}</p>
-                ) : connectedWalletAssets ? (
-                    <div className="space-y-3 text-sm text-white/85">
-                        <div className="flex items-start justify-between gap-3">
-                            <p>
-                                NFTs Found: <span className="font-semibold text-white">{connectedWalletAssets.nft_count}</span>
-                                {' - Click the '}
-                                <span className="mx-1 inline-flex h-5 w-5 items-center justify-center rounded-full border border-black/55 bg-black text-white/85 align-middle">
-                                    <FontAwesomeIcon icon={faThumbtack} className="text-[10px]" />
-                                </span>
-                                {' to pin an NFT to the XoloGlobe'}
-                            </p>
-                            <button
-                                type="button"
-                                onClick={() => void refreshConnectedWalletAssets()}
-                                disabled={!connectedWallet || isAssetsLoading || isLoading}
-                                title="Refresh connected wallet summary"
-                                className="inline-flex h-7 w-7 items-center justify-center cursor-pointer rounded-md border border-white/20 bg-white/15 text-white/70 hover:bg-white/10 hover:text-white disabled:opacity-50 disabled:cursor-not-allowed"
-                            >
-                                <FontAwesomeIcon
-                                    icon={faArrowsRotate}
-                                    className={`cursor-pointer ${isAssetsLoading ? 'animate-spin' : ''}`.trim()}
-                                />
-                                <span className="sr-only">Refresh connected wallet summary</span>
-                            </button>
-                        </div>
+            {wallets.length > 0 && connectedWallet && (
+                <div className={`mt-4 rounded-lg border border-white/10 bg-black/20 p-4 ${shouldUseSummaryMinHeight ? 'min-h-[300px]' : ''}`}>
+                    {isAssetsLoading ? (
+                        <p className="hidden text-white/60 text-sm">Loading wallet summary...</p>
+                    ) : assetsError ? (
+                        <p className="text-red-300 text-sm">Wallet summary unavailable: {assetsError}</p>
+                    ) : connectedWalletAssets ? (
+                        <div className="space-y-3 text-sm text-white/85">
+                            <div className="flex items-start justify-between gap-3">
+                                <p>
+                                    NFTs Found: <span className="font-semibold text-white">{connectedWalletAssets.nft_count}</span>
+                                    {' - Click the '}
+                                    <span className="mx-1 inline-flex h-5 w-5 items-center justify-center rounded-full border border-black/55 bg-black text-white/85 align-middle">
+                                        <FontAwesomeIcon icon={faThumbtack} className="text-[10px]" />
+                                    </span>
+                                    {' to pin an NFT to the XoloGlobe'}
+                                </p>
+                                <button
+                                    type="button"
+                                    onClick={() => void refreshConnectedWalletAssets()}
+                                    disabled={!connectedWallet || isAssetsLoading || isLoading}
+                                    title="Refresh connected wallet summary"
+                                    className="inline-flex h-7 w-7 items-center justify-center cursor-pointer rounded-md border border-white/20 bg-white/15 text-white/70 hover:bg-white/10 hover:text-white disabled:opacity-50 disabled:cursor-not-allowed"
+                                >
+                                    <FontAwesomeIcon
+                                        icon={faArrowsRotate}
+                                        className={`cursor-pointer ${isAssetsLoading ? 'animate-spin' : ''}`.trim()}
+                                    />
+                                    <span className="sr-only">Refresh connected wallet summary</span>
+                                </button>
+                            </div>
 
-                        <NftGallery
-                            nftCount={connectedWalletAssets.nft_count}
-                            nfts={connectedWalletAssets.nfts}
-                            walletAddress={connectedWalletAssets.wallet_address}
-                            isLoading={isLoading}
-                            auth0Id={auth0Id}
-                            accessToken={accessToken}
-                        />
-                    </div>
-                ) : (
-                    <p className="text-white/50 text-sm">No wallet summary available.</p>
-                )}
-            </div>
+                            <NftGallery
+                                nftCount={connectedWalletAssets.nft_count}
+                                nfts={connectedWalletAssets.nfts}
+                                walletAddress={connectedWalletAssets.wallet_address}
+                                isLoading={isLoading}
+                                auth0Id={auth0Id}
+                                accessToken={accessToken}
+                            />
+                        </div>
+                    ) : (
+                        <p className="text-white/50 text-sm">No wallet summary available.</p>
+                    )}
+                </div>
+            )}
 
             {isInteractionBlocked && (
                 <div className="absolute inset-0 z-40 flex items-center justify-center rounded-lg bg-black/55 backdrop-blur-[1px]">
