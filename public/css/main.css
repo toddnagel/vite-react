@@ -1,30 +1,3 @@
-/* Social icon styles to match profile form */
-
-/*
-Theme Name: Orizan
-Author: namespace-it
-Author URI: https://themeforest.net/user/namespace-it
-Description: AIForge - AI Startup & Technology HTML Template 
-Version: 1.0.0
-*/
-/*CSS Table Of Content Ends Here*/
-
-
-.link-btn {
-  display: inline-block;
-  font-size: 17px;
-  font-weight: 700;
-  text-transform: capitalize;
-  color: var(--text);
-}
-.link-btn:hover {
-  color: var(--theme);
-}
-
-/* --------------------------------------------
-    Template Default Fonts & Fonts Styles
- ---------------------------------------------- */
-
 
 ul {
   padding: 0;
@@ -32,7 +5,6 @@ ul {
   list-style: none;
 }
 
-/* Removed global button styles - using Tailwind classes instead */
 
 input:focus {
   color: var(--white);
@@ -43,7 +15,6 @@ input {
   color: var(--white);
 }
 
-/* Removed global h tag styles - using Tailwind classes instead */
 
 
 span {

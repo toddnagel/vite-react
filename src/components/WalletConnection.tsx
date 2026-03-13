@@ -750,7 +750,12 @@ function WalletConnectionContent({ auth0Id, accessToken, onWalletsUpdated }: Wal
 
             // Check if this is the connected wallet
             const walletToDelete = wallets.find(w => w.id === walletId);
-            if (walletToDelete?.is_connected) {
+            if (!walletToDelete) {
+                showToast('error', 'Wallet not found');
+                setIsLoading(false);
+                return;
+            }
+            if (walletToDelete.is_connected) {
                 if (walletToDelete.wallet_type === 'walletconnect') {
                     await wagmiDisconnectAsync();
                 } else if (walletToDelete?.wallet_type === 'joey') {
@@ -760,6 +765,17 @@ function WalletConnectionContent({ auth0Id, accessToken, onWalletsUpdated }: Wal
                 }
                 // Then disconnect at the database level
                 await disconnectWallet(auth0Id, accessToken);
+            }
+
+            // Delete all pinned NFTs for this wallet
+            try {
+                const pinnedNfts = await import('../services/pinnedNftService').then(mod => mod.getPinnedNfts(auth0Id, walletToDelete.wallet_address, accessToken));
+                for (const nft of pinnedNfts) {
+                    await import('../services/pinnedNftService').then(mod => mod.unpinNft(auth0Id, nft.token_id, walletToDelete.wallet_address, accessToken));
+                }
+            } catch (err) {
+                // Log and continue if pin removal fails
+                console.error('Failed to remove pinned NFTs for wallet:', err);
             }
 
             // Now delete the wallet
@@ -944,7 +960,7 @@ function WalletConnectionContent({ auth0Id, accessToken, onWalletsUpdated }: Wal
                                         <button
                                             type="button"
                                             title="Copy address"
-                                            className="text-white/60 hover:text-white ml-1 cursor-pointer"
+                                            className="cursor-pointer text-white/60 hover:text-white ml-1"
                                             onClick={() => handleCopyWalletAddress(wallet.id, wallet.wallet_address)}
                                         >
                                             <FontAwesomeIcon icon={faCopy} />
@@ -959,7 +975,7 @@ function WalletConnectionContent({ auth0Id, accessToken, onWalletsUpdated }: Wal
                                         <button
                                             type="button"
                                             title="Connect wallet"
-                                            className="flex items-center justify-center w-8 h-8 rounded-full bg-green-700 hover:bg-green-800 text-white text-lg cursor-pointer"
+                                            className="cursor-pointer flex items-center justify-center w-8 h-8 rounded-full bg-green-700 hover:bg-green-800 text-white text-lg"
                                             onClick={() => handleConnectExisting(wallet.id)}
                                         >
                                             <FontAwesomeIcon icon={faLink} />
@@ -968,7 +984,7 @@ function WalletConnectionContent({ auth0Id, accessToken, onWalletsUpdated }: Wal
                                     <button
                                         type="button"
                                         title="Remove wallet"
-                                        className="flex items-center justify-center w-8 h-8 rounded-full bg-red-600 hover:bg-red-700 text-white text-lg cursor-pointer"
+                                        className="cursor-pointer flex items-center justify-center w-8 h-8 rounded-full bg-red-600 hover:bg-red-700 text-white text-lg"
                                         onClick={() => {
                                             setPendingDeleteId(wallet.id);
                                             setShowDeleteModal(true);
@@ -986,7 +1002,9 @@ function WalletConnectionContent({ auth0Id, accessToken, onWalletsUpdated }: Wal
             <ModalConfirm
                 isOpen={showDeleteModal}
                 title="Remove wallet?"
-                message="This will remove the wallet from your profile. You can always re-add it later by connecting again."
+                message={
+                    `This will remove the wallet from your profile, you can always re-add it later by connecting again.\n\nAny NFTs in this wallet that are pinned on the XoloGlobe will also be removed.`
+                }
                 confirmLabel="Remove"
                 loading={isLoading}
                 onCancel={() => {

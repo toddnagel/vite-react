@@ -132,7 +132,7 @@ const getSocialProfileUrl = (platform: SocialPlatformKey, rawHandle?: string): s
 
 function Profile() {
     const { user, isAuthenticated, isLoading, getAccessTokenSilently } = useAuth0();
-    const { profile, wallets, setProfile, setWallets, reloadWallets } = useUserContext();
+    const { profile, setProfile, setWallets } = useUserContext();
     const [dbUser, setDbUser] = useState<UserProfile | null>(null);
     const [socials, setSocials] = useState<ProfileSocials>({});
     const [visibleSocialInputs, setVisibleSocialInputs] = useState(createEmptyVisibleInputs());
