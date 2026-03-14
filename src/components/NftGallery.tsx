@@ -485,13 +485,6 @@ export default function NftGallery({ nftCount, nfts, walletAddress, isLoading, a
         setCurrentNftPage(1);
     }, [walletAddress]);
 
-    useEffect(() => {
-        setFailedNftThumbnails({});
-    }, [walletAddress, currentNftPage]);
-
-    useEffect(() => {
-        setLoadedNftThumbnails({});
-    }, [walletAddress, currentNftPage]);
 
     useEffect(() => {
         setResolvedNftThumbnails({});
