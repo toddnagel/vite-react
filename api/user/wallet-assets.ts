@@ -237,7 +237,6 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     }
 
 
-    // Fetch all NFTs using pagination (marker)
     let allNfts: Array<{ NFTokenID: string; Issuer?: string; URI?: string; NFTokenTaxon?: number }> = [];
     let marker: string | undefined = undefined;
     do {
@@ -249,7 +248,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       const resp = await callXrpl<{
         account_nfts?: Array<{ NFTokenID: string; Issuer?: string; URI?: string; NFTokenTaxon?: number }>;
         marker?: string;
-      }>('account_nfts', params).catch(() => ({ account_nfts: [] }));
+      }>('account_nfts', params).catch(() => ({ account_nfts: [], marker: undefined }));
       if (resp.account_nfts) allNfts = allNfts.concat(resp.account_nfts);
       marker = resp.marker;
     } while (marker);
