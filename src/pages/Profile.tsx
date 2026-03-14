@@ -13,6 +13,7 @@ import Button from '../components/Button';
 import ModalConfirm from '../components/ModalConfirm';
 import { useToast } from '../components/ToastProvider';
 import { WalletConnection } from '../components/WalletConnection';
+import { useUserContext } from '../providers/UserContext';
 import {
     getUserProfile,
     type ProfileSocials,
@@ -101,8 +102,37 @@ const normalizeSocials = (socials: ProfileSocials): ProfileSocials =>
         return acc;
     }, {});
 
+const getSocialProfileUrl = (platform: SocialPlatformKey, rawHandle?: string): string | undefined => {
+    if (!rawHandle) {
+        return undefined;
+    }
+
+    const handle = rawHandle.trim().replace(/^@+/, '');
+    if (!handle) {
+        return undefined;
+    }
+
+    const encodedHandle = encodeURIComponent(handle);
+
+    switch (platform) {
+        case 'twitter':
+            return `https://x.com/${encodedHandle}`;
+        case 'discord':
+            return `https://discord.com/users/${encodedHandle}`;
+        case 'tiktok':
+            return `https://tiktok.com/@${encodedHandle}`;
+        case 'instagram':
+            return `https://instagram.com/${encodedHandle}`;
+        case 'telegram':
+            return `https://t.me/${encodedHandle}`;
+        default:
+            return undefined;
+    }
+};
+
 function Profile() {
     const { user, isAuthenticated, isLoading, getAccessTokenSilently } = useAuth0();
+    const { profile, setProfile, setWallets } = useUserContext();
     const [dbUser, setDbUser] = useState<UserProfile | null>(null);
     const [socials, setSocials] = useState<ProfileSocials>({});
     const [visibleSocialInputs, setVisibleSocialInputs] = useState(createEmptyVisibleInputs());
@@ -115,49 +145,21 @@ function Profile() {
     useEffect(() => {
         const loadProfile = async () => {
             if (!isAuthenticated || !user || !user.sub) {
-                console.log('Profile: Not authenticated or no user', { isAuthenticated, hasUser: !!user, hasSub: !!user?.sub });
                 return;
             }
-
             try {
                 setIsLoadingProfile(true);
-
-                //console.log('Profile: Starting to load profile for user:', user.sub);
-                const accessToken = await getAccessTokenSilently().catch((err) => {
-                    console.warn('Profile: Could not get access token:', err);
-                    return undefined;
-                });
-
-                // console.log('Profile: Calling getUserProfile API...');
+                const accessToken = await getAccessTokenSilently().catch(() => undefined);
                 const result = await getUserProfile(user.sub, accessToken);
-                console.log('Profile: API response:', result);
-
                 if (result.success && result.user) {
                     setDbUser(result.user);
                     const loadedSocials = parseSocialsFromPreferences(result.user.preferences);
-                    setSocials(loadedSocials);
+                    setProfile({ auth0Id: user.sub, accessToken, socialHandles: { ...loadedSocials } });
+                    setSocials(parseSocialsFromPreferences(result.user.preferences));
                     setVisibleSocialInputs(createEmptyVisibleInputs());
                 } else {
-                    // User doesn't exist in DB yet - that's okay, they'll be created on sync
-                    console.log('Profile: User not found in DB yet, will be created by sync');
                     setDbUser(null);
-                    setSocials({});
-                    setVisibleSocialInputs(createEmptyVisibleInputs());
-                }
-            } catch (error) {
-                const err = error instanceof Error ? error : new Error(String(error));
-                console.error('Profile: Failed to load profile:', err);
-                console.error('Profile: Error details:', {
-                    message: err.message,
-                    stack: err.stack,
-                    response: undefined
-                });
-
-                // Don't show error if it's just that user doesn't exist yet
-                if (err.message?.includes('404') || err.message?.includes('not found')) {
-                    // User not in database yet - will be created by useUserSync
-                    console.log('Profile: User not found (404) - will be created by sync');
-                    setDbUser(null);
+                    setProfile({ auth0Id: user.sub, accessToken });
                     setSocials({});
                     setVisibleSocialInputs(createEmptyVisibleInputs());
                 }
@@ -165,9 +167,8 @@ function Profile() {
                 setIsLoadingProfile(false);
             }
         };
-
         loadProfile();
-    }, [isAuthenticated, user, getAccessTokenSilently]);
+    }, [isAuthenticated, user, getAccessTokenSilently, setProfile]);
 
     const handleActivateSocial = (key: SocialPlatformKey) => {
         setVisibleSocialInputs((current) => ({
@@ -335,10 +336,10 @@ function Profile() {
                                         {user.name || 'User'}
                                     </h3>
                                     {/* {user.email && (
-                                        <p className="text-white/70 mb-4">
-                                            {user.email}
-                                        </p>
-                                    )} */}
+                                            <p className="text-white/70 mb-4">
+                                                {user.email}
+                                            </p>
+                                        )} */}
                                 </div>
 
                                 <div className="w-full p-6 bg-black/30 rounded-lg mt-4">
@@ -374,32 +375,48 @@ function Profile() {
 
                                     {openSocialPlatforms.length > 0 ? (
                                         <div className="space-y-3">
-                                            {openSocialPlatforms.map((platform) => (
-                                                <div key={platform.key} className="flex items-center gap-2">
-                                                    <div className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-white/20 bg-white/5 text-white/80">
-                                                        <FontAwesomeIcon icon={platform.icon} />
-                                                    </div>
-                                                    <div className="w-full md:w-1/3 md:min-w-[280px]">
-                                                        <div className="relative">
-                                                            <span className="pointer-events-none absolute inset-y-0 left-3 flex items-center text-white/45">@</span>
-                                                            <input
-                                                                value={socials[platform.key] || ''}
-                                                                onChange={(e) => handleSocialInputChange(platform.key, e.target.value)}
-                                                                placeholder={`${platform.label} username`}
-                                                                className="w-full rounded-lg border border-white/20 bg-black/40 pl-8 pr-3 py-2 text-white/90 placeholder:text-white/45 focus:outline-none focus:border-blue-500"
-                                                            />
+                                            {openSocialPlatforms.map((platform) => {
+                                                const profileUrl = getSocialProfileUrl(platform.key, socials[platform.key]);
+
+                                                return (
+                                                    <div key={platform.key} className="flex items-center gap-2">
+                                                        {profileUrl ? (
+                                                            <a
+                                                                href={profileUrl}
+                                                                target="_blank"
+                                                                rel="noopener noreferrer"
+                                                                title={`Open ${platform.label}`}
+                                                                className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-white/20 bg-white/5 text-white/80 hover:border-white/40 hover:bg-white/10 hover:text-white transition-all duration-200"
+                                                            >
+                                                                <FontAwesomeIcon icon={platform.icon} />
+                                                            </a>
+                                                        ) : (
+                                                            <div className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-white/20 bg-white/5 text-white/80">
+                                                                <FontAwesomeIcon icon={platform.icon} />
+                                                            </div>
+                                                        )}
+                                                        <div className="w-full md:w-1/3 md:min-w-[280px]">
+                                                            <div className="relative">
+                                                                <span className="pointer-events-none absolute inset-y-0 left-3 flex items-center text-white/45">@</span>
+                                                                <input
+                                                                    value={socials[platform.key] || ''}
+                                                                    onChange={(e) => handleSocialInputChange(platform.key, e.target.value)}
+                                                                    placeholder={`${platform.label} username`}
+                                                                    className="w-full rounded-lg border border-white/20 bg-black/40 pl-8 pr-3 py-2 text-white/90 placeholder:text-white/45 focus:outline-none focus:border-blue-500"
+                                                                />
+                                                            </div>
                                                         </div>
+                                                        <button
+                                                            type="button"
+                                                            title={`Remove ${platform.label}`}
+                                                            onClick={() => handleRequestRemoveSocial(platform.key)}
+                                                            className="cursor-pointer inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-lg border border-red-500/40 bg-red-600/15 text-red-300 hover:bg-red-600/30"
+                                                        >
+                                                            <FontAwesomeIcon icon={faXmark} />
+                                                        </button>
                                                     </div>
-                                                    <button
-                                                        type="button"
-                                                        title={`Remove ${platform.label}`}
-                                                        onClick={() => handleRequestRemoveSocial(platform.key)}
-                                                        className="cursor-pointer inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-lg border border-red-500/40 bg-red-600/15 text-red-300 hover:bg-red-600/30"
-                                                    >
-                                                        <FontAwesomeIcon icon={faXmark} />
-                                                    </button>
-                                                </div>
-                                            ))}
+                                                );
+                                            })}
                                         </div>
                                     ) : activeSocialPlatforms.length === 0 ? (
                                         <p className="text-white/50 text-sm">No social handles added yet.</p>
@@ -432,10 +449,11 @@ function Profile() {
                                 </div>
 
                                 {/* Wallet Connection Section */}
-                                {user && user.sub && (
+                                {profile && profile.auth0Id && (
                                     <WalletConnection
-                                        auth0Id={user.sub}
-                                        accessToken={undefined}
+                                        auth0Id={profile.auth0Id}
+                                        accessToken={profile.accessToken}
+                                        onWalletsUpdated={setWallets}
                                     />
                                 )}
                             </div>

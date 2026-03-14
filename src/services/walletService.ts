@@ -6,6 +6,7 @@ export interface Wallet {
   user_id: number;
   wallet_address: string;
   wallet_type: string;
+  wallet_label?: string | null;
   is_connected: boolean;
   created_at: string;
   updated_at: string;
@@ -72,6 +73,7 @@ export async function addWallet(
   auth0Id: string,
   walletAddress: string,
   walletType: string,
+  walletLabel?: string,
   accessToken?: string
 ): Promise<WalletResponse> {
   try {
@@ -85,6 +87,7 @@ export async function addWallet(
         auth0_id: auth0Id,
         wallet_address: walletAddress,
         wallet_type: walletType,
+        wallet_label: walletLabel,
       }),
     });
 
@@ -206,6 +209,40 @@ export async function deleteWallet(
     return data;
   } catch (error) {
     console.error('Error deleting wallet:', error);
+    throw error;
+  }
+}
+
+export async function updateWalletAddress(
+  walletId: number,
+  auth0Id: string,
+  walletAddress: string,
+  accessToken?: string
+): Promise<WalletResponse> {
+  try {
+    const response = await fetch(`${API_BASE_URL}/user/wallets/${walletId}`, {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+        ...(accessToken && { Authorization: `Bearer ${accessToken}` }),
+      },
+      body: JSON.stringify({
+        auth0_id: auth0Id,
+        wallet_address: walletAddress,
+      }),
+    });
+
+    if (!response.ok) {
+      const error = (await response
+        .json()
+        .catch(() => ({ error: 'Unknown error' }))) as ApiErrorBody;
+      throw new Error(toApiErrorMessage(response.status, error));
+    }
+
+    const data: WalletResponse = await response.json();
+    return data;
+  } catch (error) {
+    console.error('Error updating wallet address:', error);
     throw error;
   }
 }

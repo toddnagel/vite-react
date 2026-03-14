@@ -10,6 +10,7 @@ import {
 import { faEnvelope } from "@fortawesome/free-solid-svg-icons";
 import GsapPageHeading from "../components/GsapPageHeading";
 import GsapSocialLinks from "../components/GsapSocialLinks";
+import { getSocialProfileUrl } from "../common/getSocialProfileUrl";
 
 interface Owner {
     id: number;
@@ -34,11 +35,11 @@ const owners: Owner[] = [
         image: "/team/Cryptonite.jpg",
         email: "xrparmyis@gmail.com",
         socials: {
-            twitter: "https://x.com/XoloDojo",
-            discord: "https://x.com/XoloDojo",
-            tiktok: "https://x.com/XoloDojo",
-            instagram: "https://x.com/XoloDojo",
-            telegram: "https://x.com/XoloDojo",
+            twitter: "XoloDojo",
+            discord: "XoloDojo",
+            tiktok: "XoloDojo",
+            instagram: "XoloDojo",
+            telegram: "XoloDojo",
         },
     },
     {
@@ -102,7 +103,7 @@ function OwnerCard({ owner }: { owner: Owner }) {
                 )}
                 {isValidLink(owner.socials?.twitter) && (
                     <a
-                        href={owner.socials!.twitter}
+                        href={getSocialProfileUrl("twitter", owner.socials?.twitter ?? "")}
                         title={owner.title}
                         target="_blank"
                         rel="noopener noreferrer"
@@ -113,7 +114,7 @@ function OwnerCard({ owner }: { owner: Owner }) {
                 )}
                 {isValidLink(owner.socials?.discord) && (
                     <a
-                        href={owner.socials!.discord}
+                        href={getSocialProfileUrl("discord", owner.socials?.discord ?? "")}
                         title={owner.title}
                         target="_blank"
                         rel="noopener noreferrer"
@@ -124,7 +125,7 @@ function OwnerCard({ owner }: { owner: Owner }) {
                 )}
                 {isValidLink(owner.socials?.tiktok) && (
                     <a
-                        href={owner.socials!.tiktok}
+                        href={getSocialProfileUrl("tiktok", owner.socials?.tiktok ?? "")}
                         title={owner.title}
                         target="_blank"
                         rel="noopener noreferrer"
@@ -135,7 +136,7 @@ function OwnerCard({ owner }: { owner: Owner }) {
                 )}
                 {isValidLink(owner.socials?.instagram) && (
                     <a
-                        href={owner.socials!.instagram}
+                        href={getSocialProfileUrl("instagram", owner.socials?.instagram ?? "")}
                         title={owner.title}
                         target="_blank"
                         rel="noopener noreferrer"
@@ -146,7 +147,7 @@ function OwnerCard({ owner }: { owner: Owner }) {
                 )}
                 {isValidLink(owner.socials?.telegram) && (
                     <a
-                        href={owner.socials!.telegram}
+                        href={getSocialProfileUrl("telegram", owner.socials?.telegram ?? "")}
                         title={owner.title}
                         target="_blank"
                         rel="noopener noreferrer"
@@ -169,9 +170,9 @@ function Team() {
                 className="relative bg-[url('/Pattern.png')] bg-cover bg-center bg-no-repeat pt-16 pb-4 md:pt-30 border-b border-[#36e9e424]"
             >
                 <GsapPageHeading
-                    eyebrow="Welcome to the XoloDojo"
+                    eyebrow="Meet the XoloDojo Team"
                     heading="A Sacred Legacy of"
-                    accent="Art, Culture, & XRPL"
+                    accent="Friendship, Grind, & Perseverance"
                     iconType="star"
                     iconCount={1}
                     centered
@@ -263,7 +264,7 @@ function Team() {
 
                         <div className="opacity-0 animate-[fadeInUp_0.6s_ease-out_1.1s_forwards] mt-8 clear-both">
                             <p className="mb-4 text-center">
-                                Together, we're not just minting NFTs — we're summoning a global pack of guardians ready to explore, connect, and build the future.
+                                Together, we're not just minting NFTs — we're building a network of passionate individuals ready to connect, collaborate, and build the future.
                             </p>
                         </div>
                     </div>

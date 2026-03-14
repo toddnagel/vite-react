@@ -2,6 +2,7 @@ import SectionParallaxBlobs from "../components/SectionParallaxBlobs";
 import MapBoxXoloGlobe from "../components/MapBoxXoloGlobe";
 import { useSectionParallaxOffsets } from "../hooks/useSectionParallaxOffsets";
 import GsapPageSubHeading from "../components/GsapPageSubHeading";
+import GsapPageHeading from "../components/GsapPageHeading";
 
 function XoloGlobe() {
     const { sectionRef, bgShapeOffset, colorBgOffset, colorBg2Offset } = useSectionParallaxOffsets();
@@ -12,6 +13,14 @@ function XoloGlobe() {
                 className="relative bg-[url('/Pattern.png')] bg-cover bg-center bg-no-repeat pt-16 pb-4 md:pt-30 border-b border-[#36e9e424]"
             >
                 <div className="container mx-auto mb-8 px-4 sm:px-6 lg:px-8">
+                    <GsapPageHeading
+                        eyebrow="The Xoloitzquintle Collection"
+                        heading="A Sacred Legacy of"
+                        accent="Art, Culture, & XRPL"
+                        iconType="star"
+                        iconCount={1}
+                        centered
+                    />
                     <MapBoxXoloGlobe
                         className="relative mx-auto my-4 w-full max-w-7xl overflow-hidden rounded-lg h-90 sm:h-107.5 md:h-130 lg:h-155 xl:h-175"
                     />
