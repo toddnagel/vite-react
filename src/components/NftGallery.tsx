@@ -90,8 +90,6 @@ export default function NftGallery({ nftCount, nfts, walletAddress, isLoading, a
     const navigate = useNavigate();
     const [currentNftPage, setCurrentNftPage] = useState(1);
     // Track failed state per tokenId (boolean)
-    const [failedNftThumbnails, setFailedNftThumbnails] = useState<Record<string, boolean>>({});
-    const [loadedNftThumbnails, setLoadedNftThumbnails] = useState<Record<string, boolean>>({});
     const [resolvedNftThumbnails, setResolvedNftThumbnails] = useState<Record<string, string | null>>({});
     const [resolvedNftTitles, setResolvedNftTitles] = useState<Record<string, string | null>>({});
     const [resolvedNftCollections, setResolvedNftCollections] = useState<Record<string, string | null>>({});
