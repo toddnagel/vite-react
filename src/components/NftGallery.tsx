@@ -946,7 +946,7 @@ export default function NftGallery({ nftCount, nfts, walletAddress, isLoading, a
                                             alt="NFT thumbnail"
                                             className="h-full w-full"
                                             style={{ minHeight: 40 }}
-                                            onLoad={e => handleGalleryImageLoad(nft.token_id, e?.target?.src || directCandidates[0])}
+                                            onLoad={e => handleGalleryImageLoad(nft.token_id, (e.target as HTMLImageElement).src)}
                                         />
                                     </div>
                                 );
