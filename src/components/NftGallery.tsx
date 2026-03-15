@@ -101,6 +101,13 @@ export default function NftGallery({ nftCount, nfts, walletAddress, isLoading, a
     const [pendingUnpinTokenId, setPendingUnpinTokenId] = useState<string | null>(null);
     const [isPinActionLoading, setIsPinActionLoading] = useState(false);
     const [isSelectedNftImageLoaded, setIsSelectedNftImageLoaded] = useState(false);
+    // Cache loaded NFT image URLs by tokenId
+    const [loadedNftImageUrls, setLoadedNftImageUrls] = useState<Record<string, string>>({});
+
+    // Helper to handle image load in gallery and cache the URL
+    const handleGalleryImageLoad = (tokenId: string, src: string) => {
+        setLoadedNftImageUrls((prev) => ({ ...prev, [tokenId]: src }));
+    };
     const [pinLocation, setPinLocation] = useState<{ lng: number; lat: number } | null>(null);
     const [pinTitleInput, setPinTitleInput] = useState('');
     const [pinSuccessState, setPinSuccessState] = useState<{
@@ -686,7 +693,10 @@ export default function NftGallery({ nftCount, nfts, walletAddress, isLoading, a
         ? getNftThumbnailUrl(selectedNft.token_id, selectedNft.uri)
         : null;
 
-    const selectedNftThumbnailSrc = getNftThumbnailSrc(selectedNftThumbnailUrl);
+    // Use cached image URL for modal if available
+    const selectedNftThumbnailSrc = selectedNft && loadedNftImageUrls[selectedNft.token_id]
+        ? loadedNftImageUrls[selectedNft.token_id]
+        : getNftThumbnailSrc(selectedNftThumbnailUrl);
 
     useEffect(() => {
         setIsSelectedNftImageLoaded(false);
@@ -907,7 +917,6 @@ export default function NftGallery({ nftCount, nfts, walletAddress, isLoading, a
                             {(() => {
                                 let directCandidates = getDirectNftThumbnailCandidates(nft.uri).filter(Boolean);
                                 const isCollectionFallback = collectionFallbackTokens[nft.token_id] === true;
-                                // Fallback to resolved thumbnail if available
                                 const resolved = resolvedNftThumbnails[nft.token_id];
                                 if ((!directCandidates || directCandidates.length === 0) && resolved) {
                                     directCandidates = [resolved];
@@ -923,7 +932,7 @@ export default function NftGallery({ nftCount, nfts, walletAddress, isLoading, a
                                 if (!directCandidates || directCandidates.length === 0) {
                                     return (
                                         <div className={`relative h-auto w-full aspect-square max-h-[200px] overflow-hidden rounded border ${isCollectionFallback ? 'border-red-600' : 'border-white/10'} flex items-center justify-center bg-white/5`}>
-                                            <span className="text-xs text-white/40">No image</span>
+                                            <FontAwesomeIcon icon={faSpinner} className="text-white/60 animate-spin text-2xl" />
                                         </div>
                                     );
                                 }
@@ -936,6 +945,7 @@ export default function NftGallery({ nftCount, nfts, walletAddress, isLoading, a
                                             alt="NFT thumbnail"
                                             className="h-full w-full"
                                             style={{ minHeight: 40 }}
+                                            onLoad={e => handleGalleryImageLoad(nft.token_id, (e.target as HTMLImageElement).src)}
                                         />
                                     </div>
                                 );
