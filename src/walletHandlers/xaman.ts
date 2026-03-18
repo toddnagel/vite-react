@@ -41,18 +41,7 @@ export function getXamanClient() {
 	return xamanPkce;
 }
 
-function hasXamanRedirectParams() {
-	if (typeof window === 'undefined') {
-		return false;
-	}
-	const params = new URLSearchParams(window.location.search);
-	return Boolean(
-		params.get('authorization_code') ||
-			params.get('access_token') ||
-			params.get('error') ||
-			params.get('error_description')
-	);
-}
+
 
 export const xamanHandler: IWalletHandler = {
 	async connect({
@@ -67,11 +56,11 @@ export const xamanHandler: IWalletHandler = {
 		tryDisconnectCurrentWallet,
 		connectWallet,
 		addWallet,
-		showToast,
-		setWallets,
-		onWalletsUpdated,
-		getUserWallets,
-		connectedWallet,
+		// showToast,
+		// setWallets,
+		// onWalletsUpdated,
+		// getUserWallets,
+		// connectedWallet,
 	}) {
 		try {
 			setIsLoading?.(true);
@@ -144,7 +133,7 @@ export const xamanHandler: IWalletHandler = {
 			xamanPkce = null;
 		}
 	},
-	async repair({ wallets, auth0Id, accessToken, repairWalletAddressIfNeeded, loadWallets, setShowToast }) {
+	async repair({ wallets, repairWalletAddressIfNeeded, loadWallets, setShowToast }) {
 		// Example repair logic for Xaman wallet address casing
 		const currentConnectedWallet = wallets.find((wallet: any) => wallet.is_connected && wallet.wallet_type === 'xaman');
 		if (!currentConnectedWallet) return;
