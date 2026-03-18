@@ -170,9 +170,9 @@ function Team() {
                 className="relative bg-[url('/Pattern.png')] bg-cover bg-center bg-no-repeat pt-16 pb-4 md:pt-30 border-b border-[#36e9e424]"
             >
                 <GsapPageHeading
-                    eyebrow="Welcome to the XoloDojo"
+                    eyebrow="Meet the XoloDojo Team"
                     heading="A Sacred Legacy of"
-                    accent="Art, Culture, & XRPL"
+                    accent="Friendship, Grind, & Perseverance"
                     iconType="star"
                     iconCount={1}
                     centered
@@ -264,7 +264,7 @@ function Team() {
 
                         <div className="opacity-0 animate-[fadeInUp_0.6s_ease-out_1.1s_forwards] mt-8 clear-both">
                             <p className="mb-4 text-center">
-                                Together, we're not just minting NFTs — we're summoning a global pack of guardians ready to explore, connect, and build the future.
+                                Together, we're not just minting NFTs — we're building a network of passionate individuals ready to connect, collaborate, and build the future.
                             </p>
                         </div>
                     </div>

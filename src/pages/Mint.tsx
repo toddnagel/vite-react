@@ -34,14 +34,14 @@ function Mint() {
                             centered
                         />
                         <GsapPageContent as="p" className="mb-4">
-                            Claim Your Sacred Guide from the collection of 10,001 Unique XRPL NFTs hand-drawn with deep Mesoamerican roots, featuring 7 distinct traits + 217 sub-traits by RedShadow.
+                            Claim Your Sacred Guide from the collection of 10,001 Unique Xoloitzquintle XRPL NFTs. Featuring 11 Traits and 311 subtraits, each individually hand-drawn by crypto artist RedShadow.
                             Built on the eco-friendly XRP Ledger: fast transactions, low fees, no gas wars.
                         </GsapPageContent>
                         <GsapPageContent as="p" className="mb-4" delay={0.06}>
                             Mint Status: Coming Soon
                             Launching on the premier XRPL marketplace, the xrp.cafe.
                             Exact date, price, and allowlist details TBA — stay tuned via @XoloDojo and xolodojo.io.
-                            Prepare now to own your loyal Xolo guardian and unlock the XoloGlobe: a token-gated world map for holders to connect, share locations, plan travel swaps, and build community IRL.
+                            Prepare now to own your loyal Xolo guardian and unlock the XoloGlobe: a token-gated world map for holders to connect, share locations, plan travel or good swaps, and build community IRL.
                         </GsapPageContent>
                         <GsapPageContent as="p" className="mb-4" delay={0.1}>
                             One Mint, One NFT, One Pin at a time
@@ -64,11 +64,10 @@ function Mint() {
                                     </span>
                                     <ul className="list-items mt-2 ml-4">
                                         <li>
-                                            Xaman (recommended for ease)
+                                            Create or use an existing wallet.  Xaman and Joey wallet are user-friendly options for beginners, offering seamless XRPL integration and secure key management.
                                         </li>
                                         <li>
-                                            MadLabs / Xoge (advanced features)
-                                            Create or use an existing wallet. Back up your seed phrase securely — never share it.
+                                            Back up your seed phrase securely — never share it.
                                         </li>
                                     </ul>
                                 </li>
@@ -77,7 +76,7 @@ function Mint() {
                                         <strong className="text-[#f7eab7]">Fund with XRP (Minimum 20+ Recommended)</strong>
                                     </span>
                                     <p className="mt-2">
-                                        The XRP Ledger requires a base reserve of 1 XRP to interact with it, with nominal fees for transactions and minting. To ensure a smooth minting experience, we recommend having at least 20 XRP in your wallet to cover all costs and potential fluctuations.
+                                        The XRP Ledger requires a base reserve of 1 XRP to interact with it, with nominal fees for transactions and minting. To ensure a smooth minting experience, we recommend having at least 20 XRP in your wallet. This allows for wallet activation, transaction costs, and mint fees without needing to worry about running out of funds during the process.
                                     </p>
                                     <ul className="list-items mt-2 ml-4">
                                         <li>

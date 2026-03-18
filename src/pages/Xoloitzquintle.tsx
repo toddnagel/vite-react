@@ -67,12 +67,8 @@ function Xoloitzquintle() {
                                 Fast-forward to today: in the Xolo Dojo, we're resurrecting this epic saga on the XRPL. Your XoloNFT isn't just a pretty (or gloriously wrinkly) piece of digital art—it's a sacred guardian reborn, channeling Xolotl's fierce loyalty, trickster smarts, and unbreakable bonds. Mint one, pin it, and unlock XoloGlobe—where holders reach out P2P, turn strangers into allies, share skills, trade services, or plan real-world adventures. Just like the gods' twin pact: no middleman, no limits, eternal vibes.
                             </p>
 
-                            <p className="opacity-0 animate-[fadeInUp_0.6s_ease-out_1.3s_forwards]">
-                                One Xolo, one journey, one legendary pack.
-                            </p>
-
                             <p className="opacity-0 animate-[fadeInUp_0.6s_ease-out_1.4s_forwards]">
-                                Why the quirky spelling "Xoloitzquintle" (with that "qu" instead of "cu")? It's a loving nod to old-school Nahuatl orthography and how Spanish chroniclers/translators rendered the original xōlōitzcuintli (pronounced roughly "show-low-eats-QUEENT-lee"). The "qu" captures the guttural, ancient Aztec sound more faithfully in some traditional texts and codex styles—think of it as the mythic equivalent of using "ye olde" English for flair. We chose it to honor the deep cultural roots, keep the lore authentic, and give our guardians that extra layer of timeless mystery. (Plus, it looks cooler than plain "cu"—admit it.)
+                                Why the quirky spelling "Xoloitzquintle" (with that "qu" instead of "cu")? It's a loving nod to old-school Nahuatl orthography and how Spanish chroniclers/translators rendered the original xōlōitzcuintli (pronounced roughly "show-low-eats-QUEENT-lee"). The "qu" captures the guttural, ancient Aztec sound more faithfully in some traditional texts and codex styles—think of it as the mythic equivalent of using "ye olde" English for flair. We chose it to honor the deep cultural roots, keep the lore authentic, and give our guardians that extra layer of timeless mystery.
                             </p>
 
                             <p className="opacity-0 animate-[fadeInUp_0.6s_ease-out_1.5s_forwards]">
