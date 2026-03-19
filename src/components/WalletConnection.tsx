@@ -191,7 +191,8 @@ function WalletConnectionContent({ auth0Id, accessToken, onWalletsUpdated, resum
             }
         } catch (error) {
             console.error('Failed to load wallets:', error);
-            showToast('error', 'Failed to load wallets');
+            const err = error instanceof Error ? error : new Error(String(error));
+            showToast('error', `Failed to load wallets: ${err.message}`);
         } finally {
             setIsLoading(false);
             //setHasAttemptedInitialWalletLoad(true);
