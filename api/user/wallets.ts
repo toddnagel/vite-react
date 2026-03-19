@@ -3,6 +3,16 @@ import mysql from 'mysql2/promise';
 
 let pool: mysql.Pool | null = null;
 
+function getDbDebugInfo() {
+  return {
+    host: process.env.DB_HOST || 'localhost',
+    port: parseInt(process.env.DB_PORT || '3308'),
+    database: process.env.DB_NAME || 'donovan_db',
+    nodeEnv: process.env.NODE_ENV || 'development',
+    vercelEnv: process.env.VERCEL_ENV || 'local',
+  };
+}
+
 function getPool(): mysql.Pool {
   if (!pool) {
     pool = mysql.createPool({
@@ -157,12 +167,22 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         };
       });
 
-      return res.status(200).json({
+      res.status(200).json({
         success: true,
         wallets,
       });
+      return;
     } catch (error: any) {
-      console.error('Error fetching wallets:', error);
+      console.error('Error fetching wallets:', {
+        message: error?.message,
+        code: error?.code,
+        errno: error?.errno,
+        sqlState: error?.sqlState,
+        sqlMessage: error?.sqlMessage,
+        address: error?.address,
+        port: error?.port,
+        db: getDbDebugInfo(),
+      });
       return res
         .status(500)
         .json({ error: 'Internal server error', details: error.message });
@@ -174,7 +194,8 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     try {
       const { auth0_id, wallet_address, wallet_type, wallet_label } = req.body;
       if (!auth0_id || !wallet_address || !wallet_type) {
-        return res.status(400).json({ error: 'Missing required fields' });
+        res.status(400).json({ error: 'Missing required fields' });
+        return;
       }
 
       // Get user ID
@@ -207,9 +228,8 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       );
 
       if (duplicateWallet) {
-        return res
-          .status(409)
-          .json({ error: 'Wallet already exists for this user' });
+        res.status(409).json({ error: 'Wallet already exists for this user' });
+        return;
       }
 
       // Insert new wallet (default: is_connected = false)
@@ -242,7 +262,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         [insertResult.insertId]
       )) as [any[], any];
 
-      return res.status(201).json({
+      res.status(201).json({
         success: true,
         wallet:
           Array.isArray(newWallet) && newWallet.length > 0
@@ -253,13 +273,23 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
             : null,
         message: 'Wallet added successfully',
       });
+      return;
     } catch (error: any) {
-      console.error('Error adding wallet:', error);
-      return res
-        .status(500)
-        .json({ error: 'Internal server error', details: error.message });
+      console.error('Error adding wallet:', {
+        message: error?.message,
+        code: error?.code,
+        errno: error?.errno,
+        sqlState: error?.sqlState,
+        sqlMessage: error?.sqlMessage,
+        address: error?.address,
+        port: error?.port,
+        db: getDbDebugInfo(),
+      });
+      res.status(500).json({ error: 'Internal server error', details: error.message });
+      return;
     }
   }
 
-  return res.status(405).json({ error: 'Method not allowed' });
+  res.status(405).json({ error: 'Method not allowed' });
+  return;
 }
