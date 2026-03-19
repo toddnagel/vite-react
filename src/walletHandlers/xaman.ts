@@ -41,6 +41,38 @@ export function getXamanClient() {
 	return xamanPkce;
 }
 
+function toReadableErrorMessage(error: unknown): string {
+	if (error instanceof Error && error.message) {
+		return error.message;
+	}
+
+	if (typeof error === 'string' && error.trim()) {
+		return error;
+	}
+
+	if (error && typeof error === 'object') {
+		const anyError = error as Record<string, unknown>;
+		const candidates = [
+			anyError.message,
+			anyError.error,
+			anyError.reason,
+			anyError.description,
+		];
+		for (const candidate of candidates) {
+			if (typeof candidate === 'string' && candidate.trim()) {
+				return candidate;
+			}
+		}
+		try {
+			return JSON.stringify(anyError);
+		} catch {
+			// ignore JSON stringify errors
+		}
+	}
+
+	return 'Unknown error';
+}
+
 
 
 export const xamanHandler: IWalletHandler = {
@@ -116,8 +148,9 @@ export const xamanHandler: IWalletHandler = {
 			await loadWallets();
 			setShowToast?.('success', 'Xaman wallet added and connected!');
 		} catch (error) {
-			const err = error instanceof Error ? error : new Error(String(error));
-			setShowToast?.('error', `Failed to connect Xaman: ${err.message}`);
+			const readableMessage = toReadableErrorMessage(error);
+			console.error('[Xaman][connect] Failed:', error);
+			setShowToast?.('error', `Failed to connect Xaman: ${readableMessage}`);
 		} finally {
 			setIsLoading?.(false);
 		}
