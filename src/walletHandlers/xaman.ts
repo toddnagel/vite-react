@@ -41,6 +41,17 @@ export function getXamanClient() {
 	return xamanPkce;
 }
 
+function shouldUseRedirectResumePolling() {
+	if (typeof window === 'undefined') return false;
+	try {
+		const url = new URL(window.location.href);
+		const flag = url.searchParams.get('xaman_return');
+		return flag === '1';
+	} catch {
+		return false;
+	}
+}
+
 function toReadableErrorMessage(error: unknown): string {
 	if (error instanceof Error && error.message) {
 		return error.message;
@@ -101,10 +112,24 @@ export const xamanHandler: IWalletHandler = {
 				return;
 			}
 			const client = getXamanClient();
-			// First try to read existing PKCE state (important for mobile redirects)
+			const usePolling = shouldUseRedirectResumePolling();
+
+			// Try to read existing PKCE state (important for mobile redirects)
 			let flow = await client.state();
 			let resolvedXrplAddress = flow?.me?.account as string | undefined;
-			// If no active account in state, start a new authorize() flow (desktop or first-time mobile)
+
+			// On mobile redirect we may need a short polling window for state to hydrate
+			if (usePolling && !resolvedXrplAddress) {
+				for (let attempt = 0; attempt < 10 && !resolvedXrplAddress; attempt += 1) {
+					// eslint-disable-next-line no-console
+					console.log('[Xaman][connect] Polling state after redirect, attempt', attempt + 1);
+					await new Promise((resolve) => setTimeout(resolve, 300));
+					flow = await client.state();
+					resolvedXrplAddress = flow?.me?.account as string | undefined;
+				}
+			}
+
+			// If still no active account in state, start a new authorize() flow (desktop or first-time mobile)
 			if (!resolvedXrplAddress) {
 				flow = await client.authorize();
 				resolvedXrplAddress = flow?.me?.account as string | undefined;
