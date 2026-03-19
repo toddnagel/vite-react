@@ -2,7 +2,12 @@ import { useState, useCallback, useEffect } from 'react';
 import { standalone as joeyStandalone } from '@joey-wallet/wc-client/react';
 
 export function useJoeyWalletConnect({ showToast }: { showToast: (type: 'success' | 'error', message: string, durationMs?: number) => void }) {
-    const { actions: joeyActions, session, account } = joeyStandalone.provider.useProvider();
+    // The Joey provider context type doesn't currently expose `account` in its TS definition,
+    // but it is present at runtime. Cast to `any` here so we can safely read it.
+    const joeyContext = joeyStandalone.provider.useProvider() as any;
+    const joeyActions = joeyContext.actions;
+    const session = joeyContext.session as unknown;
+    const account = joeyContext.account as string | null | undefined;
     const [isJoeyConnectPending, setIsJoeyConnectPending] = useState(false);
     const [showJoeyQrModal, setShowJoeyQrModal] = useState(false);
     const [joeyConnectUri, setJoeyConnectUri] = useState<string | null>(null);
