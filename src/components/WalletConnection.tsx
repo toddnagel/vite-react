@@ -497,18 +497,34 @@ function WalletConnectionContent({ auth0Id, accessToken, onWalletsUpdated, resum
     ]);
 
 
-    // Xaman redirect recovery can be handled in the handler if needed, or here if you want to keep the logic
+    // Xaman redirect recovery: pass resumeFromRedirect so PKCE state polling runs even after
+    // Profile strips ?xaman_return=1 from the URL (otherwise polling never activated).
 
-    const handleConnectXaman = async (walletIdToConnect?: number) => {
-        clearWalletToasts();
-        await xamanHandler.connect({ ...xamanHandlerArgs, walletIdToConnect });
-    };
+    const handleConnectXaman = useCallback(
+        async (walletIdToConnect?: number, opts?: { resumeFromRedirect?: boolean }) => {
+            clearWalletToasts();
+            const resumeFromRedirect = opts?.resumeFromRedirect === true;
+            // eslint-disable-next-line no-console
+            console.log('[WalletConnection][Xaman] handleConnectXaman', {
+                walletIdToConnect: walletIdToConnect ?? null,
+                resumeFromRedirect,
+            });
+            await xamanHandler.connect({
+                ...xamanHandlerArgs,
+                walletIdToConnect,
+                resumeFromRedirect,
+            });
+        },
+        [xamanHandlerArgs]
+    );
 
     // When coming back from a Xaman redirect on mobile, optionally resume the Xaman connect flow once.
     useEffect(() => {
         if (!resumeXamanOnMount || hasResumedXamanOnMount) return;
         setHasResumedXamanOnMount(true);
-        void handleConnectXaman();
+        // eslint-disable-next-line no-console
+        console.log('[WalletConnection][Xaman] resume on mount: calling connect with resumeFromRedirect');
+        void handleConnectXaman(undefined, { resumeFromRedirect: true });
     }, [resumeXamanOnMount, hasResumedXamanOnMount, handleConnectXaman]);
 
     const handleDelete = async (walletId: number) => {

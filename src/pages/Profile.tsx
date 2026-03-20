@@ -92,10 +92,16 @@ function Profile() {
         const url = new URL(window.location.href);
         const returnFlag = url.searchParams.get('xaman_return');
         if (returnFlag === '1') {
+            // eslint-disable-next-line no-console
+            console.log('[Profile][Xaman] Detected xaman_return=1; will resume Xaman connect after URL cleanup', {
+                before: window.location.href,
+            });
             setResumeXamanOnMount(true);
             url.searchParams.delete('xaman_return');
             const newUrl = `${url.pathname}${url.search}${url.hash}`;
             window.history.replaceState({}, '', newUrl);
+            // eslint-disable-next-line no-console
+            console.log('[Profile][Xaman] URL cleaned (xaman_return removed)', { after: newUrl });
         }
     }, [isAuthenticated, user]);
 
