@@ -52,6 +52,53 @@ function shouldUseRedirectResumePolling() {
 	}
 }
 
+/** Safe console logging: redacts jwt/token-like fields (full flow may contain secrets). */
+function redactForLog(value: unknown, depth = 0): unknown {
+	if (depth > 6) return '[max depth]';
+	if (value === null || value === undefined) return value;
+	if (typeof value !== 'object') return value;
+	if (Array.isArray(value)) {
+		return value.slice(0, 20).map((item) => redactForLog(item, depth + 1));
+	}
+	const out: Record<string, unknown> = {};
+	for (const [k, v] of Object.entries(value as Record<string, unknown>)) {
+		const lower = k.toLowerCase();
+		if (
+			lower.includes('jwt') ||
+			lower.includes('token') ||
+			lower === 'authorization' ||
+			lower === 'access_token' ||
+			lower === 'refresh_token'
+		) {
+			out[k] =
+				typeof v === 'string' ? `[redacted string len=${v.length}]` : '[redacted]';
+		} else {
+			out[k] = redactForLog(v, depth + 1);
+		}
+	}
+	return out;
+}
+
+function summarizeXamanState(flow: unknown): Record<string, unknown> {
+	const base: Record<string, unknown> = {
+		type: typeof flow,
+		isNull: flow == null,
+	};
+	if (!flow || typeof flow !== 'object') {
+		return base;
+	}
+	const f = flow as Record<string, unknown>;
+	const me = f.me as Record<string, unknown> | undefined;
+	base.topLevelKeys = Object.keys(f);
+	base.hasMe = Boolean(me);
+	if (me && typeof me === 'object') {
+		base.meKeys = Object.keys(me);
+		base.meAccount = me.account;
+		base.meSub = me.sub;
+	}
+	return base;
+}
+
 function toReadableErrorMessage(error: unknown): string {
 	if (error instanceof Error && error.message) {
 		return error.message;
@@ -99,6 +146,8 @@ export const xamanHandler: IWalletHandler = {
 		tryDisconnectCurrentWallet,
 		connectWallet,
 		addWallet,
+		/** Set true when Profile resumed connect after stripping ?xaman_return=1 from URL */
+		resumeFromRedirect,
 		// showToast,
 		// setWallets,
 		// onWalletsUpdated,
@@ -112,34 +161,74 @@ export const xamanHandler: IWalletHandler = {
 				return;
 			}
 			const client = getXamanClient();
-			const usePolling = shouldUseRedirectResumePolling();
+			const urlStillHasReturnFlag = shouldUseRedirectResumePolling();
+			// URL flag is often stripped in Profile before connect runs — use resumeFromRedirect from WalletConnection too
+			const usePolling = urlStillHasReturnFlag || resumeFromRedirect === true;
+
+			// eslint-disable-next-line no-console
+			console.log('[Xaman][connect] start', {
+				href: typeof window !== 'undefined' ? window.location.href : 'n/a',
+				redirectUrl: getXamanRedirectUrl(),
+				rememberJwt: rememberXamanJwt,
+				urlStillHasReturnFlag,
+				resumeFromRedirect: resumeFromRedirect === true,
+				usePolling,
+				walletIdToConnect: walletIdToConnect ?? null,
+			});
 
 			// Try to read existing PKCE state (important for mobile redirects)
 			let flow = await client.state();
 			let resolvedXrplAddress = flow?.me?.account as string | undefined;
 
+			// eslint-disable-next-line no-console
+			console.log('[Xaman][connect] initial state()', summarizeXamanState(flow), 'redacted:', redactForLog(flow));
+
 			// On mobile redirect we may need a short polling window for state to hydrate
 			if (usePolling && !resolvedXrplAddress) {
 				for (let attempt = 0; attempt < 10 && !resolvedXrplAddress; attempt += 1) {
 					// eslint-disable-next-line no-console
-					console.log('[Xaman][connect] Polling state after redirect, attempt', attempt + 1);
+					console.log('[Xaman][connect] Polling state after redirect, attempt', attempt + 1, '/ 10');
 					await new Promise((resolve) => setTimeout(resolve, 300));
 					flow = await client.state();
 					resolvedXrplAddress = flow?.me?.account as string | undefined;
+					// eslint-disable-next-line no-console
+					console.log('[Xaman][connect] polled state()', summarizeXamanState(flow));
 				}
 			}
 
 			// If still no active account in state, start a new authorize() flow (desktop or first-time mobile)
 			if (!resolvedXrplAddress) {
-				flow = await client.authorize();
+				// eslint-disable-next-line no-console
+				console.warn('[Xaman][connect] No account from state(); calling authorize()', {
+					usePolling,
+					resumeFromRedirect,
+				});
+				try {
+					flow = await client.authorize();
+				} catch (authErr) {
+					// eslint-disable-next-line no-console
+					console.error('[Xaman][connect] authorize() threw', authErr);
+					throw authErr;
+				}
 				resolvedXrplAddress = flow?.me?.account as string | undefined;
+				// eslint-disable-next-line no-console
+				console.log('[Xaman][connect] after authorize()', summarizeXamanState(flow));
 			}
 			if (!resolvedXrplAddress) {
+				// eslint-disable-next-line no-console
+				console.error('[Xaman][connect] Still no XRPL account after state/authorize', {
+					summary: summarizeXamanState(flow),
+				});
 				setShowToast?.('error', 'No XRPL account returned from Xaman sign-in.');
 				return;
 			}
+
+			// eslint-disable-next-line no-console
+			console.log('[Xaman][connect] resolved XRPL address', resolvedXrplAddress);
 			let currentConnectedWallet = wallets.find((wallet: any) => wallet.is_connected);
 			if (walletIdToConnect != null) {
+				// eslint-disable-next-line no-console
+				console.log('[Xaman][connect] branch: walletIdToConnect', walletIdToConnect);
 				const targetWallet = wallets.find((wallet: any) => wallet.id === walletIdToConnect);
 				if (!targetWallet) {
 					setShowToast?.('error', 'Wallet not found');
@@ -160,6 +249,8 @@ export const xamanHandler: IWalletHandler = {
 			}
 			const existingWallet = wallets.find((wallet: any) => wallet.wallet_address === resolvedXrplAddress);
 			if (existingWallet) {
+				// eslint-disable-next-line no-console
+				console.log('[Xaman][connect] branch: existing wallet', existingWallet.id, existingWallet.wallet_address);
 				const repairedWallet = await repairWalletAddressIfNeeded(existingWallet, resolvedXrplAddress);
 				if (currentConnectedWallet && currentConnectedWallet.id !== repairedWallet.id) {
 					await tryDisconnectCurrentWallet(currentConnectedWallet);
@@ -169,12 +260,17 @@ export const xamanHandler: IWalletHandler = {
 				setShowToast?.('success', 'Xaman wallet connected');
 				return;
 			}
+			// eslint-disable-next-line no-console
+			console.log('[Xaman][connect] branch: addWallet new xaman', resolvedXrplAddress);
 			const result = await addWallet(auth0Id, resolvedXrplAddress, 'xaman', undefined, accessToken);
 			if (result.success && result.wallet) {
 				if (currentConnectedWallet) {
 					await tryDisconnectCurrentWallet(currentConnectedWallet);
 				}
 				await connectWallet(auth0Id, result.wallet.id, accessToken);
+			} else {
+				// eslint-disable-next-line no-console
+				console.warn('[Xaman][connect] addWallet did not return wallet', result);
 			}
 			await loadWallets();
 			setShowToast?.('success', 'Xaman wallet added and connected!');
