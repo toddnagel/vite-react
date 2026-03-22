@@ -132,6 +132,8 @@ If USB remote debugging (`chrome://inspect`) stays stuck on “Pending authentic
 2. A green **vConsole** panel appears; open the **Log** tab and filter for `[Xaman]`.
 3. It stays enabled for that site until you visit with `?debugConsole=0` or remove the `vite_debug_console_enabled` key in Local Storage.
 
+**Xaman mobile redirect:** `xumm-oauth2-pkce` only reads OAuth params from the **query string** (`?`). If Xaman returns tokens in the **hash** (`#access_token=...`), the app moves them into the query at startup (`prepareXamanOAuthLanding` in `main.tsx`). Look for `[Xaman][landing]` logs.
+
 ## Project Structure
 
 - `src/` - React frontend code

@@ -1,6 +1,6 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
-import { purgeStaleXummPkceJwtIfOauthCallback } from './utils/xamanOAuthLanding'
+import { prepareXamanOAuthLanding } from './utils/xamanOAuthLanding'
 import App from './App.tsx'
 import { UserProvider } from './providers/UserContext';
 import './index.css'
@@ -15,8 +15,9 @@ import { initMobileDebugConsole } from './utils/initMobileDebugConsole'
 
 const queryClient = new QueryClient()
 
-// Before React / XummPkce: avoid rememberJwt + OAuth callback race on mobile return
-purgeStaleXummPkceJwtIfOauthCallback()
+// Before React / XummPkce: move OAuth tokens from #hash → ?query (SDK only reads search),
+// then clear stale JWT so rememberJwt doesn't race the redirect.
+prepareXamanOAuthLanding()
 
 const domain = import.meta.env.VITE_AUTH0_DOMAIN
 const clientId = import.meta.env.VITE_AUTH0_CLIENT_ID
