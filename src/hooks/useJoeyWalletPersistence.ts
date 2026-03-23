@@ -1,7 +1,8 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, type MutableRefObject } from 'react';
 import type { Wallet } from '../services/walletService';
 import { addWallet, connectWallet, disconnectWallet } from '../services/walletService';
 import { extractJoeyWalletAddress } from '../wallets/joey/extractJoeyWalletAddress';
+import { clearJoeyConnectIntent, hasJoeyConnectIntent } from '../wallets/joey/joeyConnectIntent';
 
 type ShowToast = (type: 'success' | 'error', message: string, durationMs?: number) => void;
 
@@ -16,6 +17,8 @@ export interface UseJoeyWalletPersistenceParams {
 	applyConnectedWalletFromApi: (row: Wallet) => void;
 	setWalletBusyMessage: (msg: string | null) => void;
 	showToast: ShowToast;
+	/** Set true while disconnecting/removing Joey so in-flight persist cannot reconnect. */
+	persistenceSuppressedRef: MutableRefObject<boolean>;
 }
 
 /**
@@ -33,6 +36,7 @@ export function useJoeyWalletPersistence({
 	applyConnectedWalletFromApi,
 	setWalletBusyMessage,
 	showToast,
+	persistenceSuppressedRef,
 }: UseJoeyWalletPersistenceParams): void {
 	const runningRef = useRef(false);
 
@@ -57,16 +61,29 @@ export function useJoeyWalletPersistence({
 			return;
 		}
 
+		// No intent => lingering SDK session after disconnect/delete, or stale tab — never write to API.
+		if (!hasJoeyConnectIntent()) {
+			return;
+		}
+
 		const currentConnectedWallet = wallets.find((w) => w.is_connected);
 
 		if (runningRef.current) return;
 		runningRef.current = true;
 
 		void (async () => {
+			if (persistenceSuppressedRef.current) {
+				runningRef.current = false;
+				return;
+			}
 			setWalletBusyMessage('Saving Joey wallet...');
 			try {
 				let walletId: number | undefined;
 				if (!existingWallet) {
+					if (persistenceSuppressedRef.current) {
+						clearJoeyConnectIntent();
+						return;
+					}
 					const result = await addWallet(auth0Id, normalizedAddress, 'joey', 'Joey Wallet', accessToken);
 					if (!result.success || !result.wallet) throw new Error('Failed to add Joey Wallet');
 					walletId = result.wallet.id;
@@ -74,17 +91,27 @@ export function useJoeyWalletPersistence({
 					walletId = existingWallet.id;
 				}
 				if (walletId) {
+					if (persistenceSuppressedRef.current) {
+						clearJoeyConnectIntent();
+						return;
+					}
 					if (currentConnectedWallet && currentConnectedWallet.id !== walletId) {
 						await disconnectWallet(auth0Id, accessToken);
+					}
+					if (persistenceSuppressedRef.current) {
+						clearJoeyConnectIntent();
+						return;
 					}
 					const connectRes = await connectWallet(auth0Id, walletId, accessToken);
 					if (connectRes.wallet) {
 						applyConnectedWalletFromApi(connectRes.wallet);
 					}
 					await loadWallets({ silent: true });
+					clearJoeyConnectIntent();
 					showToast('success', 'Joey Wallet added and connected!');
 				}
 			} catch (err) {
+				clearJoeyConnectIntent();
 				console.error('[JoeyWallet] Failed to add/connect:', err);
 				showToast(
 					'error',
@@ -106,5 +133,6 @@ export function useJoeyWalletPersistence({
 		showToast,
 		applyConnectedWalletFromApi,
 		setWalletBusyMessage,
+		persistenceSuppressedRef,
 	]);
 }
