@@ -18,6 +18,7 @@ import { parseSocialsFromPreferences, useSocials, getSocialProfileUrl } from '..
 type SocialPlatformKey = keyof ProfileSocials;
 
 import { socialPlatformOrder } from '../hooks/useSocials';
+import { shouldResumeXamanPkceConnect } from '../utils/oauthCallbackGuards';
 
 const createEmptyVisibleInputs = () => ({
     twitter: false,
@@ -81,25 +82,20 @@ function Profile() {
         loadProfile();
     }, [isAuthenticated, user, getAccessTokenSilently, setProfile]);
 
-    // Detect Xaman redirect flag in the URL (e.g. ?xaman_return=1) and
-    // trigger a one-time resume of the Xaman connect flow when the wallet
-    // section renders. This fixes mobile-to-mobile Xaman flows without
-    // changing the existing desktop popup behavior.
+    // After Xaman mobile redirect: URL has PKCE `code`+`state`, implicit `access_token`, etc.
+    // Resume connect once so we can addWallet + connect when the user had no wallet row yet.
     useEffect(() => {
         if (typeof window === 'undefined') return;
         if (!isAuthenticated || !user) return;
 
-        const returnFlag = new URL(window.location.href).searchParams.get('xaman_return');
-        if (returnFlag === '1') {
-            // eslint-disable-next-line no-console
-            console.log('[Profile][Xaman] Detected xaman_return=1; will resume Xaman connect', {
-                href: window.location.href,
-            });
-            setResumeXamanOnMount(true);
-            // Do NOT strip the URL here. xumm-oauth2-pkce reads OAuth params from
-            // location.search in its constructor; clearing too early breaks mobile redirect.
-            // We remove only `xaman_return` in xamanHandler.connect finally (stripXamanReturnQueryParam).
-        }
+        const { pathname, search } = window.location;
+        if (!shouldResumeXamanPkceConnect(pathname, search)) return;
+
+        // eslint-disable-next-line no-console
+        console.log('[Profile][Xaman] OAuth return detected — will resume Xaman connect', {
+            pathname,
+        });
+        setResumeXamanOnMount(true);
     }, [isAuthenticated, user]);
 
     const handleActivateSocial = (key: SocialPlatformKey) => {

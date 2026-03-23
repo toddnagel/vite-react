@@ -98,6 +98,11 @@ function redactForLog(value: unknown, depth = 0): unknown {
 	return out;
 }
 
+/** XRPL classic addresses are case-sensitive for checksums but APIs often compare normalized. */
+function normalizeXrplAddress(addr: string): string {
+	return addr.trim().toLowerCase();
+}
+
 function summarizeXamanState(flow: unknown): Record<string, unknown> {
 	const base: Record<string, unknown> = {
 		type: typeof flow,
@@ -266,7 +271,7 @@ export const xamanHandler: IWalletHandler = {
 					setShowToast?.('error', 'Wallet not found');
 					return;
 				}
-				if (targetWallet.wallet_address !== resolvedXrplAddress) {
+				if (normalizeXrplAddress(targetWallet.wallet_address) !== normalizeXrplAddress(resolvedXrplAddress)) {
 					setShowToast?.('error', 'Scanned Xaman account does not match the selected wallet address.');
 					return;
 				}
@@ -279,7 +284,10 @@ export const xamanHandler: IWalletHandler = {
 				setShowToast?.('success', 'Xaman wallet connected');
 				return;
 			}
-			const existingWallet = wallets.find((wallet: any) => wallet.wallet_address === resolvedXrplAddress);
+			const existingWallet = wallets.find(
+				(wallet: any) =>
+					normalizeXrplAddress(wallet.wallet_address) === normalizeXrplAddress(resolvedXrplAddress)
+			);
 			if (existingWallet) {
 				// eslint-disable-next-line no-console
 				console.log('[Xaman][connect] branch: existing wallet', existingWallet.id, existingWallet.wallet_address);
@@ -295,15 +303,17 @@ export const xamanHandler: IWalletHandler = {
 			// eslint-disable-next-line no-console
 			console.log('[Xaman][connect] branch: addWallet new xaman', resolvedXrplAddress);
 			const result = await addWallet(auth0Id, resolvedXrplAddress, 'xaman', undefined, accessToken);
-			if (result.success && result.wallet) {
-				if (currentConnectedWallet) {
-					await tryDisconnectCurrentWallet(currentConnectedWallet);
-				}
-				await connectWallet(auth0Id, result.wallet.id, accessToken);
-			} else {
+			if (!result.success || !result.wallet) {
+				const msg = result.message || 'Could not save Xaman wallet to your profile.';
 				// eslint-disable-next-line no-console
-				console.warn('[Xaman][connect] addWallet did not return wallet', result);
+				console.warn('[Xaman][connect] addWallet failed', result);
+				setShowToast?.('error', msg);
+				return;
 			}
+			if (currentConnectedWallet) {
+				await tryDisconnectCurrentWallet(currentConnectedWallet);
+			}
+			await connectWallet(auth0Id, result.wallet.id, accessToken);
 			await loadWallets();
 			setShowToast?.('success', 'Xaman wallet added and connected!');
 		} catch (error) {

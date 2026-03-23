@@ -1,4 +1,4 @@
-import { createContext, useContext, useState, useEffect, ReactNode } from 'react';
+import { createContext, useContext, useState, useEffect, useRef, ReactNode } from 'react';
 import type { Wallet } from '../services/walletService';
 import { getUserWallets } from '../services/walletService';
 // Add imports for user profile info and social handles as needed
@@ -23,6 +23,8 @@ const UserContext = createContext<UserContextType | undefined>(undefined);
 export const UserProvider = ({ children }: { children: ReactNode }) => {
     const [profile, setProfile] = useState<UserProfile | null>(null);
     const [wallets, setWallets] = useState<Wallet[]>([]);
+    /** Avoid refetching on every silent token refresh; still load when token first appears after auth0Id. */
+    const contextWalletsLoadedForAuth0Id = useRef<string | null>(null);
 
     const reloadWallets = async () => {
         if (!profile?.auth0Id || !profile?.accessToken) return;
@@ -33,9 +35,13 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
     };
 
     useEffect(() => {
-        if (profile?.auth0Id && profile?.accessToken) {
-            reloadWallets();
+        if (!profile?.auth0Id || !profile?.accessToken) {
+            if (!profile?.auth0Id) contextWalletsLoadedForAuth0Id.current = null;
+            return;
         }
+        if (contextWalletsLoadedForAuth0Id.current === profile.auth0Id) return;
+        contextWalletsLoadedForAuth0Id.current = profile.auth0Id;
+        void reloadWallets();
     }, [profile?.auth0Id, profile?.accessToken]);
 
     return (
