@@ -3,6 +3,7 @@ import { XummPkce } from 'xumm-oauth2-pkce';
 import type { IWalletHandler } from './IWalletHandler';
 import { stripXamanReturnQueryParam } from '../utils/xamanOAuthLanding';
 import { isLikelyXummPkceOAuthReturn } from '../utils/oauthCallbackGuards';
+import { getUserWallets, type Wallet } from '../services/walletService';
 
 const xamanApiKey =
 	import.meta.env.VITE_XAMAN_API_KEY || import.meta.env.VITE_XUMM_API_KEY || '';
@@ -101,6 +102,19 @@ function redactForLog(value: unknown, depth = 0): unknown {
 /** XRPL classic addresses are case-sensitive for checksums but APIs often compare normalized. */
 function normalizeXrplAddress(addr: string): string {
 	return addr.trim().toLowerCase();
+}
+
+/** Same filter as WalletConnection.loadWallets — keep list consistent for matching. */
+function filterValidWallets(list: Wallet[]): Wallet[] {
+	return list.filter(
+		(w) =>
+			w.wallet_address &&
+			typeof w.wallet_address === 'string' &&
+			w.wallet_address.trim().length > 0 &&
+			w.wallet_type &&
+			typeof w.wallet_type === 'string' &&
+			w.wallet_type.trim().length > 0
+	);
 }
 
 function summarizeXamanState(flow: unknown): Record<string, unknown> {
@@ -213,6 +227,24 @@ export const xamanHandler: IWalletHandler = {
 				walletIdToConnect: walletIdToConnect ?? null,
 			});
 
+			// After OAuth redirect, React state can still list a wallet row we just deleted — match against API instead.
+			let walletsForMatch: Wallet[] = Array.isArray(wallets) ? filterValidWallets(wallets as Wallet[]) : [];
+			// SDK runs authorize() internally on mobile OAuth return; calling authorize() again races and can clear the grant.
+			const oauthReturnRecover = resumeFromRedirect === true || urlStillHasReturnFlag;
+
+			if (oauthReturnRecover && auth0Id && accessToken) {
+				try {
+					const fresh = await getUserWallets(auth0Id, accessToken);
+					if (fresh.success && Array.isArray(fresh.wallets)) {
+						walletsForMatch = filterValidWallets(fresh.wallets);
+					}
+				} catch (e) {
+					// eslint-disable-next-line no-console
+					console.warn('[Xaman][connect] Could not refresh wallets before match; using props', e);
+				}
+			}
+			const pollAttempts = usePolling ? (oauthReturnRecover ? 50 : 10) : 0;
+
 			// Try to read existing PKCE state (important for mobile redirects)
 			let flow = await client.state();
 			let resolvedXrplAddress = flow?.me?.account as string | undefined;
@@ -220,11 +252,16 @@ export const xamanHandler: IWalletHandler = {
 			// eslint-disable-next-line no-console
 			console.log('[Xaman][connect] initial state()', summarizeXamanState(flow), 'redacted:', redactForLog(flow));
 
-			// On mobile redirect we may need a short polling window for state to hydrate
-			if (usePolling && !resolvedXrplAddress) {
-				for (let attempt = 0; attempt < 10 && !resolvedXrplAddress; attempt += 1) {
+			// On mobile redirect we need a longer window for the ctor's async grant exchange + state() promise.
+			if (pollAttempts > 0 && !resolvedXrplAddress) {
+				for (let attempt = 0; attempt < pollAttempts && !resolvedXrplAddress; attempt += 1) {
 					// eslint-disable-next-line no-console
-					console.log('[Xaman][connect] Polling state after redirect, attempt', attempt + 1, '/ 10');
+					console.log(
+						'[Xaman][connect] Polling state after redirect, attempt',
+						attempt + 1,
+						'/',
+						pollAttempts
+					);
 					await new Promise((resolve) => setTimeout(resolve, 300));
 					flow = await client.state();
 					resolvedXrplAddress = flow?.me?.account as string | undefined;
@@ -233,7 +270,20 @@ export const xamanHandler: IWalletHandler = {
 				}
 			}
 
-			// If still no active account in state, start a new authorize() flow (desktop or first-time mobile)
+			// If still no active account: desktop / cold start needs our authorize(). OAuth return must NOT call authorize()
+			// again — xumm-oauth2-pkce already handles the redirect grant in the thread ctor.
+			if (!resolvedXrplAddress && oauthReturnRecover) {
+				// eslint-disable-next-line no-console
+				console.error('[Xaman][connect] No XRPL account after OAuth return polling (SDK grant still pending or failed)', {
+					pollAttempts,
+				});
+				setShowToast?.(
+					'error',
+					'Could not finish Xaman sign-in. Please tap "Add wallet" again — if it keeps failing, refresh the page.'
+				);
+				return;
+			}
+
 			if (!resolvedXrplAddress) {
 				// eslint-disable-next-line no-console
 				console.warn('[Xaman][connect] No account from state(); calling authorize()', {
@@ -262,11 +312,11 @@ export const xamanHandler: IWalletHandler = {
 
 			// eslint-disable-next-line no-console
 			console.log('[Xaman][connect] resolved XRPL address', resolvedXrplAddress);
-			let currentConnectedWallet = wallets.find((wallet: any) => wallet.is_connected);
+			let currentConnectedWallet = walletsForMatch.find((wallet: Wallet) => wallet.is_connected);
 			if (walletIdToConnect != null) {
 				// eslint-disable-next-line no-console
 				console.log('[Xaman][connect] branch: walletIdToConnect', walletIdToConnect);
-				const targetWallet = wallets.find((wallet: any) => wallet.id === walletIdToConnect);
+				const targetWallet = walletsForMatch.find((wallet: Wallet) => wallet.id === walletIdToConnect);
 				if (!targetWallet) {
 					setShowToast?.('error', 'Wallet not found');
 					return;
@@ -284,8 +334,8 @@ export const xamanHandler: IWalletHandler = {
 				setShowToast?.('success', 'Xaman wallet connected');
 				return;
 			}
-			const existingWallet = wallets.find(
-				(wallet: any) =>
+			const existingWallet = walletsForMatch.find(
+				(wallet: Wallet) =>
 					normalizeXrplAddress(wallet.wallet_address) === normalizeXrplAddress(resolvedXrplAddress)
 			);
 			if (existingWallet) {

@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo, useCallback, useRef } from 'react';
+import { useState, useEffect, useMemo, useCallback } from 'react';
 import { createPortal } from 'react-dom';
 import { useAccount } from 'wagmi';
 import { useWeb3Modal } from '@web3modal/wagmi/react';
@@ -52,7 +52,6 @@ function WalletConnectionContent({ auth0Id, accessToken, onWalletsUpdated, resum
     const handleConnectExisting = async (walletId: number) => {
         try {
             clearWalletToasts();
-            setIsLoading(true);
 
             const wallet = wallets.find((currentWallet) => currentWallet.id === walletId);
             if (!wallet) {
@@ -61,11 +60,13 @@ function WalletConnectionContent({ auth0Id, accessToken, onWalletsUpdated, resum
             }
 
             if (wallet.wallet_type === 'xaman') {
+                setWalletBusyMessage('Connecting to Xaman...');
                 await handleConnectXaman(wallet.id);
                 return;
             }
 
             if (wallet.wallet_type === 'joey') {
+                setWalletBusyMessage('Opening Joey Wallet...');
                 await handleConnectJoey();
                 // The effect above will handle DB add/connect after session
                 return;
@@ -77,12 +78,14 @@ function WalletConnectionContent({ auth0Id, accessToken, onWalletsUpdated, resum
                     return;
                 }
 
+                setWalletBusyMessage('Opening WalletConnect...');
                 await open({ view: 'Connect' });
                 setPendingWalletConnectId(wallet.id);
                 setIsWalletConnectPending(true);
                 return;
             }
 
+            setWalletBusyMessage('Connecting wallet...');
             await connectWallet(auth0Id, walletId, accessToken);
             await loadWallets();
             showToast('success', 'Wallet connected');
@@ -91,10 +94,9 @@ function WalletConnectionContent({ auth0Id, accessToken, onWalletsUpdated, resum
             console.error('Failed to connect existing wallet:', err);
             showToast('error', `Failed to connect wallet: ${err.message}`);
         } finally {
-            setIsLoading(false);
+            setWalletBusyMessage(null);
         }
     };
-    const myWalletsRef = useRef<HTMLDivElement | null>(null);
     const { open } = useWeb3Modal();
     const { address: wagmiAddress, isConnected: isWagmiConnected, connector: wagmiConnector } = useAccount();
     // Joey Wallet: use custom hook for connection logic (must be after showToast is defined)
@@ -114,7 +116,8 @@ function WalletConnectionContent({ auth0Id, accessToken, onWalletsUpdated, resum
     console.log('[JoeyWallet][Render] joeyAccount:', joeyAccount, 'joeySession:', joeySession, 'showJoeyQrModal:', showJoeyQrModal);
 
     const [wallets, setWallets] = useState<Wallet[]>([]);
-    const [isLoading, setIsLoading] = useState(false);
+    /** Specific overlay text for wallet operations (load, connect, disconnect, remove, etc.) */
+    const [walletBusyMessage, setWalletBusyMessage] = useState<string | null>(null);
     const [pendingDeleteId, setPendingDeleteId] = useState<number | null>(null);
     const [showDeleteModal, setShowDeleteModal] = useState(false);
     const [showAddWalletModal, setShowAddWalletModal] = useState(false);
@@ -162,13 +165,7 @@ function WalletConnectionContent({ auth0Id, accessToken, onWalletsUpdated, resum
 
     const loadWallets = useCallback(async () => {
         try {
-            setIsLoading(true);
-            // Scroll to My Wallets section when loading starts
-            setTimeout(() => {
-                if (myWalletsRef.current) {
-                    myWalletsRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                }
-            }, 100);
+            setWalletBusyMessage('Loading wallets...');
             const result = await getUserWallets(auth0Id, accessToken);
             if (result.success) {
                 // Filter out wallets with empty address or invalid type
@@ -183,7 +180,7 @@ function WalletConnectionContent({ auth0Id, accessToken, onWalletsUpdated, resum
             const err = error instanceof Error ? error : new Error(String(error));
             showToast('error', `Failed to load wallets: ${err.message}`);
         } finally {
-            setIsLoading(false);
+            setWalletBusyMessage(null);
             //setHasAttemptedInitialWalletLoad(true);
         }
     }, [accessToken, auth0Id, onWalletsUpdated, showToast]);
@@ -197,7 +194,7 @@ function WalletConnectionContent({ auth0Id, accessToken, onWalletsUpdated, resum
 
         try {
             clearWalletToasts();
-            setIsLoading(true);
+            setWalletBusyMessage('Disconnecting wallet...');
 
             // Disconnect provider/session where applicable
             if (wallet.wallet_type === 'walletconnect') {
@@ -212,7 +209,7 @@ function WalletConnectionContent({ auth0Id, accessToken, onWalletsUpdated, resum
             console.error('Failed to disconnect wallet:', err);
             showToast('error', `Failed to disconnect wallet: ${err.message}`);
         } finally {
-            setIsLoading(false);
+            setWalletBusyMessage(null);
         }
     }, [wallets, showToast, clearWalletToasts, wagmiDisconnectAsync, tryDisconnectCurrentWallet, loadWallets]);
 
@@ -328,7 +325,7 @@ function WalletConnectionContent({ auth0Id, accessToken, onWalletsUpdated, resum
             const existingWallet = wallets.find(w => w.wallet_address.toLowerCase() === normalizedAddress && w.wallet_type === 'joey');
             const currentConnectedWallet = wallets.find(w => w.is_connected);
             (async () => {
-                setIsLoading(true);
+                setWalletBusyMessage('Saving Joey wallet...');
                 try {
                     let walletId: number | undefined;
                     if (!existingWallet) {
@@ -356,7 +353,7 @@ function WalletConnectionContent({ auth0Id, accessToken, onWalletsUpdated, resum
                     console.error('[JoeyWallet][Effect] Failed to add/connect:', err);
                     showToast('error', `Failed to add/connect Joey Wallet: ${err instanceof Error ? err.message : String(err)}`);
                 } finally {
-                    setIsLoading(false);
+                    setWalletBusyMessage(null);
                 }
             })();
         }
@@ -366,12 +363,17 @@ function WalletConnectionContent({ auth0Id, accessToken, onWalletsUpdated, resum
         void loadWallets();
     }, [loadWallets]);
 
+    /** xumm-oauth2-pkce handler only exposes boolean; map to a clear label */
+    const setLoadingForXamanHandler = useCallback((busy: boolean) => {
+        setWalletBusyMessage(busy ? 'Connecting to Xaman...' : null);
+    }, []);
+
     // Memoize handler args after all dependencies are declared
     const xamanHandlerArgs = useMemo(() => ({
         auth0Id,
         accessToken,
         wallets,
-        setIsLoading,
+        setIsLoading: setLoadingForXamanHandler,
         setShowToast: showToast,
         loadWallets,
         repairWalletAddressIfNeeded,
@@ -383,7 +385,7 @@ function WalletConnectionContent({ auth0Id, accessToken, onWalletsUpdated, resum
         onWalletsUpdated,
         getUserWallets,
         connectedWallet: wallets.find((w) => w.is_connected && w.wallet_type === 'xaman'),
-    }), [auth0Id, accessToken, wallets, setIsLoading, showToast, loadWallets, repairWalletAddressIfNeeded, tryDisconnectCurrentWallet, connectWallet, addWallet, setWallets, onWalletsUpdated, getUserWallets]);
+    }), [auth0Id, accessToken, wallets, setLoadingForXamanHandler, showToast, loadWallets, repairWalletAddressIfNeeded, tryDisconnectCurrentWallet, connectWallet, addWallet, setWallets, onWalletsUpdated, getUserWallets]);
 
     useEffect(() => {
         const repairConnectedXamanWallet = async () => {
@@ -401,7 +403,7 @@ function WalletConnectionContent({ auth0Id, accessToken, onWalletsUpdated, resum
             }
 
             try {
-                setIsLoading(true);
+                setWalletBusyMessage('Connecting with WalletConnect...');
 
                 const normalizedAddress = wagmiAddress.toLowerCase();
                 const currentConnectedWallet = wallets.find((wallet) => wallet.is_connected);
@@ -466,7 +468,7 @@ function WalletConnectionContent({ auth0Id, accessToken, onWalletsUpdated, resum
             } finally {
                 setPendingWalletConnectId(null);
                 setIsWalletConnectPending(false);
-                setIsLoading(false);
+                setWalletBusyMessage(null);
             }
         };
 
@@ -524,13 +526,13 @@ function WalletConnectionContent({ auth0Id, accessToken, onWalletsUpdated, resum
     const handleDelete = async (walletId: number) => {
         try {
             clearWalletToasts();
-            setIsLoading(true);
+            setWalletBusyMessage('Removing wallet...');
 
             // Check if this is the connected wallet
             const walletToDelete = wallets.find(w => w.id === walletId);
             if (!walletToDelete) {
                 showToast('error', 'Wallet not found');
-                setIsLoading(false);
+                setWalletBusyMessage(null);
                 return;
             }
             if (walletToDelete.is_connected) {
@@ -565,7 +567,7 @@ function WalletConnectionContent({ auth0Id, accessToken, onWalletsUpdated, resum
             console.error('Failed to delete wallet:', err);
             showToast('error', `Failed to delete wallet: ${err.message}`);
         } finally {
-            setIsLoading(false);
+            setWalletBusyMessage(null);
         }
     };
 
@@ -678,16 +680,15 @@ function WalletConnectionContent({ auth0Id, accessToken, onWalletsUpdated, resum
         console.groupEnd();
     }, [sortedWallets]);
 
-    const isInteractionBlocked = isLoading || isAssetsLoading || isWalletConnectPending || isJoeyConnectPending;
-    const loadingLabel = isAssetsLoading
-        ? 'Loading wallet summary...'
-        : isWalletConnectPending || isJoeyConnectPending
-            ? 'Connecting to wallet...'
-            : 'Loading...';
+    const overlayMessage =
+        walletBusyMessage
+        ?? (isAssetsLoading ? 'Loading wallet summary...' : null)
+        ?? (isWalletConnectPending || isJoeyConnectPending ? 'Connecting to wallet...' : null);
+    const isInteractionBlocked = overlayMessage !== null;
     const shouldUseSummaryMinHeight = isAssetsLoading || ((connectedWalletAssets?.nft_count ?? 0) > 0);
 
     return (
-        <div className="relative w-full p-6 bg-black/30 rounded-lg mt-4" ref={myWalletsRef}>
+        <div className="relative w-full p-6 bg-black/30 rounded-lg mt-4">
             {wallets.length > 0 && (
                 <div className="flex justify-between items-center mb-4">
                     <h4 className="text-white text-lg">
@@ -786,7 +787,7 @@ function WalletConnectionContent({ auth0Id, accessToken, onWalletsUpdated, resum
                     `This will remove the wallet from your profile, you can always re-add it later by connecting again.\n\nAny NFTs in this wallet that are pinned on the XoloGlobe will also be removed.`
                 }
                 confirmLabel="Remove"
-                loading={isLoading}
+                loading={walletBusyMessage !== null}
                 onCancel={() => {
                     setShowDeleteModal(false);
                     setPendingDeleteId(null);
@@ -818,7 +819,7 @@ function WalletConnectionContent({ auth0Id, accessToken, onWalletsUpdated, resum
                                             <Button
                                                 key={w.type}
                                                 onClick={w.onClick}
-                                                disabled={isLoading}
+                                                disabled={walletBusyMessage !== null}
                                                 className={`w-full ${w.color}`}
                                             >
                                                 {w.label}
@@ -829,7 +830,7 @@ function WalletConnectionContent({ auth0Id, accessToken, onWalletsUpdated, resum
                                 <div className="flex justify-end mt-4">
                                     <Button
                                         onClick={() => setShowAddWalletModal(false)}
-                                        disabled={isLoading}
+                                        disabled={walletBusyMessage !== null}
                                         className="bg-gray-600 hover:bg-gray-700 active:bg-gray-800 text-sm"
                                     >
                                         Cancel
@@ -886,11 +887,11 @@ function WalletConnectionContent({ auth0Id, accessToken, onWalletsUpdated, resum
                     clearWalletToasts();
                     setShowAddWalletModal(true);
                 }}
-                disabled={isLoading || isWalletConnectPending}
+                disabled={walletBusyMessage !== null || isWalletConnectPending}
                 className="w-full text-center bg-blue-600 hover:bg-blue-700 active:bg-blue-800"
             >
                 {isWalletConnectPending ? (
-                    'Connecting...'
+                    'Opening WalletConnect...'
                 ) : wallets.length > 0 ? (
                     'Add Another Wallet'
                 ) : (
@@ -918,7 +919,7 @@ function WalletConnectionContent({ auth0Id, accessToken, onWalletsUpdated, resum
                                 <button
                                     type="button"
                                     onClick={() => void refreshConnectedWalletAssets()}
-                                    disabled={!connectedWallet || isAssetsLoading || isLoading}
+                                    disabled={!connectedWallet || isAssetsLoading || walletBusyMessage !== null}
                                     title="Refresh connected wallet summary"
                                     className="inline-flex h-7 w-7 items-center justify-center cursor-pointer rounded-md border border-white/20 bg-white/15 text-white/70 hover:bg-white/10 hover:text-white disabled:opacity-50 disabled:cursor-not-allowed"
                                 >
@@ -934,7 +935,7 @@ function WalletConnectionContent({ auth0Id, accessToken, onWalletsUpdated, resum
                                 nftCount={connectedWalletAssets.nft_count}
                                 nfts={connectedWalletAssets.nfts}
                                 walletAddress={connectedWalletAssets.wallet_address}
-                                isLoading={isLoading}
+                                isLoading={isInteractionBlocked}
                                 auth0Id={auth0Id}
                                 accessToken={accessToken}
                             />
@@ -949,7 +950,7 @@ function WalletConnectionContent({ auth0Id, accessToken, onWalletsUpdated, resum
                 <div className="absolute inset-0 z-40 flex items-center justify-center rounded-lg bg-black/55 backdrop-blur-[1px]">
                     <div className="inline-flex items-center gap-2 rounded-md border border-white/20 bg-black/75 px-3 py-2 text-sm text-white">
                         <FontAwesomeIcon icon={faSpinner} className="animate-spin" />
-                        <span>{loadingLabel}</span>
+                        <span>{overlayMessage}</span>
                     </div>
                 </div>
             )}
@@ -957,7 +958,7 @@ function WalletConnectionContent({ auth0Id, accessToken, onWalletsUpdated, resum
     );
 }
 
-export function WalletConnection({ auth0Id, accessToken, onWalletsUpdated }: WalletConnectionProps) {
+export function WalletConnection({ auth0Id, accessToken, onWalletsUpdated, resumeXamanOnMount }: WalletConnectionProps) {
 
     // Joey Wallet provider config
     const joeyProjectId = (import.meta.env.VITE_JOEY_PROJECT_ID || walletConnectProjectId || '717dec7dead15d3a101d504ed3933709').trim();
@@ -978,7 +979,12 @@ export function WalletConnection({ auth0Id, accessToken, onWalletsUpdated }: Wal
 
     return (
         <joeyStandalone.provider.Provider config={joeyProviderConfig}>
-            <WalletConnectionContent auth0Id={auth0Id} accessToken={accessToken} onWalletsUpdated={onWalletsUpdated} />
+            <WalletConnectionContent
+                auth0Id={auth0Id}
+                accessToken={accessToken}
+                onWalletsUpdated={onWalletsUpdated}
+                resumeXamanOnMount={resumeXamanOnMount}
+            />
         </joeyStandalone.provider.Provider>
     );
 }
