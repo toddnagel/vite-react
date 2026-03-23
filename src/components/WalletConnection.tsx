@@ -35,7 +35,6 @@ import {
     type WalletAssetSummary,
 } from '../services/walletAssetService';
 import { useJoeyWalletConnect } from '../hooks/useJoeyWalletConnect';
-import { useXaman2WalletConnect } from '../hooks/useXaman2WalletConnect';
 
 interface WalletConnectionProps {
     auth0Id: string;
@@ -113,16 +112,6 @@ function WalletConnectionContent({ auth0Id, accessToken, onWalletsUpdated, resum
     // Debug: Log Joey Wallet hook values every render
     // eslint-disable-next-line no-console
     console.log('[JoeyWallet][Render] joeyAccount:', joeyAccount, 'joeySession:', joeySession, 'showJoeyQrModal:', showJoeyQrModal);
-
-    // Xaman2 Wallet: use custom hook for modal-based connection
-    const {
-        // isXaman2ConnectPending, // unused
-        showXaman2QrModal,
-        xaman2ConnectUri,
-        xaman2DeepLink,
-        connect: handleConnectXaman2,
-        cancel: handleCancelXaman2Qr,
-    } = useXaman2WalletConnect({ showToast });
 
     const [wallets, setWallets] = useState<Wallet[]>([]);
     const [isLoading, setIsLoading] = useState(false);
@@ -518,14 +507,19 @@ function WalletConnectionContent({ auth0Id, accessToken, onWalletsUpdated, resum
         [xamanHandlerArgs]
     );
 
-    // When coming back from a Xaman redirect on mobile, optionally resume the Xaman connect flow once.
+    // After Xaman mobile redirect: wait for Auth0 access token before hitting the API (add/connect wallet).
     useEffect(() => {
         if (!resumeXamanOnMount || hasResumedXamanOnMount) return;
+        if (!accessToken) {
+            // eslint-disable-next-line no-console
+            console.log('[WalletConnection][Xaman] resume waiting for access token');
+            return;
+        }
         setHasResumedXamanOnMount(true);
         // eslint-disable-next-line no-console
-        console.log('[WalletConnection][Xaman] resume on mount: calling connect with resumeFromRedirect');
+        console.log('[WalletConnection][Xaman] resume: calling connect with resumeFromRedirect');
         void handleConnectXaman(undefined, { resumeFromRedirect: true });
-    }, [resumeXamanOnMount, hasResumedXamanOnMount, handleConnectXaman]);
+    }, [resumeXamanOnMount, hasResumedXamanOnMount, accessToken, handleConnectXaman]);
 
     const handleDelete = async (walletId: number) => {
         try {
@@ -800,46 +794,6 @@ function WalletConnectionContent({ auth0Id, accessToken, onWalletsUpdated, resum
                 onConfirm={handleConfirmDelete}
             />
 
-            {/* Xaman2 Modal */}
-            {showXaman2QrModal && xaman2ConnectUri && typeof document !== 'undefined' && createPortal(
-                <div className="fixed inset-0 z-[60] flex items-center justify-center overflow-y-auto bg-black/80 p-4 sm:p-6">
-                    <div className="w-full max-w-sm rounded-xl bg-neutral-900 p-6 shadow-xl border border-white/10">
-                        <h3 className="text-white text-lg font-semibold mb-2">Scan With Xaman Wallet</h3>
-                        <p className="text-sm text-white/70 mb-4">
-                            Open Xaman Wallet on your phone and scan this QR code to continue.
-                        </p>
-
-                        <div className="mx-auto mb-4 w-fit rounded-lg bg-white p-3">
-                            <img
-                                src={`https://api.qrserver.com/v1/create-qr-code/?size=256x256&data=${encodeURIComponent(xaman2ConnectUri)}`}
-                                alt="Xaman Wallet connection QR code"
-                                className="h-56 w-56"
-                            />
-                        </div>
-
-                        <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
-                            {xaman2DeepLink ? (
-                                <a
-                                    href={xaman2DeepLink}
-                                    className="inline-flex items-center justify-center rounded-md bg-purple-600 px-4 py-2 text-sm font-medium text-white hover:bg-purple-700"
-                                >
-                                    Open Xaman App
-                                </a>
-                            ) : (
-                                <div />
-                            )}
-                            <Button
-                                onClick={() => void handleCancelXaman2Qr()}
-                                className="bg-gray-600 hover:bg-gray-700 active:bg-gray-800 text-sm"
-                            >
-                                Cancel
-                            </Button>
-                        </div>
-                    </div>
-                </div>,
-                document.body
-            )}
-
             {showAddWalletModal && typeof document !== 'undefined' && createPortal(
                 (() => {
                     // Determine which wallet types the user already has
@@ -848,7 +802,6 @@ function WalletConnectionContent({ auth0Id, accessToken, onWalletsUpdated, resum
                         { type: 'walletconnect', label: 'WalletConnect', color: 'bg-[#0988F0] hover:bg-[#0666b3] active:bg-[#054a7a]', onClick: () => void handleSelectWalletType('walletconnect') },
                         { type: 'joey', label: 'Joey Wallet', color: 'bg-[#F76807] hover:bg-[#c94e06] active:bg-[#a13d04]', onClick: () => { setShowAddWalletModal(false); void handleConnectJoey(); } },
                         { type: 'xaman', label: 'Xaman (XUMM)', color: 'bg-[#0030CF] hover:bg-[#002399] active:bg-[#001966]', onClick: () => void handleSelectWalletType('xaman') },
-                        { type: 'xaman2', label: 'Xaman2 (Modal)', color: 'bg-[#0030CF] hover:bg-[#002399] active:bg-[#001966]', onClick: () => { setShowAddWalletModal(false); void handleConnectXaman2(); } },
                     ];
                     // Only show wallet types not already added
                     const availableWallets = offeredWallets.filter(w => !walletTypes.includes(w.type));

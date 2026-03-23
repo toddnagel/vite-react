@@ -89,7 +89,6 @@ async function setupRoutes() {
       nftResourceProxyModule,
       walletsIdModule,
       walletsDisconnectModule,
-      xamanSigninModule,
     ] = await Promise.all([
       import('./api/user/profile'),
       import('./api/user/sync'),
@@ -100,7 +99,6 @@ async function setupRoutes() {
       import('./api/user/nft-resource-proxy'),
       import('./api/user/wallets/[walletId]'),
       import('./api/user/wallets/disconnect'),
-      import('./api/user/xaman-signin'),
     ]);
 
     // API Routes (specific routes BEFORE parameterized patterns)
@@ -111,7 +109,6 @@ async function setupRoutes() {
     app.all('/api/user/pinned-nfts', vercelToExpress(pinnedNftsModule.default));
     app.all('/api/user/xologlobe-pins', vercelToExpress(xoloGlobePinsModule.default));
     app.all('/api/user/nft-resource-proxy', vercelToExpress(nftResourceProxyModule.default));
-    app.all('/api/user/xaman-signin', vercelToExpress(xamanSigninModule.default));
     app.all('/api/user/wallets/disconnect', vercelToExpress(walletsDisconnectModule.default));
     app.all('/api/user/wallets/:walletId/connect', vercelToExpress(walletsIdModule.default));
     app.all('/api/user/wallets/:walletId', vercelToExpress(walletsIdModule.default));
@@ -139,7 +136,6 @@ setupRoutes()
       console.log(`   - PUT/DELETE http://localhost:${PORT}/api/user/wallets/:walletId`);
       console.log(`   - PUT http://localhost:${PORT}/api/user/wallets/:walletId/connect`);
       console.log(`   - PUT http://localhost:${PORT}/api/user/wallets/disconnect`);
-      console.log(`   - POST http://localhost:${PORT}/api/user/xaman-signin`);
     });
 
     server.on('error', (error: NodeJS.ErrnoException) => {
