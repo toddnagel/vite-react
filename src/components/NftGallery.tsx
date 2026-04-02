@@ -1220,7 +1220,7 @@ export default function NftGallery({ nftCount, nfts, walletAddress, isLoading, a
                                             openPinModalForCreate(nft.token_id);
                                         }}
                                         title={isPinned ? 'Edit NFT pin' : 'Pin NFT'}
-                                        className={`pointer-events-auto z-10 cursor-pointer absolute bottom-2 right-2 inline-flex h-7 w-7 items-center justify-center rounded-full border border-black/55 transition-colors hover:text-[#86e90f] hover:bg-[color-mix(in_oklab,rgba(25,_59,_192,_0.8)_55%,black)] ${isPinned ? 'bg-[color-mix(in_oklab,rgba(25,_59,_192,_0.8)_55%,black)] text-[#86e90f]' : 'bg-black text-white/55'}`.trim()}
+                                        className={`pointer-events-auto z-10 cursor-pointer absolute bottom-2 right-2 inline-flex h-7 w-7 items-center justify-center rounded-full border border-black/55 transition-colors hover:text-emerald-200 hover:bg-[color-mix(in_oklab,rgba(25,_59,_192,_0.8)_55%,black)] ${isPinned ? 'bg-[color-mix(in_oklab,rgba(25,_59,_192,_0.8)_55%,black)] text-emerald-200' : 'bg-black text-white/55'}`.trim()}
                                     >
                                         <FontAwesomeIcon icon={faThumbtack} className="text-sm" />
                                         <span className="sr-only">{isPinned ? 'Edit NFT pin' : 'Pin NFT'}</span>
@@ -1388,14 +1388,18 @@ export default function NftGallery({ nftCount, nfts, walletAddress, isLoading, a
                                 )}
                             </p>
                             <p className="mt-2 text-white/65">
-                                You may come back at anytime to modify or remove your pin by clicking on the{' '}
-                                <FontAwesomeIcon
-                                    icon={faThumbtack}
-                                    className="inline-block align-[-0.15em] text-[14px] text-white/75"
+                                You may come back to modify/remove your pin by clicking on the{' '}
+                                <span
+                                    className="mx-0.5 inline-flex h-6 w-6 shrink-0 translate-y-[1px] items-center justify-center rounded-full border border-black/55 bg-black align-text-bottom"
                                     aria-hidden
-                                />
-                                <span className="sr-only">pin icon</span>
-                                {' '}again.
+                                >
+                                    <FontAwesomeIcon
+                                        icon={faThumbtack}
+                                        className="text-[11px] text-emerald-200"
+                                        aria-hidden
+                                    />
+                                </span>
+                                <span className="sr-only">pin icon</span>.
                             </p>
                         </div>
 
