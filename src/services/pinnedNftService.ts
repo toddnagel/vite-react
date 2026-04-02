@@ -19,7 +19,7 @@ export interface PinnedNftItem {
   title?: string | null;
   collection_name?: string | null;
   socials?: PinnedNftSocials | null;
-  /** Short optional line on the globe popup (`src/constants/pinNote.ts`). */
+  /** Pin description on the globe popup (`src/constants/pinNote.ts`; min length enforced on pin). */
   pin_note?: string | null;
   pinned_at: string;
 }

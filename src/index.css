@@ -137,6 +137,13 @@ a {
   line-height: 1.2;
 }
 
+.xolo-popup-note {
+  margin: 0;
+  white-space: pre-line;
+  word-break: break-word;
+  line-height: 1.45;
+}
+
 .xolo-social-list {
   display: flex;
   flex-direction: row;

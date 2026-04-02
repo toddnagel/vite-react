@@ -16,7 +16,7 @@ import ModalConfirm from './ModalConfirm';
 import MapBoxPinLocation from './MapBoxPinLocation';
 import { useToast } from './ToastProvider';
 import type { WalletAssetSummary } from '../services/walletAssetService';
-import { PIN_NOTE_MAX_LENGTH } from '../constants/pinNote';
+import { PIN_NOTE_MAX_LENGTH, PIN_NOTE_MIN_LENGTH } from '../constants/pinNote';
 import {
     getPinnedNfts,
     pinNft,
@@ -884,7 +884,11 @@ export default function NftGallery({ nftCount, nfts, walletAddress, isLoading, a
         : '';
 
     const normalizedPinTitle = pinTitleInput.trim();
-    const normalizedPinNote = pinNoteInput.trim().replace(/\s+/g, ' ').slice(0, PIN_NOTE_MAX_LENGTH);
+    const normalizedPinNote = pinNoteInput
+        .replace(/\r\n/g, '\n')
+        .replace(/\r/g, '\n')
+        .trim()
+        .slice(0, PIN_NOTE_MAX_LENGTH);
 
     const selectedPinSocials = useMemo(() => {
         return socialPlatformOrder.reduce<PinnedNftSocials>((acc, platform) => {
@@ -907,7 +911,13 @@ export default function NftGallery({ nftCount, nfts, walletAddress, isLoading, a
         [availableProfileSocials]
     );
 
-    const canSubmitPin = Boolean(pinTargetNft && pinLocation && normalizedPinTitle.length > 0 && !isPinActionLoading);
+    const canSubmitPin = Boolean(
+        pinTargetNft
+        && pinLocation
+        && normalizedPinTitle.length > 0
+        && normalizedPinNote.length >= PIN_NOTE_MIN_LENGTH
+        && !isPinActionLoading
+    );
 
     const openPinModalForCreate = (tokenId: string) => {
         setPinFormMode('create');
@@ -979,6 +989,11 @@ export default function NftGallery({ nftCount, nfts, walletAddress, isLoading, a
 
         if (!normalizedPinTitle) {
             showToast('error', 'Please add a title for your pin.');
+            return;
+        }
+
+        if (normalizedPinNote.length < PIN_NOTE_MIN_LENGTH) {
+            showToast('error', `Please add a pin description (at least ${PIN_NOTE_MIN_LENGTH} characters).`);
             return;
         }
 
@@ -1373,32 +1388,8 @@ export default function NftGallery({ nftCount, nfts, walletAddress, isLoading, a
                                     maxLength={120}
                                     className="w-full rounded-lg border border-white/20 bg-black/40 px-3 py-2 text-white/90 placeholder:text-white/45 focus:outline-none focus:border-blue-500 transition-all duration-200"
                                 />
-                                <label htmlFor="pin-note" className="block text-xs font-semibold uppercase tracking-wide text-white/80 mt-3 mb-1">
-                                    Pin note{' '}
-                                    <span className="font-normal text-white/50 normal-case">
-                                        (optional, max {PIN_NOTE_MAX_LENGTH} characters)
-                                    </span>
-                                </label>
-                                <textarea
-                                    id="pin-note"
-                                    value={pinNoteInput}
-                                    onChange={(event) => {
-                                        const next = event.target.value;
-                                        setPinNoteInput(
-                                            next.length > PIN_NOTE_MAX_LENGTH
-                                                ? next.slice(0, PIN_NOTE_MAX_LENGTH)
-                                                : next
-                                        );
-                                    }}
-                                    placeholder="Short line shown on the globe"
-                                    rows={4}
-                                    className="w-full resize-none rounded-lg border border-white/20 bg-black/40 px-3 py-2 text-sm text-white/90 placeholder:text-white/45 focus:outline-none focus:border-blue-500 transition-all duration-200"
-                                />
-                                <p className="mt-0.5 text-[11px] text-white/45">
-                                    {pinNoteInput.length}/{PIN_NOTE_MAX_LENGTH}
-                                </p>
                             </div>
-                            <div className="flex flex-col min-w-[140px]">
+                            <div className="flex flex-col min-w-[140px] shrink-0">
                                 <label className="block text-xs font-semibold uppercase tracking-wide text-white/80 mb-1">
                                     Select Socials
                                 </label>
@@ -1432,6 +1423,33 @@ export default function NftGallery({ nftCount, nfts, walletAddress, isLoading, a
                                     <p className="text-xs text-white/55 min-w-[140px]">No social handles found in your profile yet.</p>
                                 )}
                             </div>
+                        </div>
+
+                        <div className="w-full min-w-0 flex flex-col">
+                            <label htmlFor="pin-description" className="block text-xs font-semibold uppercase tracking-wide text-white/80 mb-1">
+                                Pin Description <span className="text-red-300">*</span>{' '}
+                                <span className="font-normal text-white/50 normal-case">
+                                    (max {PIN_NOTE_MAX_LENGTH} characters)
+                                </span>
+                            </label>
+                            <textarea
+                                id="pin-description"
+                                value={pinNoteInput}
+                                onChange={(event) => {
+                                    const next = event.target.value;
+                                    setPinNoteInput(
+                                        next.length > PIN_NOTE_MAX_LENGTH
+                                            ? next.slice(0, PIN_NOTE_MAX_LENGTH)
+                                            : next
+                                    );
+                                }}
+                                placeholder="Short line shown on the globe"
+                                rows={4}
+                                className="w-full min-w-0 resize-none rounded-lg border border-white/20 bg-black/40 px-3 py-2 text-sm text-white/90 placeholder:text-white/45 focus:outline-none focus:border-blue-500 transition-all duration-200"
+                            />
+                            <p className="mt-0.5 text-[11px] text-white/45">
+                                {pinNoteInput.length}/{PIN_NOTE_MAX_LENGTH}
+                            </p>
                         </div>
 
                         <MapBoxPinLocation

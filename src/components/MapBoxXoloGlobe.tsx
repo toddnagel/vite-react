@@ -118,6 +118,12 @@ export default function MapBoxXoloGlobe({ className }: MapBoxXoloGlobeProps) {
     const [loadError, setLoadError] = useState<string | null>(null);
 
     const secondsPerRevolution = 120;
+    /** After opening a pin popup, ease to at least this zoom (Mapbox; ~15 ≈ street / block on satellite). */
+    const pinFocusMinZoom = 15;
+    /** Pin-focus animation: base duration plus extra per zoom level changed (keeps long flies smooth). */
+    const pinFocusDurationMinMs = 1800;
+    const pinFocusDurationMaxMs = 3400;
+    const pinFocusDurationPerZoomStepMs = 135;
     /** Globe auto-rotation only when zoom is below this (Mapbox zoom; ~3 = regional, world is ~1–2). */
     const rotationMaxZoom = 3;
     /** Between this and `rotationMaxZoom`, rotation slows smoothly to zero. */
@@ -489,10 +495,19 @@ export default function MapBoxXoloGlobe({ className }: MapBoxXoloGlobeProps) {
 
                     // Remove pointer cursor while popup is open
                     markerVisualElement.style.cursor = '';
+                    const currentZoom = map.getZoom();
+                    const targetZoom = Math.max(currentZoom, pinFocusMinZoom);
+                    const zoomDelta = Math.max(0, targetZoom - currentZoom);
+                    const pinFocusDuration = Math.round(
+                        Math.min(
+                            pinFocusDurationMaxMs,
+                            pinFocusDurationMinMs + zoomDelta * pinFocusDurationPerZoomStepMs,
+                        ),
+                    );
                     map.easeTo({
                         center: [pin.longitude, pin.latitude],
-                        zoom: Math.max(map.getZoom(), 6.4),
-                        duration: 1750,
+                        zoom: targetZoom,
+                        duration: pinFocusDuration,
                         easing: (t) => 1 - Math.pow(1 - t, 3),
                         essential: true,
                     });
