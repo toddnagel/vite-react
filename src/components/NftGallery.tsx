@@ -1389,7 +1389,7 @@ export default function NftGallery({ nftCount, nfts, walletAddress, isLoading, a
                                 )}
                             </p>
                             <p className="mt-2 text-white/65">
-                                Open the real Xglobe to see the actual marker, camera focus, and popup.
+                                You may come back at anytime to modify or remove your pin by clicking on the pin icon again.
                             </p>
                         </div>
 
