@@ -80,7 +80,7 @@ const buildPinPopupHtml = (pin: XoloGlobePin) => {
 
     const noteRaw = typeof pin.pin_note === 'string' ? pin.pin_note.trim() : '';
     const noteHtml = noteRaw
-        ? `<p class="xolo-popup-note mt-1 text-sm text-white/80">${escapeHtml(noteRaw)}</p>`
+        ? `<p class="xolo-popup-note mt-1 text-sm">${escapeHtml(noteRaw)}</p>`
         : '';
 
     return `<div class="xolo-popup">`
@@ -118,12 +118,13 @@ export default function MapBoxXoloGlobe({ className }: MapBoxXoloGlobeProps) {
     const [loadError, setLoadError] = useState<string | null>(null);
 
     const secondsPerRevolution = 120;
-    /** After opening a pin popup, ease to at least this zoom (Mapbox; ~15 ≈ street / block on satellite). */
-    const pinFocusMinZoom = 15;
+    /** Same delta as `handleZoom` (+/− buttons); pin focus is two zoom-out steps from the prior 16.5 target. */
+    const mapZoomButtonStep = 1;
+    const pinFocusMinZoom = 16.5 - 2 * mapZoomButtonStep;
     /** Pin-focus animation: base duration plus extra per zoom level changed (keeps long flies smooth). */
-    const pinFocusDurationMinMs = 1800;
-    const pinFocusDurationMaxMs = 3400;
-    const pinFocusDurationPerZoomStepMs = 135;
+    const pinFocusDurationMinMs = 1900;
+    const pinFocusDurationMaxMs = 4000;
+    const pinFocusDurationPerZoomStepMs = 145;
     /** Globe auto-rotation only when zoom is below this (Mapbox zoom; ~3 = regional, world is ~1–2). */
     const rotationMaxZoom = 3;
     /** Between this and `rotationMaxZoom`, rotation slows smoothly to zero. */
@@ -264,7 +265,7 @@ export default function MapBoxXoloGlobe({ className }: MapBoxXoloGlobeProps) {
         }
 
         const currentZoom = map.getZoom();
-        const targetZoom = direction === 'in' ? currentZoom + 1 : currentZoom - 1;
+        const targetZoom = direction === 'in' ? currentZoom + mapZoomButtonStep : currentZoom - mapZoomButtonStep;
         map.zoomTo(targetZoom, { duration: 350 });
     };
 
@@ -464,9 +465,29 @@ export default function MapBoxXoloGlobe({ className }: MapBoxXoloGlobeProps) {
                     offset: 68,
                     className: 'xolo-globe-popup',
                     anchor: 'bottom',
+                    maxWidth: '320px',
                 }).setHTML(
                     buildPinPopupHtml(pin)
                 );
+
+                const reinforcePopupChrome = () => {
+                    const surface = '#12affce0';
+                    const apply = () => {
+                        const root = popup.getElement();
+                        if (!root) {
+                            return;
+                        }
+                        const content = root.querySelector('.mapboxgl-popup-content');
+                        if (content instanceof HTMLElement) {
+                            content.style.backgroundColor = surface;
+                        }
+                    };
+                    apply();
+                    requestAnimationFrame(apply);
+                    window.setTimeout(apply, 50);
+                    window.setTimeout(apply, 220);
+                    window.setTimeout(apply, 480);
+                };
 
                 const focusOnPin = () => {
                     if (popupRestoreTimerRef.current != null) {
@@ -482,10 +503,12 @@ export default function MapBoxXoloGlobe({ className }: MapBoxXoloGlobeProps) {
                             bearing: map.getBearing(),
                             pitch: map.getPitch(),
                         };
+                        // Only for the first open of this pin session — avoids overwriting after we
+                        // already stopped spin, and skips auto-resume when zoom locked spin off manually.
+                        spinningBeforePopupRef.current = spinningRef.current;
                     }
 
                     popupFocusActiveRef.current = true;
-                    spinningBeforePopupRef.current = spinningRef.current;
 
                     if (spinningRef.current) {
                         spinningRef.current = false;
@@ -513,7 +536,11 @@ export default function MapBoxXoloGlobe({ className }: MapBoxXoloGlobeProps) {
                     });
                 };
 
-                popup.on('open', focusOnPin);
+                popup.on('open', () => {
+                    focusOnPin();
+                    reinforcePopupChrome();
+                    map.once('moveend', reinforcePopupChrome);
+                });
 
                 popup.on('close', () => {
                     // Restore pointer cursor when popup closes
@@ -526,6 +553,25 @@ export default function MapBoxXoloGlobe({ className }: MapBoxXoloGlobeProps) {
                         popupFocusActiveRef.current = false;
                         const previousCamera = prePopupCameraRef.current;
                         prePopupCameraRef.current = null;
+                        const shouldResumeSpinAfterPin = spinningBeforePopupRef.current;
+                        spinningBeforePopupRef.current = false;
+
+                        const resumeSpinIfEligible = () => {
+                            if (!shouldResumeSpinAfterPin) {
+                                return;
+                            }
+                            if (map.getZoom() >= rotationMaxZoom) {
+                                return;
+                            }
+                            if (spinningRef.current) {
+                                return;
+                            }
+                            spinningRef.current = true;
+                            setIsSpinning(true);
+                            window.setTimeout(() => {
+                                spinGlobe();
+                            }, 220);
+                        };
 
                         if (previousCamera) {
                             map.easeTo({
@@ -539,19 +585,15 @@ export default function MapBoxXoloGlobe({ className }: MapBoxXoloGlobeProps) {
                                     : 1 - Math.pow(-2 * t + 2, 3) / 2,
                                 essential: true,
                             });
+                            // `moveend` can fire while zoom is still “pin level” if another animation
+                            // overlaps; wait until restored zoom is below rotation threshold. Fallback
+                            // timer covers a missed `moveend` edge case.
+                            map.once('moveend', resumeSpinIfEligible);
+                            window.setTimeout(resumeSpinIfEligible, 2100);
+                            return;
                         }
 
-                        if (spinningBeforePopupRef.current && map.getZoom() < rotationMaxZoom) {
-                            spinningRef.current = true;
-                            setIsSpinning(true);
-                            map.once('moveend', () => {
-                                window.setTimeout(() => {
-                                    spinGlobe();
-                                }, 220);
-                            });
-                        }
-
-                        spinningBeforePopupRef.current = false;
+                        resumeSpinIfEligible();
                     }, 40);
                 });
 
@@ -573,6 +615,8 @@ export default function MapBoxXoloGlobe({ className }: MapBoxXoloGlobeProps) {
                         }
 
                         focusOnPin();
+                        reinforcePopupChrome();
+                        map.once('moveend', reinforcePopupChrome);
                     },
                 };
 
@@ -603,11 +647,11 @@ export default function MapBoxXoloGlobe({ className }: MapBoxXoloGlobeProps) {
         <div className={className || 'relative'}>
             <div ref={mapContainerRef} className="h-full w-full overflow-hidden rounded-lg border border-[#36e9e424]" />
 
-            <div className="absolute left-3 top-3 z-20 inline-flex overflow-hidden rounded-md border border-black/15 bg-[#8989a312] shadow-[0_2px_8px_rgba(0,0,0,0.35)]">
+            <div className="absolute left-3 top-3 z-20 inline-flex overflow-hidden rounded-md border border-[#12affc]/35 bg-[#12affc5c] shadow-[0_2px_8px_rgba(0,0,0,0.35)]">
                 <button
                     type="button"
                     onClick={() => applyLightPreset('day')}
-                    className={`group flex h-8 w-8 cursor-pointer items-center justify-center border-r border-black/15 bg-[#8989a312] transition-colors ${lightPreset === 'day' ? 'text-[#C9E8E9]' : 'text-black hover:text-[#C9E8E9]'}`}
+                    className={`group flex h-8 w-8 cursor-pointer items-center justify-center border-r border-black/15 bg-[#12affc5c] transition-colors hover:bg-[#12affc8c] ${lightPreset === 'day' ? 'text-[#C9E8E9]' : 'text-black/85 hover:text-[#C9E8E9]'}`}
                     title="Day"
                     aria-label="Day"
                 >
@@ -617,7 +661,7 @@ export default function MapBoxXoloGlobe({ className }: MapBoxXoloGlobeProps) {
                 <button
                     type="button"
                     onClick={() => applyLightPreset('night')}
-                    className={`group flex h-8 w-8 cursor-pointer items-center justify-center bg-[#8989a312] transition-colors ${lightPreset === 'night' ? 'text-[#C9E8E9]' : 'text-black hover:text-[#C9E8E9]'}`}
+                    className={`group flex h-8 w-8 cursor-pointer items-center justify-center bg-[#12affc5c] transition-colors hover:bg-[#12affc8c] ${lightPreset === 'night' ? 'text-[#C9E8E9]' : 'text-black/85 hover:text-[#C9E8E9]'}`}
                     title="Night"
                     aria-label="Night"
                 >
@@ -625,11 +669,11 @@ export default function MapBoxXoloGlobe({ className }: MapBoxXoloGlobeProps) {
                 </button>
             </div>
 
-            <div className="absolute left-3 top-1/2 z-20 -translate-y-1/2 overflow-hidden rounded-md border border-black/15 bg-[#8989a312] shadow-[0_2px_8px_rgba(0,0,0,0.35)]">
+            <div className="absolute left-3 top-1/2 z-20 -translate-y-1/2 overflow-hidden rounded-md border border-[#12affc]/35 bg-[#12affc5c] shadow-[0_2px_8px_rgba(0,0,0,0.35)]">
                 <button
                     type="button"
                     onClick={() => handleZoom('in')}
-                    className="flex h-8 w-8 cursor-pointer items-center justify-center border-b border-black/15 bg-[#8989a312] text-black/85 transition-colors hover:text-[#C9E8E9]"
+                    className="flex h-8 w-8 cursor-pointer items-center justify-center border-b border-black/15 bg-[#12affc5c] text-black/85 transition-colors hover:bg-[#12affc8c] hover:text-[#C9E8E9]"
                     title="Zoom in"
                     aria-label="Zoom in"
                 >
@@ -639,7 +683,7 @@ export default function MapBoxXoloGlobe({ className }: MapBoxXoloGlobeProps) {
                 <button
                     type="button"
                     onClick={() => handleZoom('out')}
-                    className="flex h-8 w-8 cursor-pointer items-center justify-center border-b border-black/15 bg-[#8989a312] text-black/85 transition-colors hover:text-[#C9E8E9]"
+                    className="flex h-8 w-8 cursor-pointer items-center justify-center border-b border-black/15 bg-[#12affc5c] text-black/85 transition-colors hover:bg-[#12affc8c] hover:text-[#C9E8E9]"
                     title="Zoom out"
                     aria-label="Zoom out"
                 >
@@ -650,7 +694,7 @@ export default function MapBoxXoloGlobe({ className }: MapBoxXoloGlobeProps) {
                     type="button"
                     onClick={handleToggleSpin}
                     disabled={spinLockedByZoom}
-                    className={`flex h-8 w-8 items-center justify-center bg-[#8989a312] transition-colors ${spinLockedByZoom ? 'cursor-not-allowed opacity-45 text-black/50' : `cursor-pointer ${isSpinning ? 'text-[#C9E8E9]' : 'text-black hover:text-[#C9E8E9]'}`}`}
+                    className={`flex h-8 w-8 items-center justify-center bg-[#12affc5c] transition-colors hover:bg-[#12affc8c] ${spinLockedByZoom ? 'cursor-not-allowed opacity-45 text-black/50' : `cursor-pointer ${isSpinning ? 'text-[#C9E8E9]' : 'text-black/85 hover:text-[#C9E8E9]'}`}`}
                     title={spinLockedByZoom ? 'Zoom out to use rotation (max zoom 3)' : (isSpinning ? 'Pause globe rotation' : 'Start globe rotation')}
                     aria-label={spinLockedByZoom ? 'Rotation unavailable while zoomed in; zoom out to enable' : (isSpinning ? 'Pause globe rotation' : 'Start globe rotation')}
                 >
@@ -658,11 +702,11 @@ export default function MapBoxXoloGlobe({ className }: MapBoxXoloGlobeProps) {
                 </button>
             </div>
 
-            <div className="absolute right-3 top-3 z-20 inline-flex overflow-hidden rounded-md border border-black/15 bg-[#8989a312] shadow-[0_2px_8px_rgba(0,0,0,0.35)] text-black">
+            <div className="absolute right-3 top-3 z-20 inline-flex overflow-hidden rounded-md border border-[#12affc]/35 bg-[#12affc5c] shadow-[0_2px_8px_rgba(0,0,0,0.35)] text-black">
                 <button
                     type="button"
                     onClick={() => handleStyleMode('street')}
-                    className={`flex h-8 w-8 cursor-pointer items-center justify-center bg-[#8989a312] transition-colors ${mapStyleMode === 'street' ? 'text-[#C9E8E9]' : 'text-black/85 hover:text-[#C9E8E9]'}`}
+                    className={`flex h-8 w-8 cursor-pointer items-center justify-center bg-[#12affc5c] transition-colors hover:bg-[#12affc8c] ${mapStyleMode === 'street' ? 'text-[#C9E8E9]' : 'text-black/85 hover:text-[#C9E8E9]'}`}
                     title="Street"
                     aria-label="Street"
                 >
@@ -671,7 +715,7 @@ export default function MapBoxXoloGlobe({ className }: MapBoxXoloGlobeProps) {
                 <button
                     type="button"
                     onClick={() => handleStyleMode('satellite')}
-                    className={`flex h-8 w-8 cursor-pointer items-center justify-center border-l border-black/15 bg-[#8989a312] transition-colors ${mapStyleMode === 'satellite' ? 'text-[#C9E8E9]' : 'text-black/85 hover:text-[#C9E8E9]'}`}
+                    className={`flex h-8 w-8 cursor-pointer items-center justify-center border-l border-black/15 bg-[#12affc5c] transition-colors hover:bg-[#12affc8c] ${mapStyleMode === 'satellite' ? 'text-[#C9E8E9]' : 'text-black/85 hover:text-[#C9E8E9]'}`}
                     title="Satellite"
                     aria-label="Satellite"
                 >
