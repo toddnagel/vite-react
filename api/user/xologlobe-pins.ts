@@ -119,11 +119,11 @@ function parsePinNote(value: unknown): string | null {
   if (typeof value !== 'string') {
     return null;
   }
-  const collapsed = value.trim().replace(/\s+/g, ' ');
-  if (!collapsed) {
+  const normalized = value.replace(/\r\n/g, '\n').replace(/\r/g, '\n').trim();
+  if (!normalized) {
     return null;
   }
-  return collapsed.slice(0, PIN_NOTE_MAX_LENGTH);
+  return normalized.slice(0, PIN_NOTE_MAX_LENGTH);
 }
 
 function parsePinnedNfts(preferences: Record<string, unknown>): XoloGlobePin[] {

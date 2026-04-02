@@ -1,6 +1,6 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 import mysql from 'mysql2/promise';
-import { PIN_NOTE_MAX_LENGTH } from '../../src/constants/pinNote.js';
+import { PIN_NOTE_MAX_LENGTH, PIN_NOTE_MIN_LENGTH } from '../../src/constants/pinNote.js';
 
 let pool: mysql.Pool | null = null;
 
@@ -35,7 +35,7 @@ interface PinnedNftItem {
   title?: string | null;
   collection_name?: string | null;
   socials?: PinnedNftSocials | null;
-  /** Short optional blurb on the globe pin (see PIN_NOTE_MAX_LENGTH). */
+  /** Pin description on the globe (see PIN_NOTE_MAX_LENGTH / PIN_NOTE_MIN_LENGTH on POST). */
   pin_note?: string | null;
   pinned_at: string;
 }
@@ -120,11 +120,11 @@ function parsePinNote(value: unknown): string | null {
   if (typeof value !== 'string') {
     return null;
   }
-  const collapsed = value.trim().replace(/\s+/g, ' ');
-  if (!collapsed) {
+  const normalized = value.replace(/\r\n/g, '\n').replace(/\r/g, '\n').trim();
+  if (!normalized) {
     return null;
   }
-  return collapsed.slice(0, PIN_NOTE_MAX_LENGTH);
+  return normalized.slice(0, PIN_NOTE_MAX_LENGTH);
 }
 
 function parsePinnedNfts(preferences: Record<string, unknown>): PinnedNftItem[] {
@@ -357,6 +357,17 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
               pinned_at: nowIso,
             },
           ];
+
+      const savedPin = nextPinnedNfts.find(
+        item => item.token_id === tokenId && item.wallet_address === pinWalletAddress
+      );
+      const pinDesc = savedPin?.pin_note;
+      if (!pinDesc || pinDesc.length < PIN_NOTE_MIN_LENGTH) {
+        res.status(400).json({
+          error: `Pin description must be at least ${PIN_NOTE_MIN_LENGTH} characters.`,
+        });
+        return;
+      }
 
       await upsertPreferences(userId, {
         ...preferences,
