@@ -370,14 +370,14 @@ export default function MapBoxPinLocation({
             </div>
 
             {popupPreview ? (
-                <p className="mt-2 text-[11px] text-white/50">
+                <p className="mt-2 text-[11px] text-white/45">
                     Drag the pin or click on the map to move it.
                 </p>
             ) : null}
 
-            <div className="mt-3 text-xs text-white/85 backdrop-blur-sm">
+            <div className="mt-3 text-sm text-white/85">
                 <div className="relative z-20">
-                    <div className="flex w-full items-center gap-3">
+                    <div className="flex w-full min-w-0 items-center gap-3">
                         <input
                             type="text"
                             value={searchText}
@@ -398,14 +398,14 @@ export default function MapBoxPinLocation({
                                 }
                             }}
                             placeholder="Enter an address to search and choose from suggested locations"
-                            className="relative z-10 h-11 w-full min-w-0 flex-1 rounded-lg border border-white/20 bg-black/40 px-3 py-2 text-base text-white/90 placeholder:text-white/45 focus:border-blue-500 focus:outline-none"
+                            className="w-full min-w-0 flex-1 rounded-lg border border-white/20 bg-black/40 px-3 py-2 text-sm text-white/90 placeholder:text-white/45 focus:outline-none focus:border-blue-500 transition-all duration-200"
                         />
                     </div>
 
                     {searchResults.length > 0 ? (
                         <div
                             className={
-                                'absolute left-0 right-0 top-full z-30 mt-1 max-h-52 overflow-auto rounded-md ' +
+                                'absolute left-0 right-0 top-full z-30 mt-1 max-h-52 overflow-auto rounded-lg ' +
                                 'border border-white/20 bg-black/90 backdrop-blur-sm shadow-[0_10px_28px_rgba(0,0,0,0.55)]'
                             }
                         >
@@ -414,7 +414,7 @@ export default function MapBoxPinLocation({
                                     type="button"
                                     key={result.id}
                                     onClick={() => handleSelectSearchResult(result)}
-                                    className="cursor-pointer block w-full border-b border-white/10 px-3 py-2 text-left text-xs text-white/90 last:border-b-0 hover:bg-white/10"
+                                    className="cursor-pointer block w-full border-b border-white/10 px-3 py-2 text-left text-sm text-white/90 last:border-b-0 transition-colors duration-200 hover:bg-white/10"
                                 >
                                     {result.place_name}
                                 </button>
