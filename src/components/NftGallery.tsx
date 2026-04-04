@@ -1182,7 +1182,7 @@ export default function NftGallery({ nftCount, nfts, walletAddress, isLoading, a
                                     }
                                     if (!directCandidates || directCandidates.length === 0) {
                                         return (
-                                            <div className={`relative aspect-square w-full overflow-hidden rounded border ${isCollectionFallback ? 'border-red-600' : 'border-white/10'} flex items-center justify-center bg-white/5`}>
+                                            <div className="relative flex aspect-square w-full items-center justify-center overflow-hidden rounded bg-white/5">
                                                 <FontAwesomeIcon icon={faSpinner} className="text-white/60 animate-spin text-2xl" />
                                             </div>
                                         );
@@ -1266,7 +1266,9 @@ export default function NftGallery({ nftCount, nfts, walletAddress, isLoading, a
             >
                 {selectedNft && (
                     <div className="space-y-4">
-                        <div className="mx-auto h-[500px] w-[500px] max-w-full overflow-hidden rounded-lg border border-white/10">
+                        <div
+                            className={`mx-auto h-[500px] w-[500px] max-w-full overflow-hidden rounded-lg ${selectedNftThumbnailSrc && !isSelectedNftImageLoaded ? '' : 'border border-white/10'}`}
+                        >
                             {selectedNftThumbnailSrc ? (
                                 <div className="relative h-full w-full bg-white/5">
                                     {!isSelectedNftImageLoaded && (

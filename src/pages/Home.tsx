@@ -6,6 +6,7 @@ import SectionParallaxBlobs from "../components/SectionParallaxBlobs";
 import CounterSection from "../components/CounterSection";
 
 import { useSectionParallaxOffsets } from "../hooks/useSectionParallaxOffsets";
+import MintCountdownSection from "../components/MintCountdownSection";
 
 type LegacyStoryRow = {
   id: string;
@@ -146,6 +147,7 @@ function Home() {
             iconCount={1}
             centered
           />
+          <MintCountdownSection />
           <div className="mt-8 flex flex-col items-center gap-6">
             <GsapPageContent className="mx-auto w-full max-w-4xl" delay={SERVICE_ROW_DELAY[0]}>
               <div className="mt-[30px] flex flex-col items-center justify-center gap-4 md:flex-row md:items-start md:gap-6">

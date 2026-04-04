@@ -655,7 +655,7 @@ export default function MapBoxXoloGlobe({ className }: MapBoxXoloGlobeProps) {
 
             {isLoading && (
                 <div className="absolute inset-0 flex items-center justify-center bg-black/40 backdrop-blur-[1px]">
-                    <div className="inline-flex items-center gap-2 rounded-md border border-white/20 bg-black/65 px-3 py-2 text-sm text-white/90">
+                    <div className="inline-flex items-center gap-2 rounded-md bg-black/65 px-3 py-2 text-sm text-white/90">
                         <FontAwesomeIcon icon={faSpinner} className="animate-spin" />
                         Loading pins...
                     </div>
