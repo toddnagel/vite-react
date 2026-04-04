@@ -283,7 +283,10 @@ function Home() {
                     className={`min-w-0 w-full lg:w-1/2 order-1 ${imageLeft ? "lg:order-1" : "lg:order-2"
                       }`}
                   >
-                    <div className="w-full transition-transform duration-300 ease-in-out hover:rotate-[10deg]">
+                    <div
+                      className={`w-full transition-transform duration-300 ease-in-out ${imageLeft ? "hover:rotate-[10deg]" : "hover:-rotate-[10deg]"
+                        }`}
+                    >
                       <img
                         src={row.imageSrc}
                         alt={row.imageAlt}
