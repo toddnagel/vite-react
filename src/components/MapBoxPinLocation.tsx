@@ -361,7 +361,7 @@ export default function MapBoxPinLocation({
 
                 {isLocatingUser && (
                     <div className="pointer-events-none absolute inset-0 flex items-center justify-center rounded-lg">
-                        <div className="inline-flex items-center gap-2 rounded-md border border-white/25 bg-black/70 px-3 py-2 text-xs text-white">
+                        <div className="inline-flex items-center gap-2 rounded-md bg-black/70 px-3 py-2 text-xs text-white">
                             <FontAwesomeIcon icon={faSpinner} className="animate-spin" />
                             Locating...
                         </div>

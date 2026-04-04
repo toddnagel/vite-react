@@ -2,7 +2,6 @@ import GsapPageHeading from "../components/GsapPageHeading";
 import GsapPageContent from "../components/GsapPageContent";
 import GsapPageSubHeading from "../components/GsapPageSubHeading";
 import GsapHeroParallax from "../components/GsapHeroParallax";
-import MintCountdownSection from "../components/MintCountdownSection";
 import SectionParallaxBlobs from "../components/SectionParallaxBlobs";
 import { useSectionParallaxOffsets } from "../hooks/useSectionParallaxOffsets";
 
@@ -114,7 +113,6 @@ function Mint() {
                         <GsapPageContent className="mt-10 flex justify-center" delay={0.06}>
                             <img src="/xrp-cafe-mint.png" alt="img" className="w-full max-w-md rounded-md" />
                         </GsapPageContent>
-                        <MintCountdownSection />
                     </div>
                 </div>
             </section>

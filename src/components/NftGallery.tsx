@@ -2,13 +2,6 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import ResilientImage from './ResilientImage';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useNavigate } from 'react-router-dom';
-import {
-    faDiscord,
-    faInstagram,
-    faTelegram,
-    faTiktok,
-    faXTwitter,
-} from '@fortawesome/free-brands-svg-icons';
 import { faCheck, faCopy, faSpinner, faThumbtack } from '@fortawesome/free-solid-svg-icons';
 import Button from './Button';
 import Modal from './Modal';
@@ -28,6 +21,7 @@ import {
 
 type PinFormMode = 'create' | 'edit';
 import { getUserProfile, type ProfileSocials } from '../services/profileService';
+import { socialPlatformOrder } from '../hooks/useSocials';
 
 interface NftGalleryProps {
     nftCount: number;
@@ -37,18 +31,6 @@ interface NftGalleryProps {
     auth0Id: string;
     accessToken?: string;
 }
-
-const socialPlatformOrder: Array<{
-    key: keyof PinnedNftSocials;
-    label: string;
-    icon: typeof faXTwitter;
-}> = [
-        { key: 'twitter', label: 'X (Twitter)', icon: faXTwitter },
-        { key: 'discord', label: 'Discord', icon: faDiscord },
-        { key: 'tiktok', label: 'TikTok', icon: faTiktok },
-        { key: 'instagram', label: 'Instagram', icon: faInstagram },
-        { key: 'telegram', label: 'Telegram', icon: faTelegram },
-    ];
 
 const parseSocialsFromPreferences = (preferences: unknown): PinnedNftSocials => {
     if (!preferences) {
@@ -1182,7 +1164,7 @@ export default function NftGallery({ nftCount, nfts, walletAddress, isLoading, a
                                     }
                                     if (!directCandidates || directCandidates.length === 0) {
                                         return (
-                                            <div className={`relative aspect-square w-full overflow-hidden rounded border ${isCollectionFallback ? 'border-red-600' : 'border-white/10'} flex items-center justify-center bg-white/5`}>
+                                            <div className="relative flex aspect-square w-full items-center justify-center overflow-hidden rounded bg-white/5">
                                                 <FontAwesomeIcon icon={faSpinner} className="text-white/60 animate-spin text-2xl" />
                                             </div>
                                         );
@@ -1266,7 +1248,9 @@ export default function NftGallery({ nftCount, nfts, walletAddress, isLoading, a
             >
                 {selectedNft && (
                     <div className="space-y-4">
-                        <div className="mx-auto h-[500px] w-[500px] max-w-full overflow-hidden rounded-lg border border-white/10">
+                        <div
+                            className={`mx-auto h-[500px] w-[500px] max-w-full overflow-hidden rounded-lg ${selectedNftThumbnailSrc && !isSelectedNftImageLoaded ? '' : 'border border-white/10'}`}
+                        >
                             {selectedNftThumbnailSrc ? (
                                 <div className="relative h-full w-full bg-white/5">
                                     {!isSelectedNftImageLoaded && (
